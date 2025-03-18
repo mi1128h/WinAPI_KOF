@@ -19,7 +19,6 @@ protected:
 	FPOINT position;
 	float dx, dy;
 	float speed;
-	int size[2];
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
