@@ -4,6 +4,10 @@
 enum State {
 	Idle,
 	Walk,
+	WeakHand,
+	StrongHand,
+	WeakFoot,
+	StrongFoot,
 	Dead,
 	Statelength
 };
@@ -36,5 +40,6 @@ public:
 	FPOINT GetPos() { return position; }
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
+	void ChangeStateToIdle();
 };
 
