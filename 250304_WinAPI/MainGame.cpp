@@ -6,7 +6,7 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
-
+#include "Kim.h"
 /*
 	실습1. 이오리 집에 보내기
 	실습2. 배경 바꾸기 (킹오파 애니메이션 배경)
@@ -20,6 +20,9 @@ void MainGame::Init()
 	}
 	iori = new AnimCharacter();
 	iori->Init();
+
+	kim = new Kim();
+	kim->Init();
 
 	background = new AnimBackground();
 	background->Init();
@@ -42,6 +45,11 @@ void MainGame::Release()
 		iori->Release();
 		delete iori;
 		iori = NULL;
+	}
+	if (kim) {
+		kim->Release();
+		delete kim;
+		kim = NULL;
 	}
 	if (background) {
 		background->Release();
@@ -75,6 +83,7 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	if (iori) iori->Update();
+	if (kim) kim->Update();
 	if (background) background->Update();
 
 #ifdef TANKGAME
@@ -134,7 +143,9 @@ void MainGame::Render(HDC hdc)
 	if (iori) {
 		iori->Render(hBackBufferDC);
 	}
-
+	if (kim) {
+		kim->Render(hBackBufferDC);
+	}
 #ifdef TANKGAME
 	if (roundManager)
 		if (roundManager->IsGameOver()) return;
@@ -327,15 +338,23 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		switch (wParam) {
 		case 'a': case 'A':
 			iori->SetDelta(0, 0);
+			kim->SetDelta(0, 0);
+
 			break;
 		case 'd': case 'D':
 			iori->SetDelta(0, 0);
+			kim->SetDelta(0, 0);
+
 			break;
 		case 'w': case 'W':
 			iori->SetDelta(0, 0);
+			kim->SetDelta(0, 0);
+
 			break;
 		case 's': case 'S':
 			iori->SetDelta(0, 0);
+			kim->SetDelta(0, 0);
+
 			break;
 		}
 

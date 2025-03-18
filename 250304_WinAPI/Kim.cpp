@@ -4,7 +4,7 @@
 
 void Kim::Init()
 {
-	position = { 0,0 };
+	position = { 0,200 };
 	speed = 10;
 	dx = 0.0f;
 	dy = 0.0f;
@@ -12,13 +12,13 @@ void Kim::Init()
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
 	Image* idleImages = new Image();
-	if (FAILED(idleImages->Init(L"Image/Kim/kim_idle.bmp", 444, 244, 4, 1, true, RGB(255, 0, 255)))) {
+	if (FAILED(idleImages->Init(L"Image/Kim/kim_walk.bmp", 256 * 6, 256, 6, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"iori_idle 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Idle].push_back(idleImages);
 
 	Image* walkImages = new Image();
-	if (FAILED(walkImages->Init(L"Image/Kim/kim_walk.bmp", 768, 244, 6, 1, true, RGB(255, 0, 255)))) {
+	if (FAILED(walkImages->Init(L"Image/Kim/kim_CAttack.bmp", 256 * 5, 256, 5, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"iori_walk 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
