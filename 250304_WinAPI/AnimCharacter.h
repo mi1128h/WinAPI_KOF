@@ -11,7 +11,7 @@ enum State {
 class Image;
 class AnimCharacter : public GameObject
 {
-private:
+protected:
 	FPOINT position;
 	float dx, dy;
 	float speed;
@@ -23,7 +23,7 @@ private:
 	bool flip;
 
 public:
-	void Init();
+	virtual void Init();
 	void Release();
 	void Update();
 	void ProcessInput();
