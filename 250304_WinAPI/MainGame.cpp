@@ -6,6 +6,7 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
+#include "BlueMary.h"
 
 /*
 	실습1. 이오리 집에 보내기
@@ -18,7 +19,7 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
-	iori = new AnimCharacter();
+	iori = new BlueMary();
 	iori->Init();
 
 	background = new AnimBackground();
@@ -45,8 +46,8 @@ void MainGame::Release()
 	}
 	if (background) {
 		background->Release();
-		delete iori;
-		iori = NULL;
+		delete background;
+		background = NULL;
 	}
 
 	if (backBuffer) {
