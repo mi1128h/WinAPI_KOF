@@ -7,7 +7,7 @@
 #include <bitset>
 
 #include "KeyManager.h"
-
+#include "UIManager.h"
 using namespace std;
 
 // 컴파일러에서 해당 코드를 뒤에 정의된 코드로 변경한다
