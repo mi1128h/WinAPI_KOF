@@ -90,7 +90,7 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 {
 	switch (iMessage) {
 	case WM_CREATE:
-		hTimer = (HANDLE)SetTimer(hWnd, 0, 100, NULL);
+		hTimer = (HANDLE)SetTimer(hWnd, 0, 10, NULL);
 		break;
 	case WM_TIMER:
 		switch (wParam) {
@@ -130,8 +130,12 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		Render(hdc);
 
 		// test. check elpasedTime
-		wsprintf(szText, L"ElapsedTime: %d", (int)gameTimer->GetElapsedTime());
+		swprintf_s(szText, L"ElapsedTime: %f", gameTimer->GetElapsedTime());
 		TextOut(hdc, WINSIZE_X / 2, 0, szText, wcslen(szText));
+
+		// test. check frameIdx
+		wsprintf(szText, L"FrameIdx: %d", iori->GetFrameIdx());
+		TextOut(hdc, WINSIZE_X / 2, 20, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;

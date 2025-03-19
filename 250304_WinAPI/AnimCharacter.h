@@ -28,7 +28,7 @@ protected:
 	float speed;
 	float hp;
 	float accumTime;
-	float FPS;
+	float animTime[State::Statelength];
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
@@ -46,7 +46,7 @@ public:
 	void Move();
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
-
+	int GetFrameIdx() { return frameIdx; }
 
 	FPOINT GetPos() { return position; }
 	void SetPos(FPOINT Pos) { this->position = Pos; }  //
@@ -56,7 +56,7 @@ public:
 	float GetHp() { return hp; }
 
 	State GetState() { return curState; }
-	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
+	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ChangeStateToIdle();
 };
 

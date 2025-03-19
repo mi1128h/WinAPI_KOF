@@ -10,7 +10,6 @@ void AnimCharacter::Init()
 	dy = 0.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
-	FPS = 10;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -99,9 +98,10 @@ void AnimCharacter::ProcessInput()
 
 void AnimCharacter::Animate(float elapsedTime)
 {
-	frameIdx++;
+	accumTime += elapsedTime;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum > 0) {
+		// get total frameNum
 		int framesNum{ 1 };
 		if (imagesNum != 1) {
 			framesNum = imagesNum;
@@ -110,8 +110,11 @@ void AnimCharacter::Animate(float elapsedTime)
 			int sn = vImages[curState][0]->GetSpritesNumX() * vImages[curState][0]->GetSpritesNumY();
 			framesNum = sn;
 		}
-		if (frameIdx == framesNum) ChangeStateToIdle();
-		frameIdx %= framesNum;
+		// calculate frameIdx
+		int temp = frameIdx;
+		int frame = accumTime * framesNum / animTime[curState];
+		frameIdx = frame % framesNum;
+		if (temp == framesNum - 1 and frameIdx == 0) ChangeStateToIdle();
 	}
 	else frameIdx = -1;
 }

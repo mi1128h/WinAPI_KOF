@@ -4,7 +4,7 @@ class Timer
 {
 public:
 	void Init();
-	float GetElapsedTime() { return elapsedTime; }
+	float GetElapsedTime() { return elapsedTime / 1000.0f; }
 	void Tick();
 
 private:
