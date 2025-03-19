@@ -7,6 +7,7 @@
 #include <bitset>
 
 #include "KeyManager.h"
+#include "CollisionManager.h"
 
 using namespace std;
 

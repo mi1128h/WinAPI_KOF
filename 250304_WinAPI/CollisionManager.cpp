@@ -32,9 +32,3 @@ void CollisionManager::CheckHit(Kim* attacker, Kim* defender)
 
 	}
 }
-
-void CollisionManager::UnregisterObject(Character* Character)
-{
-
-}
-

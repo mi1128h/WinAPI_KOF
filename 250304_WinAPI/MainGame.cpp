@@ -32,6 +32,9 @@ void MainGame::Init()
 	KeyManager* km = KeyManager::GetInstance();
 	km->Init();
 
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->Init();
+
 
 }
 
@@ -63,10 +66,17 @@ void MainGame::Release()
 
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
+	CollisionManager* cm = CollisionManager::GetInstance();
+	if (cm) cm->Release();
+
 }
 
 void MainGame::Update()
 {
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->CheckHit(Player1, Player2);
+	cm->CheckHit(Player2, Player1);
+
 	if (Player1) Player1->Update();
 	if (Player2) Player2->Update();
 	if (background) background->Update();

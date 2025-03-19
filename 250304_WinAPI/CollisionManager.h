@@ -15,10 +15,6 @@ public:
 
     void CheckHit(Character* attacker, Character* defender);
     void CheckHit(Kim* attacker, Kim* defender);
-
-    void UnregisterObject(Character* Character);
-
-    void CheckCollisions();
-    
+	   
 };
 

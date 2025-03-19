@@ -6,6 +6,8 @@ void AnimCharacter::Init()
 {
 	position = { respawnPlayer() };
 	speed = 10;
+	hp = 100;
+
 	dx = 0.0f;
 	dy = 0.0f;
 
