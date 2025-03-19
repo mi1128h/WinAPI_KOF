@@ -7,6 +7,7 @@
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
 
+#include "Kyo.h"
 /*
 	실습1. 이오리 집에 보내기
 	실습2. 배경 바꾸기 (킹오파 애니메이션 배경)
@@ -18,7 +19,7 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
-	iori = new AnimCharacter();
+	iori = new Kyo();
 	iori->Init();
 
 	background = new AnimBackground();

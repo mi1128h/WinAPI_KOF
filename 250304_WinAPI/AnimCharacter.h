@@ -4,8 +4,13 @@
 enum State {
 	Idle,
 	Walk,
+	BackWalk,
 	Dead,
-	Statelength
+	StrongKick,
+	StrongPunch,
+	WeakKick,
+	WeakPunch,
+	Statelength,
 };
 
 class Image;
