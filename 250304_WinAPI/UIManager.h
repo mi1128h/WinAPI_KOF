@@ -1,17 +1,26 @@
 #pragma once
 #include "Singleton.h"
 #include "config.h"
-
 class AnimCharacter;
 class Image;
+
+
+enum Ui {
+    Advanced,
+    Uilength,
+};
 
 class UIManager :public Singleton<UIManager> {
 public:
     void Init();
     void Release();
     void Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer);
-    void Update();
     void Render(HDC hdc);
+
+    void Animate();
+
+    void advRender(HDC hdc);
+    void HpRender(HDC hdc);
 
 
     void SetPlayerHP(float hp) { playerHP = hp; }
@@ -22,11 +31,15 @@ public:
 private:
     AnimCharacter* player = nullptr;
     AnimCharacter* enemy = nullptr;
+    std::vector<std::vector<Image*>> vUiImages; 
 
     float maxHP = 10;
     float playerHP = 10;
     float enemyHP = 10;
     
+    int frameIdx;
+    Ui curUi;
+
     POINT PlayerHpbarPos;
     POINT EnemyHpbarPos;
 

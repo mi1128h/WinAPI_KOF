@@ -9,6 +9,7 @@ void Kyo::Init()
     speed = 10;
     dx = 0.0f;
     dy = 0.0f;
+    hp = 7.f; //Ãß°¡µÊ
 
     for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
