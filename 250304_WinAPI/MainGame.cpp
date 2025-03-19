@@ -57,8 +57,11 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
-	gameTimer->Tick();
-	float elapsedTime = gameTimer->GetElapsedTime();
+	float elapsedTime{};
+	if (gameTimer) {
+		gameTimer->Tick();
+		elapsedTime = gameTimer->GetElapsedTime();
+	}
 
 	if (iori) iori->Update(elapsedTime);
 	if (background) background->Update(elapsedTime);
