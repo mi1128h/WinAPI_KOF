@@ -56,8 +56,4 @@ void BlueMary::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = false;
-
-	Image* img = vImages[State::Idle][0];
-	size[0] = img->GetWidth() / img->GetSpritesNumX();
-	size[1] = img->GetHeight() / img->GetSpritesNumY();
 }
