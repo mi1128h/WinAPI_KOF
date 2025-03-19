@@ -26,10 +26,6 @@ void AnimCharacter::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = false;
-
-	Image* img = vImages[State::Idle][0];
-	size[0] = img->GetWidth() / img->GetSpritesNumX();
-	size[1] = img->GetHeight() / img->GetSpritesNumY();
 }
 
 void AnimCharacter::Release()
@@ -47,15 +43,21 @@ void AnimCharacter::Update()
 {
 	Move();
 
-	ProcessInput();
-
 	Animate();
+
+	ProcessInput();
 }
 
 void AnimCharacter::ProcessInput()
 {
 	KeyManager* km = KeyManager::GetInstance();
 	int deltaX{}, deltaY{};
+
+	bool WeakHand = (km->IsOnceKeyDown('u') or km->IsOnceKeyDown('U'));
+	bool StrongHand = (km->IsOnceKeyDown('i') or km->IsOnceKeyDown('I'));
+	bool WeakFoot = (km->IsOnceKeyDown('j') or km->IsOnceKeyDown('J'));
+	bool StrongFoot = (km->IsOnceKeyDown('k') or km->IsOnceKeyDown('K'));
+
 	switch (curState) {
 	case State::Idle:
 		if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
@@ -65,6 +67,11 @@ void AnimCharacter::ProcessInput()
 			deltaX += 1;
 		}
 		if (deltaX != 0) SetState(State::Walk);
+
+		if (WeakHand) SetState(State::WeakHand);
+		if (StrongHand) SetState(State::StrongHand);
+		if (WeakFoot) SetState(State::WeakFoot);
+		if (StrongFoot) SetState(State::StrongFoot);
 		break;
 	case State::Walk:
 		if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
@@ -74,8 +81,13 @@ void AnimCharacter::ProcessInput()
 			deltaX += 1;
 		}
 		if (deltaX == 0) SetState(State::Idle);
+
+		if (WeakHand) SetState(State::WeakHand);
+		if (StrongHand) SetState(State::StrongHand);
+		if (WeakFoot) SetState(State::WeakFoot);
+		if (StrongFoot) SetState(State::StrongFoot);
 		break;
-	case State::Dead:
+	case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
 		break;
 	}
 
@@ -87,13 +99,16 @@ void AnimCharacter::Animate()
 	frameIdx++;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum > 0) {
+		int framesNum{ 1 };
 		if (imagesNum != 1) {
-			frameIdx %= imagesNum;
+			framesNum = imagesNum;
 		}
 		else if (imagesNum == 1) {
 			int sn = vImages[curState][0]->GetSpritesNumX() * vImages[curState][0]->GetSpritesNumY();
-			frameIdx %= sn;
+			framesNum = sn;
 		}
+		if (frameIdx == framesNum) ChangeStateToIdle();
+		frameIdx %= framesNum;
 	}
 	else frameIdx = -1;
 }
@@ -103,10 +118,10 @@ void AnimCharacter::Render(HDC hdc)
 	if (frameIdx == -1) return;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum == 1) {
-		vImages[curState][0]->Render(hdc, position.x, position.y, size[0], size[1], frameIdx, flip);
+		vImages[curState][0]->Render(hdc, position.x, position.y, -1, -1, frameIdx, flip);
 	}
 	else {
-		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, size[0], size[1], 0, flip);
+		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
 	}
 }
 
@@ -117,4 +132,11 @@ void AnimCharacter::Move()
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 	if (dx > 0) flip = false;
 	if (dx < 0) flip = true;
+}
+
+void AnimCharacter::ChangeStateToIdle()
+{
+	if (curState != State::Idle and curState != State::Walk and curState != State::Dead) {
+		SetState(State::Idle);
+	}
 }

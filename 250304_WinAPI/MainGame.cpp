@@ -6,19 +6,21 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
+#include "BlueMary.h"
 #include "Kim.h"
+
 /*
-	½Ç½À1. ÀÌ¿À¸® Áý¿¡ º¸³»±â
-	½Ç½À2. ¹è°æ ¹Ù²Ù±â (Å·¿ÀÆÄ ¾Ö´Ï¸ÞÀÌ¼Ç ¹è°æ)
+	ì‹¤ìŠµ1. ì´ì˜¤ë¦¬ ì§‘ì— ë³´ë‚´ê¸°
+	ì‹¤ìŠµ2. ë°°ê²½ ë°”ê¾¸ê¸° (í‚¹ì˜¤íŒŒ ì• ë‹ˆë©”ì´ì…˜ ë°°ê²½)
 */
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer »ý¼º ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ìƒì„± ì‹¤íŒ¨", L"ê²½ê³ ", MB_OK);
 	}
-	iori = new AnimCharacter();
+	iori = new BlueMary();
 	iori->Init();
 
 	kim = new Kim();
@@ -53,8 +55,8 @@ void MainGame::Release()
 	}
 	if (background) {
 		background->Release();
-		delete iori;
-		iori = NULL;
+		delete background;
+		background = NULL;
 	}
 
 	if (backBuffer) {
@@ -133,7 +135,7 @@ void MainGame::Update()
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ¹é¹öÆÛ¿¡ º¹»ç
+	// ë°±ë²„í¼ì— ë³µì‚¬
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
@@ -160,7 +162,7 @@ void MainGame::Render(HDC hdc)
 	RenderInfo(hBackBufferDC);
 #endif
 
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
+	// ë°±ë²„í¼ì— ìžˆëŠ” ë‚´ìš©ì„ ë©”ì¸ hdcì— ë³µì‚¬
 	backBuffer->Render(hdc);
 }
 
