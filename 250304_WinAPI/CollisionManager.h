@@ -3,7 +3,7 @@
 #include "config.h"
 
 
-class Character;
+class AnimCharacter;
 class Kim;
 class CollisionManager : public Singleton<CollisionManager>
 {
@@ -13,7 +13,7 @@ public:
 	HRESULT Init();
 	void Release();
 
-    void CheckHit(Character* attacker, Character* defender);
+    void CheckHit(AnimCharacter* attacker, AnimCharacter* defender);
     void CheckHit(Kim* attacker, Kim* defender);
 	   
 };
