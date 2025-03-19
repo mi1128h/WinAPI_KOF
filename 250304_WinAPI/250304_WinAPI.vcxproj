@@ -135,6 +135,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Kim.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -153,6 +154,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="Kim.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="RoundManager.h" />
     <ClInclude Include="Singleton.h" />
