@@ -22,10 +22,11 @@ void MainGame::Init()
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
 
-	//iori = new Kyo();
+	kyo = new Kyo();
+	kyo->Init();
+
 
 	iori = new BlueMary();
-
 	iori->Init();
 
 	kim = new Kim();
@@ -58,6 +59,12 @@ void MainGame::Release()
 		delete kim;
 		kim = NULL;
 	}
+	if (kyo) {
+		kyo->Release();
+		delete kyo;
+		kyo = NULL;
+	}
+
 	if (background) {
 		background->Release();
 		delete background;
@@ -91,6 +98,7 @@ void MainGame::Update()
 {
 	if (iori) iori->Update();
 	if (kim) kim->Update();
+	if (kyo) kyo->Update();
 	if (background) background->Update();
 
 #ifdef TANKGAME
@@ -152,6 +160,9 @@ void MainGame::Render(HDC hdc)
 	}
 	if (kim) {
 		kim->Render(hBackBufferDC);
+	}
+	if (kyo) {
+		kyo->Render(hBackBufferDC);
 	}
 #ifdef TANKGAME
 	if (roundManager)
@@ -346,22 +357,23 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		case 'a': case 'A':
 			iori->SetDelta(0, 0);
 			kim->SetDelta(0, 0);
+			kyo->SetDelta(0, 0);
 
 			break;
 		case 'd': case 'D':
 			iori->SetDelta(0, 0);
 			kim->SetDelta(0, 0);
-
+			kyo->SetDelta(0, 0);
 			break;
 		case 'w': case 'W':
 			iori->SetDelta(0, 0);
 			kim->SetDelta(0, 0);
-
+			kyo->SetDelta(0, 0);
 			break;
 		case 's': case 'S':
 			iori->SetDelta(0, 0);
 			kim->SetDelta(0, 0);
-
+			kyo->SetDelta(0, 0);
 			break;
 		}
 

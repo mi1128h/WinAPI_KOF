@@ -8,6 +8,7 @@ class Image;
 class AnimCharacter;
 class AnimBackground;
 class Kim;
+class Kyo;
 class MainGame : public GameObject
 {
 private:
@@ -26,6 +27,7 @@ private:
 	Image* backBuffer;
 	AnimCharacter* iori;
 	Kim* kim;
+	Kyo* kyo;
 	AnimBackground* background;
 
 public:

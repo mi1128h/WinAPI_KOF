@@ -1,16 +1,12 @@
 #pragma once
 #include "AnimCharacter.h"
-
 class Kyo : public AnimCharacter
 {
 public:
-    void Init() override;
-    void Release() override;
-    void Update() override;
-    void Render(HDC hdc) override;
+	void Init() override;
 
 private:
-    void ProcessInput() ;
+
 
 };
 
