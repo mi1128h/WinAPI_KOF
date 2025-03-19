@@ -34,6 +34,7 @@ protected:
 	State curState;
 	int frameIdx;
 	bool flip;
+	int offset;
 
 public:
 	virtual void Init();

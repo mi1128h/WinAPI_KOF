@@ -129,6 +129,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 		Render(hdc);
 
+		// test
+		wsprintf(szText, L"mouse: %d, %d", mousePosX, mousePosY);
+		TextOut(hdc, 0, 0, szText, wcslen(szText));
+
 		EndPaint(g_hWnd, &ps);
 		break;
 	case WM_DESTROY:

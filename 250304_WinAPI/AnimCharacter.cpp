@@ -28,6 +28,7 @@ void AnimCharacter::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = false;
+	offset = 0;
 }
 
 void AnimCharacter::Release()
@@ -124,11 +125,13 @@ void AnimCharacter::Render(HDC hdc)
 	if (frameIdx == -1) return;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum == 1) {
-		vImages[curState][0]->Render(hdc, position.x, position.y, -1, -1, frameIdx, flip);
+		vImages[curState][0]->RenderCenter(hdc, position.x, position.y, -1, -1, frameIdx, flip, offset);
 	}
 	else {
-		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
+		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, -1, -1, 0, flip, offset);
 	}
+	// test Ellipse for position
+	RenderEllipseAtCenter(hdc, position.x, position.y, 10, 10);
 }
 
 void AnimCharacter::Move(float elapsedTime)
