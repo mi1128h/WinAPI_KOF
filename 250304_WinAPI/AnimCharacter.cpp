@@ -73,6 +73,7 @@ void AnimCharacter::ProcessInput()
 		if (WeakFoot) SetState(State::WeakFoot);
 		if (StrongFoot) SetState(State::StrongFoot);
 		break;
+
 	case State::Walk:
 		if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
 			deltaX -= 1;

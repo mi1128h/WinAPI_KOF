@@ -19,7 +19,12 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
+<<<<<<< Updated upstream
 	iori = new BlueMary();
+=======
+
+	iori = new SherCharacter();
+>>>>>>> Stashed changes
 	iori->Init();
 
 	background = new AnimBackground();
@@ -44,6 +49,11 @@ void MainGame::Release()
 		delete iori;
 		iori = NULL;
 	}
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 	if (background) {
 		background->Release();
 		delete background;
@@ -132,6 +142,10 @@ void MainGame::Render(HDC hdc)
 	if (background) {
 		background->Render(hBackBufferDC);
 	}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	if (iori) {
 		iori->Render(hBackBufferDC);
 	}
@@ -266,6 +280,8 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
+#ifdef KEYDOWN
+
 	case WM_KEYDOWN:
 		switch (wParam) {
 		//case 'a': case 'A':
@@ -281,6 +297,8 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		//	iori->SetDelta(0, 10);
 		//	break;
 		}
+#endif // KEYDOWN
+
 #ifdef TANKGAME
 		switch (wParam) {
 		case VK_ESCAPE:
@@ -328,6 +346,7 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		switch (wParam) {
 		case 'a': case 'A':
 			iori->SetDelta(0, 0);
+<<<<<<< Updated upstream
 			break;
 		case 'd': case 'D':
 			iori->SetDelta(0, 0);
@@ -337,6 +356,21 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			break;
 		case 's': case 'S':
 			iori->SetDelta(0, 0);
+=======
+
+			break;
+		case 'd': case 'D':
+			iori->SetDelta(0, 0);
+
+			break;
+		case 'w': case 'W':
+			iori->SetDelta(0, 0);
+
+			break;
+		case 's': case 'S':
+			iori->SetDelta(0, 0);
+
+>>>>>>> Stashed changes
 			break;
 		}
 
