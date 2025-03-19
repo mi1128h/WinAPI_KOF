@@ -26,6 +26,10 @@ void AnimCharacter::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = false;
+
+	Image* img = vImages[State::Idle][0];
+	size[0] = img->GetWidth() / img->GetSpritesNumX();
+	size[1] = img->GetHeight() / img->GetSpritesNumY();
 }
 
 void AnimCharacter::Release()
@@ -118,10 +122,10 @@ void AnimCharacter::Render(HDC hdc)
 	if (frameIdx == -1) return;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum == 1) {
-		vImages[curState][0]->Render(hdc, position.x, position.y, -1, -1, frameIdx, flip);
+		vImages[curState][0]->Render(hdc, position.x, position.y, size[0], size[1], frameIdx, flip);
 	}
 	else {
-		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
+		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, size[0], size[1], 0, flip);
 	}
 }
 
