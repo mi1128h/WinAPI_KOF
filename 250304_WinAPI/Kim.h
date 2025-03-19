@@ -6,14 +6,15 @@ class Kim : public AnimCharacter
 
 
 public:
-	virtual void Init();
-	/*void Release();
-	void Update();
-	void ProcessInput();
-	void Animate();
-	void Render(HDC hdc);
+	void Init();
 
-	void Move();*/
+	//void Release();
+	void Update();
+	//void ProcessInput();
+	//void Animate();
+	//void Render(HDC hdc);
+	
+	void Move();
 	// void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
 	// FPOINT GetPos() { return position; }
