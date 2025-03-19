@@ -54,6 +54,9 @@
     <ClCompile Include="BlueMary.cpp">
       <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
+    <ClCompile Include="Mai.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -90,6 +93,9 @@
       <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
     <ClInclude Include="SherCharacter.h">
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Mai.h">
       <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
   </ItemGroup>

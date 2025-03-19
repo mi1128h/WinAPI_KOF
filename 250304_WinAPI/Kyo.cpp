@@ -5,7 +5,7 @@
 
 void Kyo::Init()
 {
-    position = { respawnPlayer() };
+    position = { SetStartPos() };
     speed = 10;
     dx = 0.0f;
     dy = 0.0f;
@@ -55,6 +55,6 @@ void Kyo::Init()
 
     curState = State::Idle;
     frameIdx = 0;
-    flip = false;
+    flip = SetStartFilp();
 }
 

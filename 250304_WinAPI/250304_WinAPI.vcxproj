@@ -134,6 +134,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="Kyo.cpp" />
+    <ClCompile Include="Mai.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -150,6 +151,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Kyo.h" />
+    <ClInclude Include="Mai.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="SherCharacter.h" />
     <ClInclude Include="Singleton.h" />

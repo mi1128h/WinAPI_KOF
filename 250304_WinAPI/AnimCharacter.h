@@ -62,6 +62,6 @@ public:
 	inline bool getPlayer_Classification() { return playerClassification; }
 	inline void setPlayer_Classification(bool player_classification) 
 	{this->playerClassification = player_classification;}
-
+	bool SetStartFilp();
 };
 

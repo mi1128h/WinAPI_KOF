@@ -6,6 +6,7 @@
 #include "BlueMary.h"
 #include "SherCharacter.h"
 #include "Kyo.h"
+#include "Mai.h"
 
 /*
 	실습1. 이오리 집에 보내기
@@ -20,11 +21,11 @@ void MainGame::Init()
 	}
 
 	Player1 = new SherCharacter();
-	Player1->setPlayer_Classification(true);
+	Player1->setPlayer_Classification(false);
 	Player1->Init();
 
-	Player2 = new Kyo();
-	Player2->setPlayer_Classification(false);
+	Player2 = new Mai();
+	Player2->setPlayer_Classification(true);
 	Player2->Init();
 
 	background = new AnimBackground();

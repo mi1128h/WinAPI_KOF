@@ -5,7 +5,7 @@
 // 캐릭터 초기화 함수
 void SherCharacter::Init()
 {
-    position = { respawnPlayer() };  // 초기 위치 설정
+    position = { SetStartPos() };  // 초기 위치 설정
     speed = 10;          // 이동 속도 설정
     dx = 0.0f;           // X 방향 이동값 초기화
     dy = 0.0f;           // Y 방향 이동값 초기화
@@ -65,7 +65,7 @@ void SherCharacter::Init()
     // 캐릭터 크기 계산 (첫 번째 Idle 이미지 기준)
     curState = State::Idle;
     frameIdx = 0;
-    flip = false;
+    flip = SetStartFilp();
 }
 
 
