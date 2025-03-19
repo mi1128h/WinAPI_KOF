@@ -7,6 +7,9 @@ class Image;
 
 enum Ui {
     Advanced,
+    KyoUi,
+    LeftUi,
+    RightUi,
     Uilength,
 };
 

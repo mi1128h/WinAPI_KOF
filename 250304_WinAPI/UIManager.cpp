@@ -19,7 +19,27 @@ void UIManager::Init()
     if (FAILED(advImages->Init(L"Image/ImageUI/UiAdvanced.bmp", 490, 33, 5, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"UiAdvanced 파일 로드에 실패", L"경고", MB_OK);
     }
-    vUiImages[Ui::Advanced].push_back(advImages);
+    vUiImages[Ui::Advanced].push_back(advImages); 
+    
+    Image* kyoImages = new Image();
+    if (FAILED(kyoImages->Init(L"Image/ImageUI/Kyo_HpUI.bmp", 202*0.5, 190*0.5, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_HpUI 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::KyoUi].push_back(kyoImages);  
+    
+
+    float LeftRightImageSz = 1.2;
+    Image* leftImages = new Image();
+    if (FAILED(leftImages->Init(L"Image/ImageUI/LeftUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"LeftUi 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::LeftUi].push_back(leftImages);
+
+    Image* rightImages = new Image();
+    if (FAILED(rightImages->Init(L"Image/ImageUI/RightUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"RightUi 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::RightUi].push_back(rightImages);
 }
 
 void UIManager::Release()
@@ -40,6 +60,11 @@ void UIManager::Render(HDC hdc)
   
     UIManager::HpRender(hdc);
     UIManager::advRender(hdc);
+//    vUiImages[KyoUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
+    
+    //left, right Character UI
+    vUiImages[Ui::LeftUi][0]-> Render(hdc, 20, 5, -1, -1, frameIdx, 0);
+    vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
 }
 
 
@@ -72,7 +97,7 @@ void UIManager::advRender(HDC hdc)
    
     vUiImages[curUi][0]->Render(hdc, rightadvPosX, advPosY, -1, -1, frameIdx, 0);
 
-
+    
 }
 
 void UIManager::HpRender(HDC hdc)
