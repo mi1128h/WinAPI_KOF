@@ -8,25 +8,21 @@
 #include "SherCharacter.h"
 #include "Kyo.h"
 
-/*
-	�ǽ�1. �̿��� ���� ������
-	�ǽ�2. ��� �ٲٱ� (ŷ���� �ִϸ��̼� ���)
-*/
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer ���� ����", L"���", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
 
 
 
-	Player1 = new SherCharacter();
+	Player1 = new Kim();
 	Player1->setPlayer_Classification(true);
 	Player1->Init();
 
-	Player2 = new Kyo();
+	Player2 = new Kim();
 	Player2->setPlayer_Classification(false);
 	Player2->Init();
 

@@ -7,6 +7,7 @@ class RoundManager;
 class Image;
 class AnimCharacter;
 class AnimBackground;
+class Kim;
 class MainGame : public GameObject
 {
 private:
@@ -23,8 +24,8 @@ private:
     RoundManager* roundManager; // 게임의 라운드를 관리하는 객체
 
     Image* backBuffer;        // 백버퍼 (화면 깜빡임 방지용)
-    AnimCharacter* Player1;      // 애니메이션 캐릭터 객체 (샐리)
-	AnimCharacter* Player2;
+    Kim* Player1;      // 애니메이션 캐릭터 객체 (샐리)
+	Kim* Player2;
     AnimBackground* background; // 애니메이션 배경 객체
 
 
