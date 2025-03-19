@@ -4,7 +4,7 @@
 
 void AnimCharacter::Init()
 {
-	position = { respawnPlayer() };
+	position = { SetStartPos() };
 	speed = 10;
 	dx = 0.0f;
 	dy = 0.0f;
@@ -188,14 +188,14 @@ void AnimCharacter::ChangeStateToIdle()
 	}
 }
 
-FPOINT AnimCharacter::respawnPlayer()
+FPOINT AnimCharacter::SetStartPos()
 {
 	FPOINT respawnpos;
 	if (this->getPlayer_Classification()) {
-		respawnpos = { 100, 340 };
+		respawnpos = { PLAYER1_POSX, PLAYER_POSY };
 	}
 	else {
-		respawnpos = { 900, 340 };
+		respawnpos = { PLAYER2_POSX, PLAYER_POSY };
 	}
 
 	return respawnpos;
