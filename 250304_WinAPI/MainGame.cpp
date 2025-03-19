@@ -7,20 +7,27 @@
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
 #include "BlueMary.h"
+#include "SherCharacter.h"
 
 /*
-	½Ç½À1. ÀÌ¿À¸® Áý¿¡ º¸³»±â
-	½Ç½À2. ¹è°æ ¹Ù²Ù±â (Å·¿ÀÆÄ ¾Ö´Ï¸ÞÀÌ¼Ç ¹è°æ)
+	ì‹¤ìŠµ1. ì´ì˜¤ë¦¬ ì§‘ì— ë³´ë‚´ê¸°
+	ì‹¤ìŠµ2. ë°°ê²½ ë°”ê¾¸ê¸° (í‚¹ì˜¤íŒŒ ì• ë‹ˆë©”ì´ì…˜ ë°°ê²½)
 */
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer »ý¼º ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ìƒì„± ì‹¤íŒ¨", L"ê²½ê³ ", MB_OK);
 	}
+
 	iori = new BlueMary();
+
 	iori->Init();
+
+	sher = new SherCharacter();
+	sher->Init();
+
 
 	background = new AnimBackground();
 	background->Init();
@@ -44,10 +51,18 @@ void MainGame::Release()
 		delete iori;
 		iori = NULL;
 	}
+
+	if (sher) {
+		sher->Release();
+		delete sher;
+		sher = NULL;
+	}
+
 	if (background) {
 		background->Release();
 		delete background;
 		background = NULL;
+
 	}
 
 	if (backBuffer) {
@@ -76,6 +91,7 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	if (iori) iori->Update();
+	if (sher) sher->Update();
 	if (background) background->Update();
 
 #ifdef TANKGAME
@@ -125,12 +141,15 @@ void MainGame::Update()
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ¹é¹öÆÛ¿¡ º¹»ç
+	// ë°±ë²„í¼ì— ë³µì‚¬
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
 	if (background) {
 		background->Render(hBackBufferDC);
+	}
+	if (sher) {
+		sher->Render(hBackBufferDC);
 	}
 	if (iori) {
 		iori->Render(hBackBufferDC);
@@ -150,7 +169,7 @@ void MainGame::Render(HDC hdc)
 	RenderInfo(hBackBufferDC);
 #endif
 
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
+	// ë°±ë²„í¼ì— ìžˆëŠ” ë‚´ìš©ì„ ë©”ì¸ hdcì— ë³µì‚¬
 	backBuffer->Render(hdc);
 }
 
@@ -268,18 +287,22 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 	case WM_KEYDOWN:
 		switch (wParam) {
-		//case 'a': case 'A':
-		//	iori->SetDelta(-10, 0);
-		//	break;
-		//case 'd': case 'D':
-		//	iori->SetDelta(10, 0);
-		//	break;
-		//case 'w': case 'W':
-		//	iori->SetDelta(0, -10);
-		//	break;
-		//case 's': case 'S':
-		//	iori->SetDelta(0, 10);
-		//	break;
+		case 'a': case 'A':
+			iori->SetDelta(-1, 0);
+			sher->SetDelta(-1, 0);
+			break;
+		case 'd': case 'D':
+			iori->SetDelta(1, 0);
+			sher->SetDelta(1, 0);
+			break;
+		case 'w': case 'W':
+			iori->SetDelta(0, -1);
+			sher->SetDelta(0, -1);
+			break;
+		case 's': case 'S':
+			iori->SetDelta(0, 1);
+			sher->SetDelta(0, 1);
+			break;
 		}
 #ifdef TANKGAME
 		switch (wParam) {
@@ -328,15 +351,19 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		switch (wParam) {
 		case 'a': case 'A':
 			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 'd': case 'D':
 			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 'w': case 'W':
 			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 's': case 'S':
 			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		}
 
