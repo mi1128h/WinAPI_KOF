@@ -129,11 +129,15 @@
   <ItemGroup>
     <ClCompile Include="AnimBackground.cpp" />
     <ClCompile Include="AnimCharacter.cpp" />
+    <ClCompile Include="BlueMary.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Kyo.cpp" />
+    <ClCompile Include="Kim.cpp" />
+
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -145,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="AnimBackground.h" />
     <ClInclude Include="AnimCharacter.h" />
+    <ClInclude Include="BlueMary.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="config.h" />
@@ -152,6 +157,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
+
+    <ClInclude Include="Kyo.h" />
+
+    <ClInclude Include="Kim.h" />
+
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="RoundManager.h" />
     <ClInclude Include="SherCharacter.h" />

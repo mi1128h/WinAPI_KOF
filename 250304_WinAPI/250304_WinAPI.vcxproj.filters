@@ -57,8 +57,13 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SherCharacter.cpp">
+
+    <ClCompile Include="Kim.cpp">
       <Filter>MainGame\KOF_Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Kyo.cpp">
+      <Filter>소스 파일</Filter>
+      
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,8 +106,15 @@
     <ClInclude Include="Singleton.h">
       <Filter>2D Framework</Filter>
     </ClInclude>
+
     <ClInclude Include="SherCharacter.h">
       <Filter>MainGame\KOF_Character</Filter>
+
+    <ClInclude Include="Kim.h">
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Kyo.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

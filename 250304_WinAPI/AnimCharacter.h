@@ -1,49 +1,56 @@
 #pragma once
 #include "GameObject.h"
 
-// дЁ╦╞ем ╩Себ ©╜╟егЭ
+// дЁО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
 enum State {
-	Idle,         // ╢К╠Б ╩Себ
-	Walk,         // ╟х╠Б ╩Себ
-	Dead,         // ╩Г╦а ╩Себ
-	Statelength   // ╩Себ ця ╟Ё╪Ж
+
+	Idle,
+	Walk,
+	WeakHand,
+	StrongHand,
+	WeakFoot,
+	StrongFoot,
+	Dead,
+	Statelength
 };
 
-class Image;  // Image е╛╥║╫╨ юЭ╧Ф ╪╠╬П
+class Image;  // Image е╛О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
 
-// ╬ж╢о╦чюл╪г дЁ╦╞ем е╛╥║╫╨ - GameObject╦╕ ╩С╪с╧чю╫
+// О©╫ж╢о╦О©╫О©╫л╪О©╫ дЁО©╫О©╫О©╫О©╫ е╛О©╫О©╫О©╫О©╫ - GameObjectО©╫О©╫ О©╫О©╫с╧О©╫О©╫О©╫
 class AnimCharacter : public GameObject
 {
 protected:
-	FPOINT position;  // дЁ╦╞ем ю╖д║ (╨н╣© ╪р╪Жа║ абг╔)
-	float dx, dy;     // юл╣© ╧ФгБ ╧в ╪с╣╣ ╟╙
-	float speed;      // юл╣© ╪с╣╣
-	int size[2];      // дЁ╦╞ем е╘╠Б [Ёй╨Я, ЁТюл]
 
-	vector<Image*> vImages[State::Statelength];  // ╟╒ ╩Себ╨╟ юл╧лаЖ ╨╓ем ╧Х©╜
-	State curState;   // гЖюГ дЁ╦╞ем ╩Себ
-	int frameIdx;     // гЖюГ ╬ж╢о╦чюл╪г га╥╧юс юн╣╕╫╨
-	bool flip;        // аб©Л ╧щюЭ ©╘╨н
+	FPOINT position;
+	float dx, dy;
+	float speed;
+
+
+	vector<Image*> vImages[State::Statelength];  // О©╫О©╫ О©╫О©╫О©╫б╨О©╫ О©╫л╧О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫Х©╜
+	State curState;   // О©╫О©╫О©╫О©╫ дЁО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+	int frameIdx;     // О©╫О©╫О©╫О©╫ О©╫ж╢о╦О©╫О©╫л╪О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫н╣О©╫О©╫О©╫
+	bool flip;        // О©╫б©О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
 
 public:
-	virtual void Init();          // цй╠Бх╜ гт╪Ж (╟║╩С гт╪Ж)
-	void Release();               // юз©Ь гьа╕ гт╪Ж
-	void Update();                // ╬В╣╔юлф╝ гт╪Ж
-	void ProcessInput();          // ют╥б цЁ╦╝ гт╪Ж
-	void Animate();               // ╬ж╢о╦чюл╪г ╬В╣╔юлф╝ гт╪Ж
-	void Render(HDC hdc);         // ╥╩╢У╦╣ гт╪Ж
-	void Move();                  // дЁ╦╞ем юл╣© гт╪Ж
+	virtual void Init();          // О©╫й╠О©╫х╜ О©╫т╪О©╫ (О©╫О©╫О©╫О©╫ О©╫т╪О©╫)
+	void Release();               // О©╫з©О©╫ О©╫О©╫О©╫О©╫ О©╫т╪О©╫
+	void Update();                // О©╫О©╫О©╫О©╫О©╫О©╫ф╝ О©╫т╪О©╫
+	void ProcessInput();          // О©╫т╥О©╫ цЁО©╫О©╫ О©╫т╪О©╫
+	void Animate();               // О©╫ж╢о╦О©╫О©╫л╪О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ф╝ О©╫т╪О©╫
+	void Render(HDC hdc);         // О©╫О©╫О©╫О©╫О©╫О©╫ О©╫т╪О©╫
+	void Move();                  // дЁО©╫О©╫О©╫О©╫ О©╫л╣О©╫ О©╫т╪О©╫
 
-	// юл╣© ╧ФгБ ╪Ёа╓ гт╪Ж
+	// О©╫л╣О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫т╪О©╫
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
-	// гЖюГ ю╖д║ ╧щх╞ гт╪Ж
+	// О©╫О©╫О©╫О©╫ О©╫О©╫д║ О©╫О©╫х╞ О©╫т╪О©╫
 	FPOINT GetPos() { return position; }
 
-	// гЖюГ ╩Себ ╧щх╞ гт╪Ж
+	// О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫х╞ О©╫т╪О©╫
 	State GetState() { return curState; }
 
-	// ╩Себ ╪Ёа╓ гт╪Ж - ╟╟ю╨ ╩Себ╦И ╧╚╫ц, ╢ы╦╔ ╩Себ╦И га╥╧юс цй╠Бх╜
+	// О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫т╪О©╫ - О©╫О©╫О©╫О©╫ О©╫О©╫О©╫б╦О©╫ О©╫О©╫О©╫О©╫, О©╫ы╦О©╫ О©╫О©╫О©╫б╦О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫й╠О©╫х╜
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
+	void ChangeStateToIdle();
 };
 

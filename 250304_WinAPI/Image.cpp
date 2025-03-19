@@ -1,180 +1,178 @@
 #include "Image.h"
 
-// ÀÌ¹ÌÁö ÃÊ±âÈ­ ÇÔ¼ö - ºó ÀÌ¹ÌÁö »ý¼º
-// width, height: »ý¼ºÇÒ ÀÌ¹ÌÁöÀÇ Å©±â
+// ì´ë¯¸ì§€ ì´ˆê¸°í™” í•¨ìˆ˜ - ë¹ˆ ì´ë¯¸ì§€ ìƒì„±
+// width, height: ìƒì„±í•  ì´ë¯¸ì§€ì˜ í¬ê¸°
 HRESULT Image::Init(int width, int height)
 {
-    // À©µµ¿ìÀÇ DC¸¦ °¡Á®¿È
+    // ìœˆë„ìš°ì˜ DCë¥¼ ê°€ì ¸ì˜´
     HDC hdc = GetDC(g_hWnd);
 
-    // ÀÌ¹ÌÁö Á¤º¸ ±¸Á¶Ã¼ ÇÒ´ç
+    // ì´ë¯¸ì§€ ì •ë³´ êµ¬ì¡°ì²´ í• ë‹¹
     imageInfo = new IMAGE_INFO();
-    imageInfo->resID = 0;                                       // ¸®¼Ò½º ID ÃÊ±âÈ­
-    imageInfo->hMemDC = CreateCompatibleDC(hdc);                // ¸Þ¸ð¸® DC »ý¼º
-    imageInfo->hBitmap = CreateCompatibleBitmap(hdc, width, height); // ºñÆ®¸Ê »ý¼º
-    imageInfo->hOldBit = (HBITMAP)SelectObject(imageInfo->hMemDC, imageInfo->hBitmap); // ºñÆ®¸ÊÀ» DC¿¡ ¼±ÅÃ
+    imageInfo->resID = 0;                                       // ë¦¬ì†ŒìŠ¤ ID ì´ˆê¸°í™”
+    imageInfo->hMemDC = CreateCompatibleDC(hdc);                // ë©”ëª¨ë¦¬ DC ìƒì„±
+    imageInfo->hBitmap = CreateCompatibleBitmap(hdc, width, height); // ë¹„íŠ¸ë§µ ìƒì„±
+    imageInfo->hOldBit = (HBITMAP)SelectObject(imageInfo->hMemDC, imageInfo->hBitmap); // ë¹„íŠ¸ë§µì„ DCì— ì„ íƒ
 
-    // ÀÓ½Ã DC¿Í ºñÆ®¸Ê »ý¼º (Åõ¸í Ã³¸®¿ë)
+    // ìž„ì‹œ DCì™€ ë¹„íŠ¸ë§µ ìƒì„± (íˆ¬ëª… ì²˜ë¦¬ìš©)
     imageInfo->hTempDC = CreateCompatibleDC(hdc);
     imageInfo->hTempBit = CreateCompatibleBitmap(hdc, width, height);
     imageInfo->hOldTemp = (HBITMAP)SelectObject(imageInfo->hTempDC, imageInfo->hTempBit);
 
-    // ÀÌ¹ÌÁö ¼Ó¼º ¼³Á¤
+    // ì´ë¯¸ì§€ ì†ì„± ì„¤ì •
     imageInfo->width = width;
     imageInfo->height = height;
-    imageInfo->loadType = IMAGE_LOAD_TYPE::Empty;    // ºó ÀÌ¹ÌÁö Å¸ÀÔ
-    imageInfo->spritesNum[0] = 1;                    // ½ºÇÁ¶óÀÌÆ® ¼ö X ¹æÇâ
-    imageInfo->spritesNum[1] = 1;                    // ½ºÇÁ¶óÀÌÆ® ¼ö Y ¹æÇâ
+    imageInfo->loadType = IMAGE_LOAD_TYPE::Empty;    // ë¹ˆ ì´ë¯¸ì§€ íƒ€ìž…
+    imageInfo->spritesNum[0] = 1;                    // ìŠ¤í”„ë¼ì´íŠ¸ ìˆ˜ X ë°©í–¥
+    imageInfo->spritesNum[1] = 1;                    // ìŠ¤í”„ë¼ì´íŠ¸ ìˆ˜ Y ë°©í–¥
 
-    // »ç¿ë ¿Ï·áÇÑ DC ÇØÁ¦
+    // ì‚¬ìš© ì™„ë£Œí•œ DC í•´ì œ
     ReleaseDC(g_hWnd, hdc);
 
-    // ºñÆ®¸Ê »ý¼º ½ÇÆÐ ½Ã ¿¡·¯ ¹ÝÈ¯
+    // ë¹„íŠ¸ë§µ ìƒì„± ì‹¤íŒ¨ ì‹œ ì—ëŸ¬ ë°˜í™˜
     if (imageInfo->hBitmap == NULL) {
         Release();
         return E_FAIL;
     }
-    return S_OK;   // ¼º°ø
+    return S_OK;   // ì„±ê³µ
 }
 
-// ÀÌ¹ÌÁö ÃÊ±âÈ­ ÇÔ¼ö - ÆÄÀÏ¿¡¼­ ÀÌ¹ÌÁö ·Îµå
-// filePath: ÆÄÀÏ °æ·Î, width/height: ÀÌ¹ÌÁö Å©±â
-// spritesNumX/Y: X/Y ¹æÇâ ½ºÇÁ¶óÀÌÆ® ¼ö
-// isTransparent: Åõ¸í Ã³¸® ¿©ºÎ, transColor: Åõ¸í»ö
+// ì´ë¯¸ì§€ ì´ˆê¸°í™” í•¨ìˆ˜ - íŒŒì¼ì—ì„œ ì´ë¯¸ì§€ ë¡œë“œ
+// filePath: íŒŒì¼ ê²½ë¡œ, width/height: ì´ë¯¸ì§€ í¬ê¸°
+// spritesNumX/Y: X/Y ë°©í–¥ ìŠ¤í”„ë¼ì´íŠ¸ ìˆ˜
+// isTransparent: íˆ¬ëª… ì²˜ë¦¬ ì—¬ë¶€, transColor: íˆ¬ëª…ìƒ‰
 HRESULT Image::Init(const wchar_t* filePath, int width, int height,
     int spritesNumX, int spritesNumY, bool isTransparent, COLORREF transColor)
 {
-    // À©µµ¿ìÀÇ DC¸¦ °¡Á®¿È
+    // ìœˆë„ìš°ì˜ DCë¥¼ ê°€ì ¸ì˜´
     HDC hdc = GetDC(g_hWnd);
 
-    // ÀÌ¹ÌÁö Á¤º¸ ±¸Á¶Ã¼ ÇÒ´ç
+    // ì´ë¯¸ì§€ ì •ë³´ êµ¬ì¡°ì²´ í• ë‹¹
     imageInfo = new IMAGE_INFO();
-    imageInfo->resID = 0;                    // ¸®¼Ò½º ID ÃÊ±âÈ­
-    imageInfo->hMemDC = CreateCompatibleDC(hdc);    // ¸Þ¸ð¸® DC »ý¼º
+    imageInfo->resID = 0;                    // ë¦¬ì†ŒìŠ¤ ID ì´ˆê¸°í™”
+    imageInfo->hMemDC = CreateCompatibleDC(hdc);    // ë©”ëª¨ë¦¬ DC ìƒì„±
 
-    // ÆÄÀÏ¿¡¼­ ºñÆ®¸Ê ·Îµå
+    // íŒŒì¼ì—ì„œ ë¹„íŠ¸ë§µ ë¡œë“œ
     imageInfo->hBitmap = (HBITMAP)LoadImage(g_hInstance, filePath, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
     imageInfo->hOldBit = (HBITMAP)SelectObject(imageInfo->hMemDC, imageInfo->hBitmap);
 
-    // ÀÓ½Ã DC¿Í ºñÆ®¸Ê »ý¼º (Åõ¸í Ã³¸®¿ë)
+    // ìž„ì‹œ DCì™€ ë¹„íŠ¸ë§µ ìƒì„± (íˆ¬ëª… ì²˜ë¦¬ìš©)
     imageInfo->hTempDC = CreateCompatibleDC(hdc);
     imageInfo->hTempBit = (HBITMAP)LoadImage(g_hInstance, filePath, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
     imageInfo->hOldTemp = (HBITMAP)SelectObject(imageInfo->hTempDC, imageInfo->hTempBit);
 
-    // ÀÌ¹ÌÁö ¼Ó¼º ¼³Á¤
+    // ì´ë¯¸ì§€ ì†ì„± ì„¤ì •
     imageInfo->width = width;
     imageInfo->height = height;
-    imageInfo->loadType = IMAGE_LOAD_TYPE::File;    // ÆÄÀÏ ·Îµå Å¸ÀÔ
-    imageInfo->spritesNum[0] = spritesNumX;         // X ¹æÇâ ½ºÇÁ¶óÀÌÆ® ¼ö
-    imageInfo->spritesNum[1] = spritesNumY;         // Y ¹æÇâ ½ºÇÁ¶óÀÌÆ® ¼ö
+    imageInfo->loadType = IMAGE_LOAD_TYPE::File;    // íŒŒì¼ ë¡œë“œ íƒ€ìž…
+    imageInfo->spritesNum[0] = spritesNumX;         // X ë°©í–¥ ìŠ¤í”„ë¼ì´íŠ¸ ìˆ˜
+    imageInfo->spritesNum[1] = spritesNumY;         // Y ë°©í–¥ ìŠ¤í”„ë¼ì´íŠ¸ ìˆ˜
 
-    // »ç¿ë ¿Ï·áÇÑ DC ÇØÁ¦
+    // ì‚¬ìš© ì™„ë£Œí•œ DC í•´ì œ
     ReleaseDC(g_hWnd, hdc);
 
-    // ºñÆ®¸Ê ·Îµå ½ÇÆÐ ½Ã ¿¡·¯ ¹ÝÈ¯
+    // ë¹„íŠ¸ë§µ ë¡œë“œ ì‹¤íŒ¨ ì‹œ ì—ëŸ¬ ë°˜í™˜
     if (imageInfo->hBitmap == NULL) {
         Release();
         return E_FAIL;
     }
 
-    // Åõ¸í Ã³¸® °ü·Ã ¼Ó¼º ¼³Á¤
+    // íˆ¬ëª… ì²˜ë¦¬ ê´€ë ¨ ì†ì„± ì„¤ì •
     this->isTransparent = isTransparent;
     this->tansColor = transColor;
 
-    return S_OK;   // ¼º°ø
+    return S_OK;   // ì„±ê³µ
 }
 
-// ÀÌ¹ÌÁö ·»´õ¸µ ÇÔ¼ö - ±âº» ·»´õ¸µ
-// hdc: ´ë»ó DC, destX/Y: ±×¸± À§Ä¡, flip: ÁÂ¿ì ¹ÝÀü ¿©ºÎ
+// ì´ë¯¸ì§€ ë Œë”ë§ í•¨ìˆ˜ - ê¸°ë³¸ ë Œë”ë§
+// hdc: ëŒ€ìƒ DC, destX/Y: ê·¸ë¦´ ìœ„ì¹˜, flip: ì¢Œìš° ë°˜ì „ ì—¬ë¶€
 void Image::Render(HDC hdc, int destX, int destY, bool flip)
 {
     BitBlt(
-        hdc,                // º¹»ç ¸ñÀûÁö DC
-        destX, destY,       // º¹»ç ¸ñÀûÁö À§Ä¡
-        imageInfo->width,   // ¿øº»¿¡¼­ º¹»çµÉ °¡·Î Å©±â
-        imageInfo->height,  // ¿øº»¿¡¼­ º¹»çµÉ ¼¼·Î Å©±â
-        imageInfo->hMemDC,  // ¿øº» DC
-        0, 0,               // ¿øº» º¹»ç ½ÃÀÛ À§Ä¡
-        SRCCOPY);           // º¹»ç ¿É¼Ç
+        hdc,                // ë³µì‚¬ ëª©ì ì§€ DC
+        destX, destY,       // ë³µì‚¬ ëª©ì ì§€ ìœ„ì¹˜
+        imageInfo->width,   // ì›ë³¸ì—ì„œ ë³µì‚¬ë  ê°€ë¡œ í¬ê¸°
+        imageInfo->height,  // ì›ë³¸ì—ì„œ ë³µì‚¬ë  ì„¸ë¡œ í¬ê¸°
+        imageInfo->hMemDC,  // ì›ë³¸ DC
+        0, 0,               // ì›ë³¸ ë³µì‚¬ ì‹œìž‘ ìœ„ì¹˜
+        SRCCOPY);           // ë³µì‚¬ ì˜µì…˜
 }
 
-// ÀÌ¹ÌÁö ·»´õ¸µ ÇÔ¼ö - ½ºÇÁ¶óÀÌÆ® ·»´õ¸µ
-// hdc: ´ë»ó DC, destX/Y: ±×¸± À§Ä¡, destWidth/Height: ±×¸± Å©±â
-// frameIndex: ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓ ÀÎµ¦½º, flip: ÁÂ¿ì ¹ÝÀü ¿©ºÎ
+// ì´ë¯¸ì§€ ë Œë”ë§ í•¨ìˆ˜ - ìŠ¤í”„ë¼ì´íŠ¸ ë Œë”ë§
+// hdc: ëŒ€ìƒ DC, destX/Y: ê·¸ë¦´ ìœ„ì¹˜, destWidth/Height: ê·¸ë¦´ í¬ê¸°
+// frameIndex: ìŠ¤í”„ë¼ì´íŠ¸ í”„ë ˆìž„ ì¸ë±ìŠ¤, flip: ì¢Œìš° ë°˜ì „ ì—¬ë¶€
 void Image::Render(HDC hdc, int destX, int destY, int destWidth, int destHeight, int frameIndex, bool flip)
 {
-    // ÇÁ·¹ÀÓ ÀÎµ¦½º·ÎºÎÅÍ ½ºÇÁ¶óÀÌÆ® ½ÃÆ® ÁÂÇ¥ °è»ê
-    int x = frameIndex % imageInfo->spritesNum[0];
-    int y = frameIndex / imageInfo->spritesNum[0];
 
-    // ¼Ò½º ÀÌ¹ÌÁö ¿µ¿ª °è»ê
-    int srcX{}, srcY{};
-    int srcWidth{}, srcHeight{};
-    srcX = imageInfo->width / imageInfo->spritesNum[0] * x;
-    srcY = imageInfo->height / imageInfo->spritesNum[1] * y;
-    srcWidth = imageInfo->width / imageInfo->spritesNum[0];
-    srcHeight = imageInfo->height / imageInfo->spritesNum[1];
+	int x = frameIndex % imageInfo->spritesNum[0];
+	int y = frameIndex / imageInfo->spritesNum[0];
 
-    // ÁÂ¿ì ¹ÝÀü Ã³¸®
-    if (flip) {
-        srcX += srcWidth - 1;
-        srcWidth *= -1;
-    }
+	int srcX{}, srcY{};
+	int srcWidth{}, srcHeight{};
+	srcX = imageInfo->width / imageInfo->spritesNum[0] * x;
+	srcY = imageInfo->height / imageInfo->spritesNum[1] * y;
+	srcWidth = imageInfo->width / imageInfo->spritesNum[0];
+	srcHeight = imageInfo->height / imageInfo->spritesNum[1];
 
-    // ÀÓ½Ã DC ¼±ÅÃ
-    imageInfo->hOldTemp = (HBITMAP)SelectObject(imageInfo->hTempDC, imageInfo->hTempBit);
+	if (destWidth == -1) destWidth = srcWidth;
+	if (destHeight == -1) destHeight = srcHeight;
 
-    // Åõ¸í Ã³¸® ¿©ºÎ¿¡ µû¸¥ ·»´õ¸µ
-    if (isTransparent) {
-        // Åõ¸í Ã³¸® ½Ã, ÀÓ½Ã DC¿¡ ¸ÕÀú ±×¸° ÈÄ Åõ¸í Ã³¸®ÇÏ¿© ´ë»ó DC¿¡ º¹»ç
-        StretchBlt(
-            imageInfo->hTempDC,
-            0, 0,
-            abs(srcWidth), abs(srcHeight),
-            imageInfo->hMemDC,
-            srcX, srcY,
-            srcWidth, srcHeight,
-            SRCCOPY);
-        TransparentBlt(
-            hdc,
-            destX, destY,
-            destWidth, destHeight,
-            imageInfo->hTempDC,
-            0, 0,
-            abs(srcWidth), abs(srcHeight),
-            tansColor);  // Åõ¸í»ö ÁöÁ¤
-    }
-    else {
-        // Åõ¸í Ã³¸® ¾øÀÌ Á÷Á¢ ½ºÆ®·¹Ä¡ ºñÆ®ºí¸´
-        StretchBlt(
-            hdc,
-            destX, destY,
-            destWidth, destHeight,
-            imageInfo->hMemDC,
-            srcX, srcY,
-            srcWidth, srcHeight,
-            SRCCOPY);
-    }
+	if (flip) {
+		srcX += srcWidth - 1;
+		srcWidth *= -1;
+	}
 
-    // ÀÓ½Ã DC º¹¿ø
-    SelectObject(imageInfo->hTempDC, imageInfo->hOldTemp);
+	imageInfo->hOldTemp = (HBITMAP)SelectObject(imageInfo->hTempDC, imageInfo->hTempBit);
+	
+	if (isTransparent) {
+		StretchBlt(
+			imageInfo->hTempDC,
+			0, 0,
+			abs(srcWidth), abs(srcHeight),
+			imageInfo->hMemDC,
+			srcX, srcY,
+			srcWidth, srcHeight,
+			SRCCOPY);
+
+		TransparentBlt(
+			hdc,
+			destX, destY,
+			destWidth, destHeight,
+			imageInfo->hTempDC,
+			0, 0,
+			abs(srcWidth), abs(srcHeight),
+			tansColor);
+	}
+	else {
+		StretchBlt(
+			hdc,
+			destX, destY,
+			destWidth, destHeight,
+			imageInfo->hMemDC,
+			srcX, srcY,
+			srcWidth, srcHeight,
+			SRCCOPY);
+	}
+
+	SelectObject(imageInfo->hTempDC, imageInfo->hOldTemp);
+
 }
 
-// ÀÌ¹ÌÁö ¸®¼Ò½º ÇØÁ¦ ÇÔ¼ö
+// ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ í•´ì œ í•¨ìˆ˜
 void Image::Release()
 {
     if (imageInfo) {
-        // ¸Þ¸ð¸® DC º¹¿ø ¹× ÇØÁ¦
+        // ë©”ëª¨ë¦¬ DC ë³µì› ë° í•´ì œ
         SelectObject(imageInfo->hMemDC, imageInfo->hOldBit);
         DeleteObject(imageInfo->hBitmap);
         DeleteDC(imageInfo->hMemDC);
 
-        // ÀÓ½Ã DC º¹¿ø ¹× ÇØÁ¦
+        // ìž„ì‹œ DC ë³µì› ë° í•´ì œ
         SelectObject(imageInfo->hTempDC, imageInfo->hOldTemp);
         DeleteObject(imageInfo->hTempBit);
         DeleteDC(imageInfo->hTempDC);
 
-        // ÀÌ¹ÌÁö Á¤º¸ ±¸Á¶Ã¼ ÇØÁ¦
+        // ì´ë¯¸ì§€ ì •ë³´ êµ¬ì¡°ì²´ í•´ì œ
         delete imageInfo;
         imageInfo = NULL;
     }
