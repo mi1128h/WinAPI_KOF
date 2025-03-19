@@ -43,7 +43,7 @@ public:
 	void Animate(float elpasedTime);
 	void Render(HDC hdc);
 
-	void Move();
+	void Move(float elapsedTime);
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
 	int GetFrameIdx() { return frameIdx; }

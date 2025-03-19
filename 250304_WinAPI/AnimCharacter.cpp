@@ -43,7 +43,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
-	Move();
+	Move(elapsedTime);
 
 	Animate(elapsedTime);
 
@@ -131,10 +131,10 @@ void AnimCharacter::Render(HDC hdc)
 	}
 }
 
-void AnimCharacter::Move()
+void AnimCharacter::Move(float elapsedTime)
 {
-	position.x += dx * speed;
-	position.y += dy * speed;
+	position.x += dx * speed * elapsedTime;
+	position.y += dy * speed * elapsedTime;
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 	if (dx > 0) flip = false;
 	if (dx < 0) flip = true;

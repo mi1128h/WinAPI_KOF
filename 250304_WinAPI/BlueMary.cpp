@@ -5,7 +5,7 @@
 void BlueMary::Init()
 {
 	position = { 0,0 };
-	speed = 10;
+	speed = 100;
 	dx = 0.0f;
 	dy = 0.0f;
 	hp = 10.0f;
