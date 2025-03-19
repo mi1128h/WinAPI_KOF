@@ -8,6 +8,9 @@ void AnimCharacter::Init()
 	speed = 10;
 	dx = 0.0f;
 	dy = 0.0f;
+	hp = 10.0f;
+	accumTime = 0.0f;
+	FPS = 10;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -39,11 +42,11 @@ void AnimCharacter::Release()
 	}
 }
 
-void AnimCharacter::Update()
+void AnimCharacter::Update(float elapsedTime)
 {
 	Move();
 
-	Animate();
+	Animate(elapsedTime);
 
 	ProcessInput();
 }
@@ -94,7 +97,7 @@ void AnimCharacter::ProcessInput()
 	SetDelta(deltaX, deltaY);
 }
 
-void AnimCharacter::Animate()
+void AnimCharacter::Animate(float elapsedTime)
 {
 	frameIdx++;
 	int imagesNum = vImages[curState].size();

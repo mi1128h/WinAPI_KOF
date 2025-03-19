@@ -27,7 +27,8 @@ protected:
 	float dx, dy;
 	float speed;
 	float hp;
-
+	float accumTime;
+	float FPS;
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
@@ -37,9 +38,9 @@ protected:
 public:
 	virtual void Init();
 	void Release();
-	void Update();
+	void Update(float elapsedTime);
 	void ProcessInput();
-	void Animate();
+	void Animate(float elpasedTime);
 	void Render(HDC hdc);
 
 	void Move();

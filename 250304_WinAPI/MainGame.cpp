@@ -4,6 +4,7 @@
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
 #include "BlueMary.h"
+#include "Timer.h"
 
 /*
 	실습1. 이오리 집에 보내기
@@ -25,7 +26,8 @@ void MainGame::Init()
 	KeyManager* km = KeyManager::GetInstance();
 	km->Init();
 
-
+	gameTimer = new Timer();
+	gameTimer->Init();
 }
 
 void MainGame::Release()
@@ -50,15 +52,16 @@ void MainGame::Release()
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
 
-
+	if (gameTimer) delete gameTimer;
 }
 
 void MainGame::Update()
 {
-	if (iori) iori->Update();
+	gameTimer->Tick();
+	float elapsedTime = gameTimer->GetElapsedTime();
+
+	if (iori) iori->Update(elapsedTime);
 	if (background) background->Update();
-
-
 }
 
 void MainGame::Render(HDC hdc)
@@ -125,6 +128,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		hdc = BeginPaint(g_hWnd, &ps);
 
 		Render(hdc);
+
+		// test. check elpasedTime
+		wsprintf(szText, L"ElapsedTime: %d", (int)gameTimer->GetElapsedTime());
+		TextOut(hdc, WINSIZE_X / 2, 0, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;
