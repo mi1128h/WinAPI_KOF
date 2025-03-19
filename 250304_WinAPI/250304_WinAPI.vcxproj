@@ -140,7 +140,6 @@
     </ClCompile>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="RoundManager.cpp" />
-    <ClCompile Include="SherCharacter.cpp" />
     <ClCompile Include="Tank.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +155,6 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="RoundManager.h" />
-    <ClInclude Include="SherCharacter.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Tank.h" />
   </ItemGroup>
