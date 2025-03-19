@@ -7,6 +7,7 @@ class RoundManager;
 class Image;
 class AnimCharacter;
 class AnimBackground;
+class Kim;
 class MainGame : public GameObject
 {
 private:
@@ -24,6 +25,7 @@ private:
 
 	Image* backBuffer;
 	AnimCharacter* iori;
+	Kim* kim;
 	AnimBackground* background;
 
 public:
