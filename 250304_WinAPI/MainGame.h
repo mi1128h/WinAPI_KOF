@@ -20,19 +20,13 @@ private:
 	vector<Enemy*> enemies;
 	int nDeadEnemies;
 
-	RoundManager* roundManager;
-
-<<<<<<< Updated upstream
-	Image* backBuffer;
-	AnimCharacter* iori;
-	AnimBackground* background;
-=======
     RoundManager* roundManager; // 게임의 라운드를 관리하는 객체
 
     Image* backBuffer;        // 백버퍼 (화면 깜빡임 방지용)
-    AnimCharacter* iori;      // 애니메이션 캐릭터 객체 (이오리)
+    AnimCharacter* Player1;      // 애니메이션 캐릭터 객체 (샐리)
+	AnimCharacter* Player2;
     AnimBackground* background; // 애니메이션 배경 객체
->>>>>>> Stashed changes
+
 
 public:
 	void Init();

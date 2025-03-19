@@ -30,19 +30,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>2D Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="MainGame.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="RoundManager.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Tank.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp">
@@ -57,30 +45,21 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BlueMary.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SherCharacter.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
     <ClCompile Include="Kyo.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueMary.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
       <Filter>2D Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="MainGame.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="RoundManager.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Tank.h">
       <Filter>MainGame</Filter>
     </ClInclude>
     <ClInclude Include="CommonFunction.h">
@@ -105,10 +84,13 @@
       <Filter>2D Framework</Filter>
     </ClInclude>
     <ClInclude Include="BlueMary.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
     <ClInclude Include="Kyo.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClInclude>
+    <ClInclude Include="SherCharacter.h">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

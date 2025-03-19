@@ -130,8 +130,6 @@
     <ClCompile Include="AnimBackground.cpp" />
     <ClCompile Include="AnimCharacter.cpp" />
     <ClCompile Include="BlueMary.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
@@ -140,25 +138,21 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="RoundManager.cpp" />
-    <ClCompile Include="Tank.cpp" />
+    <ClCompile Include="SherCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimBackground.h" />
     <ClInclude Include="AnimCharacter.h" />
     <ClInclude Include="BlueMary.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Kyo.h" />
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="RoundManager.h" />
+    <ClInclude Include="SherCharacter.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Tank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

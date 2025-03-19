@@ -5,7 +5,7 @@
 // 캐릭터 초기화 함수
 void SherCharacter::Init()
 {
-    position = { 400, WINSIZE_Y-200 };  // 초기 위치 설정
+    position = { respawnPlayer() };  // 초기 위치 설정
     speed = 10;          // 이동 속도 설정
     dx = 0.0f;           // X 방향 이동값 초기화
     dy = 0.0f;           // Y 방향 이동값 초기화
