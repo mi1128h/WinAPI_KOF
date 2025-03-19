@@ -5,21 +5,30 @@
 #include "AnimBackground.h"
 #include "BlueMary.h"
 #include "Kim.h"
+#include "SherCharacter.h"
+#include "Kyo.h"
 
 /*
-	½Ç½À1. ÀÌ¿À¸® Áý¿¡ º¸³»±â
-	½Ç½À2. ¹è°æ ¹Ù²Ù±â (Å·¿ÀÆÄ ¾Ö´Ï¸ÞÀÌ¼Ç ¹è°æ)
+	ï¿½Ç½ï¿½1. ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½Ç½ï¿½2. ï¿½ï¿½ï¿½ ï¿½Ù²Ù±ï¿½ (Å·ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½)
 */
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer »ý¼º ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", L"ï¿½ï¿½ï¿½", MB_OK);
 	}
 
-	iori = new Kim();
-	iori->Init();
+
+
+	Player1 = new SherCharacter();
+	Player1->setPlayer_Classification(true);
+	Player1->Init();
+
+	Player2 = new Kyo();
+	Player2->setPlayer_Classification(false);
+	Player2->Init();
 
 	background = new AnimBackground();
 	background->Init();
@@ -32,11 +41,18 @@ void MainGame::Init()
 
 void MainGame::Release()
 {
-	if (iori) {
-		iori->Release();
-		delete iori;
-		iori = NULL;
+	if (Player1) {
+		Player1->Release();
+		delete Player1;
+		Player1 = NULL;
 	}
+
+	if (Player2) {
+		Player2->Release();
+		delete Player2;
+		Player2 = NULL;
+	}
+
 	if (background) {
 		background->Release();
 		delete background;
@@ -51,37 +67,38 @@ void MainGame::Release()
 
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
-
-
 }
 
 void MainGame::Update()
 {
-	if (iori) iori->Update();
+	if (Player1) Player1->Update();
+	if (Player2) Player2->Update();
 	if (background) background->Update();
-
-
 }
 
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ¹é¹öÆÛ¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
 	if (background) {
 		background->Render(hBackBufferDC);
 	}
-	if (iori) {
-		iori->Render(hBackBufferDC);
+
+	if (Player1) {
+		Player1->Render(hBackBufferDC);
 	}
 
+	if (Player2) {
+		Player2->Render(hBackBufferDC);
+	}
 
-
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hdcï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	backBuffer->Render(hdc);
 }
+
 
 
 
@@ -101,13 +118,89 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
+#ifdef KEYDOWN
+
 	case WM_KEYDOWN:
+		switch (wParam) {
+		//case 'a': case 'A':
+		//	iori->SetDelta(-10, 0);
+		//	break;
+		//case 'd': case 'D':
+		//	iori->SetDelta(10, 0);
+		//	break;
+		//case 'w': case 'W':
+		//	iori->SetDelta(0, -10);
+		//	break;
+		//case 's': case 'S':
+		//	iori->SetDelta(0, 10);
+		//	break;
+		}
+#endif // KEYDOWN
+
+#ifdef TANKGAME
+		switch (wParam) {
+		case VK_ESCAPE:
+			if (roundManager->IsGameOver() or roundManager->IsGameClear())
+			{
+				KillTimer(hWnd, 0);
+				KillTimer(hWnd, 1);
+				Release();
+				PostQuitMessage(0);
+			}
+			break;
+		case 'a': case 'A':
+			tank->RotateBarrel(5);
+			break;
+		case 'd': case 'D':
+			tank->RotateBarrel(-5);
+			break;
+		case VK_SPACE:
+			tank->Skill(SkillType::Basic);
+			break;
+		case 'r': case 'R':
+			tank->Skill(SkillType::Bomb);
+			break;
+		case 'e': case 'E':
+			tank->Skill(SkillType::Bounce);
+			break;
+		case VK_LEFT:
+		case VK_RIGHT:
+		case VK_UP:
+		case VK_DOWN:
+			tank->ProccessMoveInput(wParam);
+			break;
+		case VK_RETURN:
+			if (roundManager->IsGameOver() or roundManager->IsGameClear())
+			{
+				RestartGame();
+			}
+			break;
+		}
+#endif
 
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
 	case WM_KEYUP:
 
+		switch (wParam) {
+		case 'a': case 'A':
+			Player1->SetDelta(0, 0);
+			Player2->SetDelta(0, 0);
+			break;
+		case 'd': case 'D':
+			Player1->SetDelta(0, 0);
+			Player2->SetDelta(0, 0);
+			break;
+		case 'w': case 'W':
+			Player1->SetDelta(0, 0);
+			Player2->SetDelta(0, 0);
+			break;
+		case 's': case 'S':
+			Player1->SetDelta(0, 0);
+			Player2->SetDelta(0, 0);
+			break;
+		}
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 

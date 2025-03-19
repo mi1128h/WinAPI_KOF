@@ -45,11 +45,14 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BlueMary.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SherCharacter.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
     <ClCompile Include="Kyo.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueMary.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
     <ClCompile Include="Kim.cpp">
       <Filter>소스 파일</Filter>
@@ -87,10 +90,13 @@
       <Filter>2D Framework</Filter>
     </ClInclude>
     <ClInclude Include="BlueMary.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
     <ClInclude Include="Kyo.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClInclude>
+    <ClInclude Include="SherCharacter.h">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
     <ClInclude Include="Kim.h">
       <Filter>소스 파일</Filter>

@@ -27,6 +27,7 @@ protected:
 	float dx, dy;
 	float speed;
 	float hp;
+	bool player_classification; // 플레이어 구분
 
 
 	vector<Image*> vImages[State::Statelength];
@@ -45,8 +46,6 @@ public:
 	void Move();
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
-
-
 	FPOINT GetPos() { return position; }
 	void SetPos(FPOINT Pos) { this->position = Pos; }  //
 
@@ -57,5 +56,12 @@ public:
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
 	void ChangeStateToIdle();
+
+	FPOINT respawnPlayer();
+
+	inline bool getPlayer_Classification() { return player_classification; }
+	inline void setPlayer_Classification(bool player_classification) 
+	{this->player_classification = player_classification;}
+
 };
 
