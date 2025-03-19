@@ -27,27 +27,27 @@ void Kyo::Init()
 
     Image* strongPunchImages = new Image();
     if (FAILED(strongPunchImages->Init(L"ImageKyo/Kyo_strongPunch.bmp", 928, 116, 8, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_strongKick 파일 로드에 실패", L"경고", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_strongPunch 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongHand].push_back(strongPunchImages); 
     
     
     Image* weakPunchImages = new Image();
     if (FAILED(weakPunchImages->Init(L"ImageKyo/Kyo_weakPunch.bmp", 530, 116, 5, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_strongKick 파일 로드에 실패", L"경고", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_weakPunch 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::WeakHand].push_back(weakPunchImages);
 
 
     Image* strongKickImages = new Image();
     if (FAILED(strongKickImages->Init(L"ImageKyo/Kyo_strongKick.bmp", 1463, 127, 11, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_strongKick 파일 로드에 실패", L"경고", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_strongKick 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongFoot].push_back(strongKickImages);
 
     Image* weakKickImages = new Image();
     if (FAILED(weakKickImages->Init(L"ImageKyo/Kyo_weakKick.bmp", 1413, 128, 9, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_strongKick 파일 로드에 실패", L"경고", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_weakKick 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
 
