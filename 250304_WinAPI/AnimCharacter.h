@@ -4,12 +4,11 @@
 enum State {
 	Idle,
 	Walk,
-	BackWalk,
+	WeakHand,
+	StrongHand,
+	WeakFoot,
+	StrongFoot,
 	Dead,
-	StrongKick,
-	StrongPunch,
-	WeakKick,
-	WeakPunch,
 	Statelength,
 };
 
@@ -20,7 +19,6 @@ protected:
 	FPOINT position;
 	float dx, dy;
 	float speed;
-	int size[2];
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
@@ -41,5 +39,6 @@ public:
 	FPOINT GetPos() { return position; }
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
+	void ChangeStateToIdle();
 };
 
