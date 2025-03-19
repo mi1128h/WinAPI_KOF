@@ -17,14 +17,16 @@ private:
 	vector<Image*> vImages[Stage::Stagelength];
 	Stage curStage;
 	int frameIdx;
+	float accumTime;
+	float animTime;
 
 	AnimCharacter* focusTarget;
 
 public:
 	void Init();
 	void Release();
-	void Update();
-	void Animate();
+	void Update(float elapsedTime);
+	void Animate(float elapsedTime);
 	void Render(HDC hdc);
 
 	FPOINT GetPos() { return position; }

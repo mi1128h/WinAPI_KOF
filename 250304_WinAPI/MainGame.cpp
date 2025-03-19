@@ -61,7 +61,7 @@ void MainGame::Update()
 	float elapsedTime = gameTimer->GetElapsedTime();
 
 	if (iori) iori->Update(elapsedTime);
-	if (background) background->Update();
+	if (background) background->Update(elapsedTime);
 }
 
 void MainGame::Render(HDC hdc)
@@ -128,14 +128,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		hdc = BeginPaint(g_hWnd, &ps);
 
 		Render(hdc);
-
-		// test. check elpasedTime
-		swprintf_s(szText, L"ElapsedTime: %f", gameTimer->GetElapsedTime());
-		TextOut(hdc, WINSIZE_X / 2, 0, szText, wcslen(szText));
-
-		// test. check frameIdx
-		wsprintf(szText, L"FrameIdx: %d", iori->GetFrameIdx());
-		TextOut(hdc, WINSIZE_X / 2, 20, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;

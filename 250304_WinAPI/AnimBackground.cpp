@@ -16,6 +16,9 @@ void AnimBackground::Init()
 	vImages[Stage::Stage1].push_back(background);
 	curStage = Stage::Stage1;
 	frameIdx = -1;
+
+	accumTime = 0.0f;
+	animTime = 2.0f;
 }
 
 void AnimBackground::Release()
@@ -29,23 +32,28 @@ void AnimBackground::Release()
 	}
 }
 
-void AnimBackground::Update()
+void AnimBackground::Update(float elapsedTime)
 {
-	Animate();
+	Animate(elapsedTime);
 }
 
-void AnimBackground::Animate()
+void AnimBackground::Animate(float elapsedTime)
 {
-	frameIdx++;
+	accumTime += elapsedTime;
 	int size = vImages[curStage].size();
 	if (size > 0) {
+		// get total frameNum
+		int framesNum{ 1 };
 		if (size != 1) {
-			frameIdx %= size;
+			framesNum = size;
 		}
 		else if (size == 1) {
 			int sn = vImages[curStage][0]->GetSpritesNumX() * vImages[curStage][0]->GetSpritesNumY();
-			frameIdx %= sn;
+			framesNum = sn;
 		}
+		// calculate frameIdx
+		int frame = accumTime * framesNum / animTime;
+		frameIdx = frame % framesNum;
 	}
 	else frameIdx = -1;
 }
