@@ -6,6 +6,7 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
+#include "SherCharacter.h"
 
 /*
 	실습1. 이오리 집에 보내기
@@ -18,8 +19,12 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
-	iori = new AnimCharacter();
-	iori->Init();
+
+	//sher = new SherCharacter();
+	//sher->Init();
+	sher = new SherCharacter();
+	sher->Init();
+
 
 	background = new AnimBackground();
 	background->Init();
@@ -38,15 +43,21 @@ void MainGame::Init()
 
 void MainGame::Release()
 {
-	if (iori) {
-		iori->Release();
-		delete iori;
-		iori = NULL;
+	/*if (sher) {
+		sher->Release();
+		delete sher;
+		sher = NULL;
+	}*/
+	if (sher) {
+		sher->Release();
+		delete sher;
+		sher = NULL;
 	}
+
 	if (background) {
 		background->Release();
-		delete iori;
-		iori = NULL;
+		delete sher;
+		sher = NULL;
 	}
 
 	if (backBuffer) {
@@ -74,7 +85,7 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
-	if (iori) iori->Update();
+	if (sher) sher->Update();
 	if (background) background->Update();
 
 #ifdef TANKGAME
@@ -131,8 +142,8 @@ void MainGame::Render(HDC hdc)
 	if (background) {
 		background->Render(hBackBufferDC);
 	}
-	if (iori) {
-		iori->Render(hBackBufferDC);
+	if (sher) {
+		sher->Render(hBackBufferDC);
 	}
 
 #ifdef TANKGAME
@@ -267,18 +278,18 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 	case WM_KEYDOWN:
 		switch (wParam) {
-		//case 'a': case 'A':
-		//	iori->SetDelta(-10, 0);
-		//	break;
-		//case 'd': case 'D':
-		//	iori->SetDelta(10, 0);
-		//	break;
-		//case 'w': case 'W':
-		//	iori->SetDelta(0, -10);
-		//	break;
-		//case 's': case 'S':
-		//	iori->SetDelta(0, 10);
-		//	break;
+		case 'a': case 'A':
+			sher->SetDelta(-10, 0);
+			break;
+		case 'd': case 'D':
+			sher->SetDelta(10, 0);
+			break;
+		case 'w': case 'W':
+			sher->SetDelta(0, -10);
+			break;
+		case 's': case 'S':
+			sher->SetDelta(0, 10);
+			break;
 		}
 #ifdef TANKGAME
 		switch (wParam) {
@@ -326,16 +337,16 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_KEYUP:
 		switch (wParam) {
 		case 'a': case 'A':
-			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 'd': case 'D':
-			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 'w': case 'W':
-			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		case 's': case 'S':
-			iori->SetDelta(0, 0);
+			sher->SetDelta(0, 0);
 			break;
 		}
 
