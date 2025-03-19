@@ -21,7 +21,8 @@ void UIManager::Init()
     }
     vUiImages[Ui::Advanced].push_back(advImages); 
     
-    Image* kyoImages = new Image();
+   
+    Image* kyoImages = new Image();  //테스트 쿄
     if (FAILED(kyoImages->Init(L"Image/ImageUI/Kyo_HpUI.bmp", 202*0.5, 190*0.5, 1, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Kyo_HpUI 파일 로드에 실패", L"경고", MB_OK);
     }
@@ -29,17 +30,23 @@ void UIManager::Init()
     
 
     float LeftRightImageSz = 1.2;
-    Image* leftImages = new Image();
+    Image* leftImages = new Image(); //테스트 왼쪽hp캐릭터 ui
     if (FAILED(leftImages->Init(L"Image/ImageUI/LeftUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"LeftUi 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::LeftUi].push_back(leftImages);
 
-    Image* rightImages = new Image();
+    Image* rightImages = new Image(); //테스트 오른쪽hp캐릭터 ui
     if (FAILED(rightImages->Init(L"Image/ImageUI/RightUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"RightUi 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::RightUi].push_back(rightImages);
+
+    Image* infinityUI = new Image(); //테스트 센터 시간무한 ui
+    if (FAILED(infinityUI->Init(L"Image/ImageUI/infinityUI.bmp", 268*0.5, 256*0.5, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"infinityUI 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::infinityUi].push_back(infinityUI);
 }
 
 void UIManager::Release()
@@ -60,11 +67,15 @@ void UIManager::Render(HDC hdc)
   
     UIManager::HpRender(hdc);
     UIManager::advRender(hdc);
-//    vUiImages[KyoUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
-    
+    UIManager::SteminaRender(hdc);
+
     //left, right Character UI
     vUiImages[Ui::LeftUi][0]-> Render(hdc, 20, 5, -1, -1, frameIdx, 0);
     vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
+
+
+    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 - 60, 0, -1, -1, frameIdx, 1);
+//    vUiImages[KyoUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
 }
 
 
@@ -124,6 +135,39 @@ void UIManager::HpRender(HDC hdc)
 
     //반대로 차게
     Rectangle(hdc, enemyBarX + (barWidth - (int)(barWidth * (enemyHP / 10.0f))),
+        paddingY,
+        enemyBarX + barWidth,
+        paddingY + barHeight);
+
+    SelectObject(hdc, oldBrush);
+    DeleteObject(hBrush);
+
+}
+
+void UIManager::SteminaRender(HDC hdc)
+{
+    int barWidth = 300;
+    int barHeight = 20;
+    int paddingX = 50;
+    int paddingY = 50;
+
+    // 플레이어 HP 바 (왼쪽)
+    Rectangle(hdc, paddingX, paddingY, paddingX + barWidth, paddingY + barHeight);
+    HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 0)); // 초록색 (플레이어)
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+    Rectangle(hdc, paddingX, paddingY, paddingX + (int)(barWidth * (playerStamina / 10.0f)), paddingY + barHeight);
+    SelectObject(hdc, oldBrush);
+    DeleteObject(hBrush);
+
+
+    // 플레이어 HP바(오른쪽)
+    int enemyBarX = WINSIZE_X - barWidth - paddingX;
+    Rectangle(hdc, enemyBarX, paddingY, enemyBarX + barWidth, paddingY + barHeight);
+    hBrush = CreateSolidBrush(RGB(255, 255, 0));
+    oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+
+    //반대로 차게
+    Rectangle(hdc, enemyBarX + (barWidth - (int)(barWidth * (enemyStamina / 10.0f))),
         paddingY,
         enemyBarX + barWidth,
         paddingY + barHeight);

@@ -10,6 +10,7 @@ enum Ui {
     KyoUi,
     LeftUi,
     RightUi,
+    infinityUi,
     Uilength,
 };
 
@@ -25,6 +26,8 @@ public:
     void advRender(HDC hdc);
     void HpRender(HDC hdc);
 
+    void SteminaRender(HDC hdc);
+
 
     void SetPlayerHP(float hp) { playerHP = hp; }
     void SetEnemyHP(float hp) { enemyHP = hp; }
@@ -39,7 +42,9 @@ private:
     float maxHP = 10;
     float playerHP = 10;
     float enemyHP = 10;
-    
+    float playerStamina = 3.f;
+    float enemyStamina = 3.f;
+
     int frameIdx;
     Ui curUi;
 
