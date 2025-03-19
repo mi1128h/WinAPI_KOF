@@ -1,54 +1,49 @@
 #pragma once
 #include "GameObject.h"
 
-// ìºë¦­í„° ìƒíƒœ ì—´ê±°í˜•
+// Ä³¸¯ÅÍ »óÅÂ ¿­°ÅÇü
 enum State {
-	Idle,
-	Walk,
-	WeakHand,
-	StrongHand,
-	WeakFoot,
-	StrongFoot,
-	Dead,
-	Statelength
+	Idle,         // ´ë±â »óÅÂ
+	Walk,         // °È±â »óÅÂ
+	Dead,         // »ç¸Á »óÅÂ
+	Statelength   // »óÅÂ ÃÑ °³¼ö
 };
 
-class Image;  // Image í´ë˜ìŠ¤ ì „ë°© ì„ ì–¸
+class Image;  // Image Å¬·¡½º Àü¹æ ¼±¾ğ
 
-// ì• ë‹ˆë©”ì´ì…˜ ìºë¦­í„° í´ë˜ìŠ¤ - GameObjectë¥¼ ìƒì†ë°›ìŒ
+// ¾Ö´Ï¸ŞÀÌ¼Ç Ä³¸¯ÅÍ Å¬·¡½º - GameObject¸¦ »ó¼Ó¹ŞÀ½
 class AnimCharacter : public GameObject
 {
 protected:
-	FPOINT position;
-	float dx, dy;
-	float speed;
+	FPOINT position;  // Ä³¸¯ÅÍ À§Ä¡ (ºÎµ¿ ¼Ò¼öÁ¡ ÁÂÇ¥)
+	float dx, dy;     // ÀÌµ¿ ¹æÇâ ¹× ¼Óµµ °ª
+	float speed;      // ÀÌµ¿ ¼Óµµ
+	int size[2];      // Ä³¸¯ÅÍ Å©±â [³Êºñ, ³ôÀÌ]
 
-
-	vector<Image*> vImages[State::Statelength];  // ê° ìƒíƒœë³„ ì´ë¯¸ì§€ ë²¡í„° ë°°ì—´
-	State curState;   // í˜„ì¬ ìºë¦­í„° ìƒíƒœ
-	int frameIdx;     // í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ ì¸ë±ìŠ¤
-	bool flip;        // ì¢Œìš° ë°˜ì „ ì—¬ë¶€
+	vector<Image*> vImages[State::Statelength];  // °¢ »óÅÂº° ÀÌ¹ÌÁö º¤ÅÍ ¹è¿­
+	State curState;   // ÇöÀç Ä³¸¯ÅÍ »óÅÂ
+	int frameIdx;     // ÇöÀç ¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ ÀÎµ¦½º
+	bool flip;        // ÁÂ¿ì ¹İÀü ¿©ºÎ
 
 public:
-	virtual void Init();          // ì´ˆê¸°í™” í•¨ìˆ˜ (ê°€ìƒ í•¨ìˆ˜)
-	void Release();               // ìì› í•´ì œ í•¨ìˆ˜
-	void Update();                // ì—…ë°ì´íŠ¸ í•¨ìˆ˜
-	void ProcessInput();          // ì…ë ¥ ì²˜ë¦¬ í•¨ìˆ˜
-	void Animate();               // ì• ë‹ˆë©”ì´ì…˜ ì—…ë°ì´íŠ¸ í•¨ìˆ˜
-	void Render(HDC hdc);         // ë Œë”ë§ í•¨ìˆ˜
-	void Move();                  // ìºë¦­í„° ì´ë™ í•¨ìˆ˜
+	virtual void Init();          // ÃÊ±âÈ­ ÇÔ¼ö (°¡»ó ÇÔ¼ö)
+	void Release();               // ÀÚ¿ø ÇØÁ¦ ÇÔ¼ö
+	void Update();                // ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+	void ProcessInput();          // ÀÔ·Â Ã³¸® ÇÔ¼ö
+	void Animate();               // ¾Ö´Ï¸ŞÀÌ¼Ç ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+	void Render(HDC hdc);         // ·»´õ¸µ ÇÔ¼ö
+	void Move();                  // Ä³¸¯ÅÍ ÀÌµ¿ ÇÔ¼ö
 
-	// ì´ë™ ë°©í–¥ ì„¤ì • í•¨ìˆ˜
+	// ÀÌµ¿ ¹æÇâ ¼³Á¤ ÇÔ¼ö
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
-	// í˜„ì¬ ìœ„ì¹˜ ë°˜í™˜ í•¨ìˆ˜
+	// ÇöÀç À§Ä¡ ¹İÈ¯ ÇÔ¼ö
 	FPOINT GetPos() { return position; }
 
-	// í˜„ì¬ ìƒíƒœ ë°˜í™˜ í•¨ìˆ˜
+	// ÇöÀç »óÅÂ ¹İÈ¯ ÇÔ¼ö
 	State GetState() { return curState; }
 
-	// ìƒíƒœ ì„¤ì • í•¨ìˆ˜ - ê°™ì€ ìƒíƒœë©´ ë¬´ì‹œ, ë‹¤ë¥¸ ìƒíƒœë©´ í”„ë ˆì„ ì´ˆê¸°í™”
+	// »óÅÂ ¼³Á¤ ÇÔ¼ö - °°Àº »óÅÂ¸é ¹«½Ã, ´Ù¸¥ »óÅÂ¸é ÇÁ·¹ÀÓ ÃÊ±âÈ­
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
-	void ChangeStateToIdle();
 };
 

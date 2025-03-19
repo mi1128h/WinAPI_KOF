@@ -2,157 +2,189 @@
 #include "Image.h"
 #include "CommonFunction.h"
 
-// ìºë¦­í„° ì´ˆê¸°í™” í•¨ìˆ˜
+// Ä³¸¯ÅÍ ÃÊ±âÈ­ ÇÔ¼ö
 void AnimCharacter::Init()
 {
-	position = { 0,0 };
-	speed = 10;
-	dx = 0.0f;
-	dy = 0.0f;
+    position = { 0,0 };  // ÃÊ±â À§Ä¡ ¼³Á¤
+    speed = 10;          // ÀÌµ¿ ¼Óµµ ¼³Á¤
+    dx = 0.0f;           // X ¹æÇâ ÀÌµ¿°ª ÃÊ±âÈ­
+    dy = 0.0f;           // Y ¹æÇâ ÀÌµ¿°ª ÃÊ±âÈ­
 
-	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
+    // ¸ğµç »óÅÂº° ÀÌ¹ÌÁö º¤ÅÍ ÃÊ±âÈ­
+    for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
-	Image* idleImages = new Image();
-	if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_idle íŒŒì¼ ë¡œë“œì— ì‹¤íŒ¨", L"ê²½ê³ ", MB_OK);
-	}
-	vImages[State::Idle].push_back(idleImages);
+    // ´ë±â(Idle) »óÅÂ ÀÌ¹ÌÁö ·Îµå
+    Image* idleImages = new Image();
+    if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"iori_idle ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
+    }
+    vImages[State::Idle].push_back(idleImages);
 
-	Image* walkImages = new Image();
-	if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_walk íŒŒì¼ ë¡œë“œì— ì‹¤íŒ¨", L"ê²½ê³ ", MB_OK);
-	}
-	vImages[State::Walk].push_back(walkImages);
+    // °È±â(Walk) »óÅÂ ÀÌ¹ÌÁö ·Îµå
+    Image* walkImages = new Image();
+    if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"iori_walk ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
+    }
+    vImages[State::Walk].push_back(walkImages);
 
-	curState = State::Idle;
-	frameIdx = 0;
-	flip = false;
+    // ÃÊ±â »óÅÂ ¹× ÇÁ·¹ÀÓ ¼³Á¤
+    curState = State::Idle;  // ÃÊ±â »óÅÂ´Â ´ë±â
+    frameIdx = 0;            // ÇÁ·¹ÀÓ ÀÎµ¦½º ÃÊ±âÈ­
+    flip = false;            // ÁÂ¿ì ¹İÀü ¾øÀ½
 
+    // Ä³¸¯ÅÍ Å©±â °è»ê (Ã¹ ¹øÂ° Idle ÀÌ¹ÌÁö ±âÁØ)
+    Image* img = vImages[State::Idle][0];
+    size[0] = img->GetWidth() / img->GetSpritesNumX();     // ³Êºñ °è»ê
+    size[1] = img->GetHeight() / img->GetSpritesNumY();    // ³ôÀÌ °è»ê
 }
 
-// ìì› í•´ì œ í•¨ìˆ˜
+// ÀÚ¿ø ÇØÁ¦ ÇÔ¼ö
 void AnimCharacter::Release()
 {
-    // ëª¨ë“  ìƒíƒœì˜ ëª¨ë“  ì´ë¯¸ì§€ ë©”ëª¨ë¦¬ í•´ì œ
+    // ¸ğµç »óÅÂÀÇ ¸ğµç ÀÌ¹ÌÁö ¸Ş¸ğ¸® ÇØÁ¦
     for (auto images : vImages) {
         for (auto i : images) {
-            i->Release();   // ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ í•´ì œ
-            delete i;       // ë™ì  í• ë‹¹ ë©”ëª¨ë¦¬ í•´ì œ
-            i = NULL;       // í¬ì¸í„° ì´ˆê¸°í™”
+            i->Release();   // ÀÌ¹ÌÁö ¸®¼Ò½º ÇØÁ¦
+            delete i;       // µ¿Àû ÇÒ´ç ¸Ş¸ğ¸® ÇØÁ¦
+            i = NULL;       // Æ÷ÀÎÅÍ ÃÊ±âÈ­
         }
     }
 }
 
-// ì—…ë°ì´íŠ¸ í•¨ìˆ˜
+// ¾÷µ¥ÀÌÆ® ÇÔ¼ö
 void AnimCharacter::Update()
 {
-
-	Move();
-
-	Animate();
-
-	ProcessInput();
-
+    Move();         // ÀÌµ¿ Ã³¸®
+    ProcessInput(); // ÀÔ·Â Ã³¸®
+    Animate();      // ¾Ö´Ï¸ŞÀÌ¼Ç Ã³¸®
 }
 
-// ì…ë ¥ ì²˜ë¦¬ í•¨ìˆ˜
+// ÀÔ·Â Ã³¸® ÇÔ¼ö
 void AnimCharacter::ProcessInput()
 {
+    KeyManager* km = KeyManager::GetInstance();  // Å° ¸Å´ÏÀú ½Ì±ÛÅæ ÀÎ½ºÅÏ½º È¹µæ
+    int deltaX{}, deltaY{};  // ÀÌµ¿ ¹æÇâ ÃÊ±âÈ­
 
-	KeyManager* km = KeyManager::GetInstance();
-	int deltaX{}, deltaY{};
+    // ÇöÀç »óÅÂ¿¡ µû¸¥ ÀÔ·Â Ã³¸®
+    switch (curState) {
+    case State::Idle:  // ´ë±â »óÅÂÀÏ ¶§
+        // AÅ°¸¦ ´­·¶À» ¶§ ¿ŞÂÊÀ¸·Î ÀÌµ¿
+        if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
+            deltaX -= 1;
+        }
+        // DÅ°¸¦ ´­·¶À» ¶§ ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+        if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
+            deltaX += 1;
+        }
+        // XÃà ÀÌµ¿ÀÌ ÀÖÀ¸¸é °È±â »óÅÂ·Î º¯°æ
+        if (deltaX != 0) SetState(State::Walk);
+        break;
 
-	bool WeakHand = (km->IsOnceKeyDown('u') or km->IsOnceKeyDown('U'));
-	bool StrongHand = (km->IsOnceKeyDown('i') or km->IsOnceKeyDown('I'));
-	bool WeakFoot = (km->IsOnceKeyDown('j') or km->IsOnceKeyDown('J'));
-	bool StrongFoot = (km->IsOnceKeyDown('k') or km->IsOnceKeyDown('K'));
+    case State::Walk:  // °È±â »óÅÂÀÏ ¶§
+        // AÅ°¸¦ ´©¸£°í ÀÖÀ¸¸é ¿ŞÂÊÀ¸·Î ÀÌµ¿
+        if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
+            deltaX -= 1;
+        }
+        // DÅ°¸¦ ´©¸£°í ÀÖÀ¸¸é ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+        if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
+            deltaX += 1;
+        }
+        // XÃà ÀÌµ¿ÀÌ ¾øÀ¸¸é ´ë±â »óÅÂ·Î º¯°æ
+        if (deltaX == 0) SetState(State::Idle);
+        break;
 
-	switch (curState) {
-	case State::Idle:
-		if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
-			deltaX -= 1;
-		}
-		if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
-			deltaX += 1;
-		}
-		if (deltaX != 0) SetState(State::Walk);
+    case State::W_punch:  // ¾à ÆİÄ¡ »óÅÂ
+        if (km->IsStayKeyDown('u') or km->IsStayKeyDown('U')) {
+            deltaX -= 1;
+        }
 
-		if (WeakHand) SetState(State::WeakHand);
-		if (StrongHand) SetState(State::StrongHand);
-		if (WeakFoot) SetState(State::WeakFoot);
-		if (StrongFoot) SetState(State::StrongFoot);
-		break;
-	case State::Walk:
-		if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
-			deltaX -= 1;
-		}
-		if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
-			deltaX += 1;
-		}
-		if (deltaX == 0) SetState(State::Idle);
+        // XÃà ÀÌµ¿ÀÌ ¾øÀ¸¸é ´ë±â »óÅÂ·Î º¯°æ
+        if (deltaX == 0) SetState(State::Idle);
+        break;
 
-		if (WeakHand) SetState(State::WeakHand);
-		if (StrongHand) SetState(State::StrongHand);
-		if (WeakFoot) SetState(State::WeakFoot);
-		if (StrongFoot) SetState(State::StrongFoot);
-		break;
-	case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-		break;
-	}
+    case State::S_punch:  // °­ ÆİÄ¡ »óÅÂÀÏ ¶§
+        if (km->IsStayKeyDown('i') or km->IsStayKeyDown('I')) {
+            deltaX -= 1;
+        }
+     
+        
+        if (deltaX == 0) SetState(State::Idle);
+        break;
 
-	SetDelta(deltaX, deltaY);
+    case State::W_kick:  // ¾à Å± »óÅÂÀÏ ¶§
+        if (km->IsStayKeyDown('j') or km->IsStayKeyDown('J')) {
+            deltaX -= 1;
+        }
+        
+        
+        // XÃà ÀÌµ¿ÀÌ ¾øÀ¸¸é ´ë±â »óÅÂ·Î º¯°æ
+        if (deltaX == 0) SetState(State::Idle);
+        break;
 
+    case State::S_kick:  // °­ Å± »óÅÂÀÏ ¶§
+        if (km->IsStayKeyDown('k') or km->IsStayKeyDown('K')) {
+            deltaX -= 1;
+        }
+       
+        
+        if (deltaX == 0) SetState(State::Idle);
+        break;
+
+    case State::Dead:  // »ç¸Á »óÅÂÀÏ ¶§
+        break;  // ¾Æ¹« Ã³¸® ¾øÀ½
+    }
+
+    // ÀÌµ¿ ¹æÇâ ¼³Á¤
+    SetDelta(deltaX, deltaY);
 }
 
-// ì• ë‹ˆë©”ì´ì…˜ ì²˜ë¦¬ í•¨ìˆ˜
+// ¾Ö´Ï¸ŞÀÌ¼Ç Ã³¸® ÇÔ¼ö
 void AnimCharacter::Animate()
 {
-	frameIdx++;
-	int imagesNum = vImages[curState].size();
-	if (imagesNum > 0) {
-		int framesNum{ 1 };
-		if (imagesNum != 1) {
-			framesNum = imagesNum;
-		}
-		else if (imagesNum == 1) {
-			int sn = vImages[curState][0]->GetSpritesNumX() * vImages[curState][0]->GetSpritesNumY();
-			framesNum = sn;
-		}
-		if (frameIdx == framesNum) ChangeStateToIdle();
-		frameIdx %= framesNum;
-	}
-	else frameIdx = -1;
+    frameIdx++;  // ÇÁ·¹ÀÓ ÀÎµ¦½º Áõ°¡
 
+    int imagesNum = vImages[curState].size();  // ÇöÀç »óÅÂÀÇ ÀÌ¹ÌÁö °³¼ö
+    if (imagesNum > 0) {
+        if (imagesNum != 1) {
+            // ¿©·¯ ÀÌ¹ÌÁö·Î ±¸¼ºµÈ ¾Ö´Ï¸ŞÀÌ¼ÇÀÎ °æ¿ì
+            frameIdx %= imagesNum;  // ÀÌ¹ÌÁö °³¼ö¿¡ ¸Â°Ô ÀÎµ¦½º ¼øÈ¯
+        }
+        else if (imagesNum == 1) {
+            // ´ÜÀÏ ÀÌ¹ÌÁöÀÇ ½ºÇÁ¶óÀÌÆ® ¾Ö´Ï¸ŞÀÌ¼ÇÀÎ °æ¿ì
+            int sn = vImages[curState][0]->GetSpritesNumX() * vImages[curState][0]->GetSpritesNumY();  // ÃÑ ½ºÇÁ¶óÀÌÆ® ¼ö °è»ê
+            frameIdx %= sn;  // ½ºÇÁ¶óÀÌÆ® ¼ö¿¡ ¸Â°Ô ÀÎµ¦½º ¼øÈ¯
+        }
+    }
+    else frameIdx = -1;  // ÀÌ¹ÌÁö°¡ ¾øÀ¸¸é ÇÁ·¹ÀÓ ÀÎµ¦½º ÃÊ±âÈ­
 }
 
-// ë Œë”ë§ í•¨ìˆ˜
+// ·»´õ¸µ ÇÔ¼ö
 void AnimCharacter::Render(HDC hdc)
 {
-	if (frameIdx == -1) return;
-	int imagesNum = vImages[curState].size();
-	if (imagesNum == 1) {
-		vImages[curState][0]->Render(hdc, position.x, position.y, -1, -1, frameIdx, flip);
-	}
-	else {
-		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
-	}
+    if (frameIdx == -1) return;  // À¯È¿ÇÑ ÇÁ·¹ÀÓÀÌ ¾øÀ¸¸é ·»´õ¸µ Áß´Ü
 
+    int imagesNum = vImages[curState].size();  // ÇöÀç »óÅÂÀÇ ÀÌ¹ÌÁö °³¼ö
+    if (imagesNum == 1) {
+        // ´ÜÀÏ ÀÌ¹ÌÁöÀÎ °æ¿ì (½ºÇÁ¶óÀÌÆ®½ÃÆ®)
+        vImages[curState][0]->Render(hdc, position.x, position.y, size[0], size[1], frameIdx, flip);
+    }
+    else {
+        // ¿©·¯ ÀÌ¹ÌÁöÀÎ °æ¿ì
+        vImages[curState][frameIdx]->Render(hdc, position.x, position.y, size[0], size[1], 0, flip);
+    }
 }
 
-// ì´ë™ ì²˜ë¦¬ í•¨ìˆ˜
+// ÀÌµ¿ Ã³¸® ÇÔ¼ö
 void AnimCharacter::Move()
 {
+    // À§Ä¡ ¾÷µ¥ÀÌÆ®
+    position.x += dx * speed;  // X À§Ä¡ ¾÷µ¥ÀÌÆ®
+    position.y += dy * speed;  // Y À§Ä¡ ¾÷µ¥ÀÌÆ®
 
-	position.x += dx * speed;
-	position.y += dy * speed;
-	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
-	if (dx > 0) flip = false;
-	if (dx < 0) flip = true;
-}
+    // Y À§Ä¡¸¦ È­¸é ³ôÀÌ ³»·Î Á¦ÇÑ
+    position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 
-void AnimCharacter::ChangeStateToIdle()
-{
-	if (curState != State::Idle and curState != State::Walk and curState != State::Dead) {
-		SetState(State::Idle);
-	}
+    // ÀÌµ¿ ¹æÇâ¿¡ µû¸¥ ÁÂ¿ì ¹İÀü ¼³Á¤
+    if (dx > 0) flip = false;  // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÏ¸é ¹İÀü ¾øÀ½
+    if (dx < 0) flip = true;   // ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÏ¸é ¹İÀü
 }
