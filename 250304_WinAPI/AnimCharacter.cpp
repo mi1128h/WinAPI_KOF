@@ -6,7 +6,7 @@
 void AnimCharacter::Init()
 {
     position = { 0,0 };  // 초기 위치 설정
-    speed = 5;          // 이동 속도 설정
+    speed = 10;          // 이동 속도 설정
     dx = 0.0f;           // X 방향 이동값 초기화
     dy = 0.0f;           // Y 방향 이동값 초기화
 
@@ -90,6 +90,43 @@ void AnimCharacter::ProcessInput()
             deltaX += 1;
         }
         // X축 이동이 없으면 대기 상태로 변경
+        if (deltaX == 0) SetState(State::Idle);
+        break;
+
+    case State::W_punch:  // 약 펀치 상태
+        if (km->IsStayKeyDown('u') or km->IsStayKeyDown('U')) {
+            deltaX -= 1;
+        }
+
+        // X축 이동이 없으면 대기 상태로 변경
+        if (deltaX == 0) SetState(State::Idle);
+        break;
+
+    case State::S_punch:  // 강 펀치 상태일 때
+        if (km->IsStayKeyDown('i') or km->IsStayKeyDown('I')) {
+            deltaX -= 1;
+        }
+     
+        
+        if (deltaX == 0) SetState(State::Idle);
+        break;
+
+    case State::W_kick:  // 약 킥 상태일 때
+        if (km->IsStayKeyDown('j') or km->IsStayKeyDown('J')) {
+            deltaX -= 1;
+        }
+        
+        
+        // X축 이동이 없으면 대기 상태로 변경
+        if (deltaX == 0) SetState(State::Idle);
+        break;
+
+    case State::S_kick:  // 강 킥 상태일 때
+        if (km->IsStayKeyDown('k') or km->IsStayKeyDown('K')) {
+            deltaX -= 1;
+        }
+       
+        
         if (deltaX == 0) SetState(State::Idle);
         break;
 

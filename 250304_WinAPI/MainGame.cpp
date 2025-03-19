@@ -20,8 +20,9 @@ void MainGame::Init()
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
 
-	//sher = new SherCharacter();
-	//sher->Init();
+	iori = new AnimCharacter();
+	iori->Init();
+
 	sher = new SherCharacter();
 	sher->Init();
 
@@ -43,11 +44,12 @@ void MainGame::Init()
 
 void MainGame::Release()
 {
-	/*if (sher) {
-		sher->Release();
-		delete sher;
-		sher = NULL;
-	}*/
+	if (iori) {
+		iori->Release();
+		delete iori;
+		iori = NULL;
+	}
+
 	if (sher) {
 		sher->Release();
 		delete sher;
@@ -85,6 +87,7 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
+	if (iori) iori->Update();
 	if (sher) sher->Update();
 	if (background) background->Update();
 
@@ -144,6 +147,9 @@ void MainGame::Render(HDC hdc)
 	}
 	if (sher) {
 		sher->Render(hBackBufferDC);
+	}
+	if (iori) {
+		iori->Render(hBackBufferDC);
 	}
 
 #ifdef TANKGAME
@@ -279,16 +285,20 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case 'a': case 'A':
-			sher->SetDelta(-10, 0);
+			iori->SetDelta(-1, 0);
+			sher->SetDelta(-1, 0);
 			break;
 		case 'd': case 'D':
-			sher->SetDelta(10, 0);
+			iori->SetDelta(1, 0);
+			sher->SetDelta(1, 0);
 			break;
 		case 'w': case 'W':
-			sher->SetDelta(0, -10);
+			iori->SetDelta(0, -1);
+			sher->SetDelta(0, -1);
 			break;
 		case 's': case 'S':
-			sher->SetDelta(0, 10);
+			iori->SetDelta(0, 1);
+			sher->SetDelta(0, 1);
 			break;
 		}
 #ifdef TANKGAME
@@ -337,15 +347,19 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_KEYUP:
 		switch (wParam) {
 		case 'a': case 'A':
+			iori->SetDelta(0, 0);
 			sher->SetDelta(0, 0);
 			break;
 		case 'd': case 'D':
+			iori->SetDelta(0, 0);
 			sher->SetDelta(0, 0);
 			break;
 		case 'w': case 'W':
+			iori->SetDelta(0, 0);
 			sher->SetDelta(0, 0);
 			break;
 		case 's': case 'S':
+			iori->SetDelta(0, 0);
 			sher->SetDelta(0, 0);
 			break;
 		}

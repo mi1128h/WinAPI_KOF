@@ -27,6 +27,34 @@ void SherCharacter::Init()
     }
     vImages[State::Walk].push_back(walkImages);
 
+    // 약펀치 공격
+    Image* weakPunchImages = new Image();
+    if (FAILED(walkImages->Init(L"Image/sher_weak_punch_attack_F6.bmp", 1070, 148, 6, 1, true, RGB(255, 255, 255)))) {
+        MessageBox(g_hWnd, L"sher_weak_punch_attack_F6 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vImages[State::W_punch].push_back(walkImages);
+
+    // 강펀치 공격
+    Image* strongPunchImages = new Image();
+    if (FAILED(walkImages->Init(L"Image/sher_strong_punch_attack_F12.bmp", 2135, 148, 12, 1, true, RGB(255, 255, 255)))) {
+        MessageBox(g_hWnd, L"sher_weak_strong_attack_F12 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vImages[State::S_punch].push_back(walkImages);
+
+    // 약킥 공격
+    Image* weakKickImages = new Image();
+    if (FAILED(walkImages->Init(L"Image/sher_weak_kick_attack_F12.bmp", 1552, 148, 12, 1, true, RGB(255, 255, 255)))) {
+        MessageBox(g_hWnd, L"sher_weak_kick_attack_F12 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vImages[State::W_kick].push_back(walkImages);
+
+    // 강킥 공격
+    Image* strongKickImages = new Image();
+    if (FAILED(walkImages->Init(L"Image/sher_strong_kick_attack_F11.bmp", 1420, 148, 11, 1, true, RGB(255, 255, 255)))) {
+        MessageBox(g_hWnd, L"sher_strong_kick_attack_F11 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vImages[State::S_kick].push_back(walkImages);
+
     // 초기 상태 및 프레임 설정
     curState = State::Idle;  // 초기 상태는 대기
     frameIdx = 0;            // 프레임 인덱스 초기화
