@@ -6,10 +6,7 @@
 #include "Kyo.h"
 #include "Timer.h"
 
-/*
-	실습1. 이오리 집에 보내기
-	실습2. 배경 바꾸기 (킹오파 애니메이션 배경)
-*/
+
 
 void MainGame::Init()
 {
@@ -28,6 +25,9 @@ void MainGame::Init()
 
 	gameTimer = new Timer();
 	gameTimer->Init();
+	UIManager* ui = UIManager::GetInstance();
+	ui->Init();
+
 }
 
 void MainGame::Release()
@@ -53,10 +53,14 @@ void MainGame::Release()
 	if (km) km->Release();
 
 	if (gameTimer) delete gameTimer;
+	UIManager* ui = UIManager::GetInstance();
+	if (ui) ui->Release();
+
 }
 
 void MainGame::Update()
 {
+
 	float elapsedTime{};
 	if (gameTimer) {
 		gameTimer->Tick();
@@ -65,6 +69,11 @@ void MainGame::Update()
 
 	if (iori) iori->Update(elapsedTime);
 	if (background) background->Update(elapsedTime);
+
+
+	UIManager* ui = UIManager::GetInstance();
+	if (ui) ui->Update(iori, iori);
+
 }
 
 void MainGame::Render(HDC hdc)
@@ -81,7 +90,8 @@ void MainGame::Render(HDC hdc)
 		iori->Render(hBackBufferDC);
 	}
 
-
+	UIManager* ui = UIManager::GetInstance();
+	if(ui) ui->Render(hBackBufferDC);
 
 	// 백버퍼에 있는 내용을 메인 hdc에 복사
 	backBuffer->Render(hdc);

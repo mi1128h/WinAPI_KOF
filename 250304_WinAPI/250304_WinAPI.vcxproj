@@ -133,12 +133,15 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Kim.cpp" />
     <ClCompile Include="Kyo.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimBackground.h" />
@@ -149,10 +152,13 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="Kim.h" />
     <ClInclude Include="Kyo.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIManager.h" />
+
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
