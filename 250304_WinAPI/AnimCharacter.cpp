@@ -12,6 +12,7 @@ void AnimCharacter::Init()
 
 	dx = 0.0f;
 	dy = 0.0f;
+	size = 2.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
 
@@ -148,10 +149,10 @@ void AnimCharacter::Render(HDC hdc)
 	if (frameIdx == -1) return;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum == 1) {
-		vImages[curState][0]->RenderCenter(hdc, position.x, position.y, -1, -1, frameIdx, flip, offset);
+		vImages[curState][0]->RenderCenter(hdc, position.x, position.y, size, size, frameIdx, flip, offset);
 	}
 	else if (imagesNum > 1) {
-		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, -1, -1, 0, flip, offset);
+		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, size, size, 0, flip, offset);
 	}
 	// test Ellipse for position
 	RenderEllipseAtCenter(hdc, position.x, position.y, 10, 10);

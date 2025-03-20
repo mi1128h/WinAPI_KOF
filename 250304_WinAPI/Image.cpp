@@ -129,7 +129,7 @@ void Image::Render(HDC hdc, int destX, int destY, int destWidth, int destHeight,
 	SelectObject(imageInfo->hTempDC, imageInfo->hOldTemp);
 }
 
-void Image::RenderCenter(HDC hdc, int destX, int destY, int destWidth, int destHeight, int frameIndex, bool flip, int offset)
+void Image::RenderCenter(HDC hdc, int destX, int destY, int sizeX, int sizeY, int frameIndex, bool flip, int offset)
 {
 	int x = frameIndex % imageInfo->spritesNum[0];
 	int y = frameIndex / imageInfo->spritesNum[0];
@@ -141,8 +141,12 @@ void Image::RenderCenter(HDC hdc, int destX, int destY, int destWidth, int destH
 	srcWidth = imageInfo->width / imageInfo->spritesNum[0] ;
 	srcHeight = imageInfo->height / imageInfo->spritesNum[1] ;
 
-	if (destWidth == -1) destWidth = srcWidth * 2.f;
-	if (destHeight == -1) destHeight = srcHeight * 2.f;
+	int destWidth = srcWidth;
+	int destHeight = srcHeight;
+
+	if (sizeX > 0) destWidth *= sizeX;
+	if (sizeY > 0) destHeight *= sizeY;
+	if (sizeY > 0) offset *= sizeY;
 	
 	if (flip) {
 		srcX += srcWidth - 1;

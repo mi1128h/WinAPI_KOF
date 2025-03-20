@@ -25,6 +25,7 @@ class AnimCharacter : public GameObject
 protected:
 	FPOINT position;
 	float dx, dy;
+	float size;
 	float speed;
 	float hp;
 	float stamina; 
