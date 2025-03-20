@@ -74,7 +74,7 @@ void UIManager::Render(HDC hdc)
     vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
 
 
-    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 - 60, 0, -1, -1, frameIdx, 1);
+    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 - 60, -30, -1, -1, frameIdx, 1);
 //    vUiImages[KyoUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
 }
 
@@ -101,7 +101,7 @@ void UIManager::advRender(HDC hdc)
 {
     int leftadvPosX = 50;
     int rightadvPosX = WINSIZE_X - 150;
-    int advPosY = WINSIZE_Y - 50;
+    int advPosY = WINSIZE_Y - 90;
 
     if (frameIdx == -1) return;
     vUiImages[curUi][0]->Render(hdc, leftadvPosX, advPosY, -1, -1, frameIdx, 0);
@@ -149,9 +149,9 @@ void UIManager::SteminaRender(HDC hdc)
     int barWidth = 300;
     int barHeight = 20;
     int paddingX = 50;
-    int paddingY = 50;
+    int paddingY = WINSIZE_Y-50;
 
-    // 플레이어 HP 바 (왼쪽)
+    // 플레이어 스테미나 바 (왼쪽)
     Rectangle(hdc, paddingX, paddingY, paddingX + barWidth, paddingY + barHeight);
     HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 0)); // 초록색 (플레이어)
     HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
@@ -160,7 +160,7 @@ void UIManager::SteminaRender(HDC hdc)
     DeleteObject(hBrush);
 
 
-    // 플레이어 HP바(오른쪽)
+    // 플레이어 스테미나바(오른쪽)
     int enemyBarX = WINSIZE_X - barWidth - paddingX;
     Rectangle(hdc, enemyBarX, paddingY, enemyBarX + barWidth, paddingY + barHeight);
     hBrush = CreateSolidBrush(RGB(255, 255, 0));
