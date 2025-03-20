@@ -19,13 +19,12 @@ void MainGame::Init()
 		MessageBox(g_hWnd, L"backBuffer ?�성 ?�패", L"경고", MB_OK);
 	}
 
-	Player1 = new Kim();
+	Player1 = new Kyo();
 	Player1->setPlayer_Classification(true);
 	Player1->Init();
 
-	Player2 = new Kim();
+	Player2 = new BlueMary();
 	Player2->setPlayer_Classification(false);
-
 	Player2->Init();
 
 	background = new AnimBackground();
@@ -96,8 +95,9 @@ void MainGame::Update()
 		elapsedTime = gameTimer->GetElapsedTime();
 	}
 
+
 	UIManager* ui = UIManager::GetInstance();
-	if (ui) ui->Update(iori, iori);
+	if (ui) ui->Update(Player1, Player2);
 
 	CollisionManager* cm = CollisionManager::GetInstance();
 	cm->CheckHit(Player1, Player2);
