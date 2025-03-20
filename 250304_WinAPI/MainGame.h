@@ -1,31 +1,28 @@
 #pragma once
 #include "GameObject.h"
 
-class Tank;
-class Enemy;
-class RoundManager;
+
 class Image;
 class AnimCharacter;
 class AnimBackground;
 class Timer;
+class Kim;
+
 class MainGame : public GameObject
 {
 private:
 	HDC hdc{};
 	PAINTSTRUCT ps{};
-	HANDLE hTimer{}, hTimer2;
+	HANDLE hTimer{};
 	int mousePosX{}, mousePosY{};
 	wchar_t szText[128]{};
 
-	Tank* tank;
-	vector<Enemy*> enemies;
-	int nDeadEnemies;
 
-	RoundManager* roundManager;
+    Image* backBuffer;        // 백버퍼 (화면 깜빡임 방지용)
+    Kim* Player1;      // 애니메이션 캐릭터 객체 (샐리)
+	Kim* Player2;
+    AnimBackground* background; // 애니메이션 배경 객체
 
-	Image* backBuffer;
-	AnimCharacter* iori;
-	AnimBackground* background;
 
 	Timer* gameTimer;
 

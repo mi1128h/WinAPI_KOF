@@ -30,6 +30,9 @@ protected:
 	float accumTime;
 	float animTime[State::Statelength];
 
+	bool playerClassification; // 플레이어 구분
+
+
 	vector<Image*> vImages[State::Statelength];
 	State curState;
 	int frameIdx;
@@ -48,7 +51,6 @@ public:
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 
 	int GetFrameIdx() { return frameIdx; }
-
 	FPOINT GetPos() { return position; }
 	void SetPos(FPOINT Pos) { this->position = Pos; }  //
 
@@ -59,5 +61,12 @@ public:
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ChangeStateToIdle();
+
+	FPOINT SetStartPos();
+
+	inline bool getPlayer_Classification() { return playerClassification; }
+	inline void setPlayer_Classification(bool player_classification) 
+	{this->playerClassification = player_classification;}
+	bool SetStartFilp();
 };
 

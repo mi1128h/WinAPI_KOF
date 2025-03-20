@@ -8,11 +8,17 @@
 
 #include "KeyManager.h"
 #include "UIManager.h"
+#include "CollisionManager.h"
+
 using namespace std;
 
 // 컴파일러에서 해당 코드를 뒤에 정의된 코드로 변경한다
 #define WINSIZE_X 1080
 #define WINSIZE_Y 500
+
+#define PLAYER1_POSX 100
+#define PLAYER2_POSX 900
+#define PLAYER_POSY 340
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;

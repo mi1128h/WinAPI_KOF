@@ -3,7 +3,11 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
+#include "BlueMary.h"
+#include "Kim.h"
+#include "SherCharacter.h"
 #include "Kyo.h"
+#include "Mai.h"
 #include "Timer.h"
 
 
@@ -12,10 +16,17 @@ void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer »ý¼º ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ?ì„± ?¤íŒ¨", L"ê²½ê³ ", MB_OK);
 	}
-	iori = new Kyo();
-	iori->Init();
+
+	Player1 = new Kim();
+	Player1->setPlayer_Classification(true);
+	Player1->Init();
+
+	Player2 = new Kim();
+	Player2->setPlayer_Classification(false);
+
+	Player2->Init();
 
 	background = new AnimBackground();
 	background->Init();
@@ -23,20 +34,32 @@ void MainGame::Init()
 	KeyManager* km = KeyManager::GetInstance();
 	km->Init();
 
+
 	gameTimer = new Timer();
 	gameTimer->Init();
+
 	UIManager* ui = UIManager::GetInstance();
 	ui->Init();
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->Init();
+
 
 }
 
 void MainGame::Release()
 {
-	if (iori) {
-		iori->Release();
-		delete iori;
-		iori = NULL;
+	if (Player1) {
+		Player1->Release();
+		delete Player1;
+		Player1 = NULL;
 	}
+
+	if (Player2) {
+		Player2->Release();
+		delete Player2;
+		Player2 = NULL;
+	}
+
 	if (background) {
 		background->Release();
 		delete background;
@@ -52,14 +75,20 @@ void MainGame::Release()
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
 
+
 	if (gameTimer) delete gameTimer;
 	UIManager* ui = UIManager::GetInstance();
 	if (ui) ui->Release();
+
+	CollisionManager* cm = CollisionManager::GetInstance();
+	if (cm) cm->Release();
+
 
 }
 
 void MainGame::Update()
 {
+
 
 	float elapsedTime{};
 	if (gameTimer) {
@@ -67,35 +96,42 @@ void MainGame::Update()
 		elapsedTime = gameTimer->GetElapsedTime();
 	}
 
-	if (iori) iori->Update(elapsedTime);
-	if (background) background->Update(elapsedTime);
-
-
 	UIManager* ui = UIManager::GetInstance();
 	if (ui) ui->Update(iori, iori);
 
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->CheckHit(Player1, Player2);
+	cm->CheckHit(Player2, Player1);
+
+	if (Player1) Player1->Update(elapsedTime);
+	if (Player2) Player2->Update(elapsedTime);
+	if (background) background->Update(elapsedTime);
 }
 
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ¹é¹öÆÛ¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿?ï¿½ï¿½ï¿½ï¿½
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
 	if (background) {
 		background->Render(hBackBufferDC);
 	}
-	if (iori) {
-		iori->Render(hBackBufferDC);
+
+	if (Player1) {
+		Player1->Render(hBackBufferDC);
+	}
+	if (Player2) {
+		Player2->Render(hBackBufferDC);
 	}
 
 	UIManager* ui = UIManager::GetInstance();
 	if(ui) ui->Render(hBackBufferDC);
 
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
 	backBuffer->Render(hdc);
 }
+
 
 
 
@@ -115,13 +151,23 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
-	case WM_KEYDOWN:
-
-		InvalidateRect(g_hWnd, NULL, FALSE);
-		break;
 
 	case WM_KEYUP:
 
+		switch (wParam) {
+		case 'a': case 'A':
+
+			break;
+		case 'd': case 'D':
+
+			break;
+		case 'w': case 'W':
+
+			break;
+		case 's': case 'S':
+
+			break;
+		}
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
