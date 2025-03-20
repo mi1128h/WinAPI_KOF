@@ -19,10 +19,11 @@ class UIManager :public Singleton<UIManager> {
 public:
     void Init();
     void Release();
-    void Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer);
+    void Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer, float elapsedTime);
     void Render(HDC hdc);
 
-    void Animate();
+
+    void Animate(float elapsedTime);
 
     void advRender(HDC hdc);
     void HpRender(HDC hdc);
@@ -54,6 +55,11 @@ private:
 
     int playerScore = 0;
     int enemyScore = 0;
+
+
+    float accumTime;
+    float animTime = 0.7f;
+
 
     //--character selection ui--
 

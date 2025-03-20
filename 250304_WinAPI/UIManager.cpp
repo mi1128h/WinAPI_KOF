@@ -58,11 +58,11 @@ void UIManager::Release()
     ReleaseInstance();
 }
 
-void UIManager::Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer)
+void UIManager::Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer, float elapsedTime)
 {
     if (leftPlayer) playerHP = leftPlayer->GetHp();
     if (rightPlayer) enemyHP = rightPlayer->GetHp();
-    Animate();
+    Animate(elapsedTime);
 
 }
 
@@ -88,11 +88,28 @@ void UIManager::Render(HDC hdc)
 }
 
 
-void UIManager::Animate()
+void UIManager::Animate(float elapsedTime)
 {
-    frameIdx++;
+    //frameIdx++;
+    //int imagesNum = vUiImages[curUi].size();
+    //if (imagesNum > 0) {
+    //    int framesNum{ 1 };
+    //    if (imagesNum != 1) {
+    //        framesNum = imagesNum;
+    //    }
+    //    else if (imagesNum == 1) {
+    //        int sn = vUiImages[curUi][0]->GetSpritesNumX() * vUiImages[curUi][0]->GetSpritesNumY();
+    //        framesNum = sn;
+    //    }
+    //    frameIdx %= framesNum;
+    //}
+    //else frameIdx = -1;
+
+
+    accumTime += elapsedTime;
     int imagesNum = vUiImages[curUi].size();
     if (imagesNum > 0) {
+        // get total frameNum
         int framesNum{ 1 };
         if (imagesNum != 1) {
             framesNum = imagesNum;
@@ -101,9 +118,13 @@ void UIManager::Animate()
             int sn = vUiImages[curUi][0]->GetSpritesNumX() * vUiImages[curUi][0]->GetSpritesNumY();
             framesNum = sn;
         }
-        frameIdx %= framesNum;
+        // calculate frameIdx
+        int temp = frameIdx;
+        int frame = accumTime * framesNum / animTime;
+        frameIdx = frame % framesNum;
     }
     else frameIdx = -1;
+
 }
 
 void UIManager::advRender(HDC hdc)

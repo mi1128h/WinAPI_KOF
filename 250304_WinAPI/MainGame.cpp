@@ -99,7 +99,7 @@ void MainGame::Update()
 
 
 	UIManager* ui = UIManager::GetInstance();
-	if (ui) ui->Update(Player1, Player2);
+	if (ui) ui->Update(Player1, Player2, elapsedTime);
 
 	CollisionManager* cm = CollisionManager::GetInstance();
 	cm->CheckHit(Player1, Player2);
@@ -113,7 +113,6 @@ void MainGame::Update()
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿?ï¿½ï¿½ï¿½ï¿½
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
