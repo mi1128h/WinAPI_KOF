@@ -77,17 +77,17 @@ void BlueMary::Init()
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 1.0f;
 
-	//Image* deadImages = new Image();
-	//if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
-	//	MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
-	//}
-	//vImages[State::Dead].push_back(deadImages);
+	Image* deadImages = new Image();
+	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Dead].push_back(deadImages);
 	animTime[State::Dead] = 1.0f;
 
 	curState = State::Idle;
 	frameIdx = 0;
 	defaultFlip = flip = false;
-	offset = 15;
+	offset = 0;
 }
 void BlueMary::Action()
 {
