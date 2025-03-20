@@ -55,11 +55,25 @@ void BlueMary::Init()
 	vImages[State::StrongFoot].push_back(strongFootImages);
 	animTime[State::StrongFoot] = 1.0f;
 
-	Image* deadImages = new Image();
-	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
+	Image* weakDamageImages = new Image();
+	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
-	vImages[State::Dead].push_back(deadImages);
+	vImages[State::WeakDamaged].push_back(weakDamageImages);
+	animTime[State::WeakDamaged] = 1.0f;
+
+	Image* StrongDamageImages = new Image();
+	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::StrongDamaged].push_back(StrongDamageImages);
+	animTime[State::StrongDamaged] = 1.0f;
+
+	//Image* deadImages = new Image();
+	//if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
+	//	MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
+	//}
+	//vImages[State::Dead].push_back(deadImages);
 	animTime[State::Dead] = 1.0f;
 
 	curState = State::Idle;
@@ -69,49 +83,30 @@ void BlueMary::Init()
 }
 void BlueMary::Action()
 {
-	hurtBox = GetRect(position.x + 70, position.y + 52, 112, 208);
+	hurtBox = GetRect(position.x + 50, position.y - 200, 100, 200);
 
 	switch (curState)
 	{
 	case WeakHand:
 		if (isSuccessHit == false)
-		{
-			hitBox = GetRect(position.x + 140, position.y + 62, 100, 50);
-		}
-		else
-		{
-			hitBox = GetRect(0, 0, 0, 0);
-		}
+
+			hitBox = GetRect(position.x + 140, position.y + 62, 300, 50);
+
 		break;
 	case StrongHand:
-		if (isSuccessHit == false)
-		{
+
 			hitBox = GetRect(position.x + 140, position.y + 104, 105, 50);
-		}
-		else
-		{
-			hitBox = GetRect(0, 0, 0, 0);
-		}
+
 		break;
 	case WeakFoot:
-		if (isSuccessHit == false)
-		{
+
 			hitBox = GetRect(position.x + 140, position.y + 104, 110, 50);
-		}
-		else
-		{
-			hitBox = GetRect(0, 0, 0, 0);
-		}
+
 		break;
 	case StrongFoot:
-		if (isSuccessHit == false)
-		{
+
 			hitBox = GetRect(position.x + 140, position.y + 10, 100, 100);
-		}
-		else
-		{
-			hitBox = GetRect(0, 0, 0, 0);
-		}
+
 		break;
 	case WeakDamaged:
 		break;

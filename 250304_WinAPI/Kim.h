@@ -13,7 +13,6 @@ public:
 	void Init();
 
 	//void Release();
-	void Render(HDC hdc);
 	
 	void Move(float elapsedTime);
 	void Action();

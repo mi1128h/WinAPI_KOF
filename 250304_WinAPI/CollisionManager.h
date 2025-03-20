@@ -14,7 +14,6 @@ public:
 	void Release();
 
     void CheckHit(AnimCharacter* attacker, AnimCharacter* defender);
-    void CheckHit(Kim* attacker, Kim* defender);
 	   
 };
 

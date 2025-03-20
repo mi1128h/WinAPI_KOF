@@ -16,8 +16,7 @@ void AnimCharacter::Init()
 	hp = 10.0f;
 	accumTime = 0.0f;
 
-	hurtBox = { 0,0,0,0 };
-	hitBox = { 10,10,0,0 };
+
 	isSuccessHit = false;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
@@ -210,6 +209,9 @@ void AnimCharacter::Render(HDC hdc)
 	}
 	// test Ellipse for position
 	RenderEllipseAtCenter(hdc, position.x, position.y, 10, 10);
+
+	RenderRect(hdc, hurtBox.left, hurtBox.top, hurtBox.right - hurtBox.left, hurtBox.bottom - hurtBox.top);
+	RenderRect(hdc, hitBox.left, hitBox.top, hitBox.right - hitBox.left, hitBox.bottom - hitBox.top);
 }
 
 void AnimCharacter::Move(float elapsedTime)
