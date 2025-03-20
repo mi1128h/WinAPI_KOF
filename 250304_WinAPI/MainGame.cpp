@@ -6,17 +6,18 @@
 #include "BlueMary.h"
 #include "Kim.h"
 #include "SherCharacter.h"
-#include "Kyo.h"
 #include "Mai.h"
-#include "Timer.h"
 
+#include "Kyo.h"
+#include "Timer.h"
 
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer ?�성 ?�패", L"경고", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ?�성 ?�패", L"경고", MB_OK);
+
 	}
 
 	Player1 = new Kyo();
@@ -28,6 +29,7 @@ void MainGame::Init()
 	Player2->SetPlayerClassification(false);
 	Player2->Init();
 	Player2->SetStartPos();
+
 
 	background = new AnimBackground();
 	background->Init();
@@ -76,27 +78,21 @@ void MainGame::Release()
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
 
-
 	if (gameTimer) delete gameTimer;
 	UIManager* ui = UIManager::GetInstance();
 	if (ui) ui->Release();
 
 	CollisionManager* cm = CollisionManager::GetInstance();
 	if (cm) cm->Release();
-
-
 }
 
 void MainGame::Update()
 {
-
-
 	float elapsedTime{};
 	if (gameTimer) {
 		gameTimer->Tick();
 		elapsedTime = gameTimer->GetElapsedTime();
 	}
-
 
 	UIManager* ui = UIManager::GetInstance();
 	if (ui) ui->Update(Player1, Player2, elapsedTime);
@@ -110,11 +106,13 @@ void MainGame::Update()
 	if (Player1) Player1->Update(elapsedTime);
 	if (Player2) Player2->Update(elapsedTime);
 	if (background) background->Update(elapsedTime);
+
 }
 
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
+
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
@@ -131,6 +129,7 @@ void MainGame::Render(HDC hdc)
 
 	UIManager* ui = UIManager::GetInstance();
 	if(ui) ui->Render(hBackBufferDC);
+
 
 	backBuffer->Render(hdc);
 }

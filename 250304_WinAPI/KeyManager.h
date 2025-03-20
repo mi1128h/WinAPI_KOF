@@ -5,6 +5,7 @@
 #define MAX_KEY_COUNT	256
 using namespace std;
 
+enum State;
 class KeyManager : public Singleton<KeyManager>
 {
 private:
@@ -21,5 +22,8 @@ public:
 
 	void SetKeyDown(int key, bool state) { this->keyDown.set(key, state); }
 	void SetKeyUp(int key, bool state) { this->keyUp.set(key, state); }
-};
 
+	State GetCommand(bool playerClassification);
+	bool IsLeftKeyDown(bool playerClassificateion);
+	bool IsRightKeyDown(bool playerClassificateion);
+};

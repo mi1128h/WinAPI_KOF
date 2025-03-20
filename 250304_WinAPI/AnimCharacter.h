@@ -28,10 +28,11 @@ protected:
 	float speed;
 	float hp;
 	float stamina; 
+
 	float accumTime;
 	float animTime[State::Statelength];
 
-	bool isPlayer1; // 플레이어 구분
+	bool isPlayer1; 
 
 	RECT hurtBox = { 0,0,0,0 };
 	RECT hitBox = { 1,1,1,1 };
@@ -60,8 +61,9 @@ public:
 
 
 	int GetFrameIdx() { return frameIdx; }
+
 	FPOINT GetPos() { return position; }
-	void SetPos(FPOINT Pos) { this->position = Pos; }  //
+	void SetPos(FPOINT Pos) { this->position = Pos; }  
 
 
 	void SetHp(float hp) { this->hp = hp; }

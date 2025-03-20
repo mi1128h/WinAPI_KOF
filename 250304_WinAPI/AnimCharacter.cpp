@@ -2,7 +2,6 @@
 #include "AnimCharacter.h"
 #include "Image.h"
 #include "CommonFunction.h"
-#include <string.h>
 
 using namespace std::chrono;
 
@@ -23,22 +22,23 @@ void AnimCharacter::Init()
 
 	Image* idleImages = new Image();
 	if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_idle ÆÄÀÏ ·Îµå¿¡ ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"iori_idle ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
 	}
 	vImages[State::Idle].push_back(idleImages);
 
 	Image* walkImages = new Image();
 	if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_walk ÆÄÀÏ ·Îµå¿¡ ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"iori_walk ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
 
 	curState = State::Idle;
 	frameIdx = 0;
-
+	
 	offset = 0;
 
 	defaultFlip = flip = false;
+
 }
 
 void AnimCharacter::Release()
@@ -64,137 +64,61 @@ void AnimCharacter::Update(float elapsedTime)
 
 void AnimCharacter::ProcessInput()
 {
-	// ÇÃ·¹ÀÌ¾î ÆÇ´Ü?
 	KeyManager* km = KeyManager::GetInstance();
-	KeyManager* km2 = KeyManager::GetInstance();
-	int deltaX{}, deltaY{};
 
-	// ´õºíÅÇ °¨Áö¿ë º¯¼ö
-	steady_clock::time_point lastPressTime_A, lastPressTime_D;
-	bool isRunning = false;  // ÇöÀç ´Þ¸®´Â ÁßÀÎÁö È®ÀÎ
+	// ?„ìž¬ ?Œë ˆ?´ì–´?????…ë ¥??ê°ì??˜ì—¬ ?íƒœ ê°?ë°˜í™˜
+	State keyCommand = km->GetCommand(isPlayer1);
+	int deltaX = 0, deltaY = 0;
 
-	// ÇöÀç ½Ã°£ °¡Á®¿À±â
-	auto now = steady_clock::now();
+	switch (curState) {
+	case State::Idle:
 
-	bool P1_WeakHand = (km->IsOnceKeyDown('U'));
-	bool P1_StrongHand = (km->IsOnceKeyDown('I'));
-	bool P1_WeakFoot = (km->IsOnceKeyDown('J'));
-	bool P1_StrongFoot = (km->IsOnceKeyDown('K'));
-
-	bool P2_WeakHand = (km2->IsOnceKeyDown(VK_NUMPAD4));
-	bool P2_StrongHand = (km2->IsOnceKeyDown(VK_NUMPAD5));
-	bool P2_WeakFoot = (km2->IsOnceKeyDown(VK_NUMPAD1));
-	bool P2_StrongFoot = (km2->IsOnceKeyDown(VK_NUMPAD2));
-
-	if (this->GetIsPlayer1()) {
-		switch (curState) {
-		case State::Idle:
-           
-			if (km->IsOnceKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsOnceKeyDown('D')) {
-				deltaX += 1;
-			}
-
-			if (deltaX != 0) {
-				State moveState = State::Walk;
-				if (deltaX > 0) {
-					moveState = (defaultFlip == flip) ? State::Walk : State::BackWalk;
-				}
-				else {
-					moveState = (defaultFlip == flip) ? State::BackWalk : State::Walk;
-				}
-
-				SetState(moveState);
-			}
-           
-
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-
-			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // Ä¿¸Çµå
-			break;
-
-		case State::Walk: case State::BackWalk:
-
-			if (km->IsStayKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsStayKeyDown('D')) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-            
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-
-			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand);
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
+		if (km->IsLeftKeyDown(isPlayer1)) {
+			deltaX -= 1;
+		}
+		if (km->IsRightKeyDown(isPlayer1)) {
+			deltaX += 1;
 		}
 
-		SetDelta(deltaX, deltaY);
-	}
-
-	else {
-		switch (curState) {
-		case State::Idle:
-			if (km2->IsStayKeyDown(VK_LEFT)) {
-				deltaX -= 1;
+		if (deltaX != 0) {
+			State moveState = State::Walk;
+			if (deltaX > 0) {
+				moveState = (defaultFlip == flip) ? State::Walk : State::BackWalk;
 			}
-			if (km2->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			
-			if (deltaX != 0) {
-				State moveState = State::Walk;
-				if (deltaX > 0) {
-					moveState = (defaultFlip == flip) ? State::Walk : State::BackWalk;
-				}
-				else {
-					moveState = (defaultFlip == flip) ? State::BackWalk : State::Walk;
-				}
-
-				SetState(moveState);
+			else {
+				moveState = (defaultFlip == flip) ? State::BackWalk : State::Walk;
 			}
 
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-
-			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
-			break;
-
-		case State::Walk: case State::BackWalk:
-			if (km2->IsStayKeyDown(VK_LEFT) ) {
-				deltaX -= 1;
-			}
-			if (km2->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-
-			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
+			SetState(moveState);
 		}
 
-		SetDelta(deltaX, deltaY);
+		if (keyCommand != -1)
+			SetState(keyCommand);
+
+		break;
+
+	case State::Walk: case State::BackWalk:
+
+		if (km->IsLeftKeyDown(isPlayer1)) {
+			deltaX -= 1;
+		}
+		if (km->IsRightKeyDown(isPlayer1)) {
+			deltaX += 1;
+		}
+		if (deltaX == 0) SetState(State::Idle);
+
+		if (keyCommand != -1)
+			SetState(keyCommand);
+		break;
+
+	case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
+		break;
 	}
+
+	SetDelta(deltaX, deltaY);
 }
+
+
 
 void AnimCharacter::Animate(float elapsedTime)
 {
