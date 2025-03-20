@@ -140,6 +140,10 @@ void AnimCharacter::Animate(float elapsedTime)
 		int frame = accumTime * framesNum / animTime[curState];
 		frameIdx = frame % framesNum;
 		if (temp == framesNum - 1 and frameIdx == 0) ChangeStateToIdle();
+
+		if (curState == State::Dead and temp == framesNum - 1) {
+			frameIdx = temp;
+		}
 	}
 	else frameIdx = -1;
 }
