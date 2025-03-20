@@ -8,7 +8,7 @@ using namespace std::chrono;
 
 void AnimCharacter::Init()
 {
-	position = { SetStartPos() };
+	position = { 0,0 };
 	speed = 10;
 	hp = 100;
 
@@ -83,14 +83,14 @@ void AnimCharacter::ProcessInput()
 	bool P2_WeakFoot = (km2->IsOnceKeyDown(VK_NUMPAD1));
 	bool P2_StrongFoot = (km2->IsOnceKeyDown(VK_NUMPAD2));
 
-	if (this->getPlayer_Classification()) {
+	if (this->GetIsPlayer1()) {
 		switch (curState) {
 		case State::Idle:
            
-			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
+			if (km->IsOnceKeyDown('A')) {
 				deltaX -= 1;
 			}
-			if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
+			if (km->IsOnceKeyDown('D')) {
 				deltaX += 1;
 			}
 			if (deltaX != 0) SetState(State::Walk);
@@ -106,10 +106,10 @@ void AnimCharacter::ProcessInput()
 
 		case State::Walk:
 
-			if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
+			if (km->IsStayKeyDown('A')) {
 				deltaX -= 1;
 			}
-			if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
+			if (km->IsStayKeyDown('D')) {
 				deltaX += 1;
 			}
 			if (deltaX == 0) SetState(State::Idle);
@@ -224,22 +224,19 @@ void AnimCharacter::ChangeStateToIdle()
 	}
 }
 
-FPOINT AnimCharacter::SetStartPos()
+void AnimCharacter::SetStartPos()
 {
-	FPOINT respawnpos;
-	if (this->getPlayer_Classification()) {
-		respawnpos = { PLAYER1_POSX, PLAYER_POSY };
+	if (this->GetIsPlayer1()) {
+		position = { PLAYER1_POSX, PLAYER_POSY };
 	}
 	else {
-		respawnpos = { PLAYER2_POSX, PLAYER_POSY };
+		position = { PLAYER2_POSX, PLAYER_POSY };
 	}
-
-	return respawnpos;
 }
 
 bool AnimCharacter::SetStartFilp()
 {
-	if (this->getPlayer_Classification()) return false;
+	if (this->GetIsPlayer1()) return false;
 	
 	return true;
 }

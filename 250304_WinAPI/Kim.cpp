@@ -99,7 +99,7 @@ void Kim::ProcessInput()
 	bool P2_WeakFoot = (km->IsOnceKeyDown(VK_NUMPAD1));
 	bool P2_StrongFoot = (km->IsOnceKeyDown(VK_NUMPAD2));
 
-	if (this->getPlayer_Classification()) {
+	if (this->GetIsPlayer1()) {
 		switch (curState) {
 		case State::Idle:
 			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
