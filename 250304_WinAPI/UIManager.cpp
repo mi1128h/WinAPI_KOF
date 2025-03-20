@@ -48,18 +48,27 @@ void UIManager::Init()
     vUiImages[Ui::LeftUi].push_back(leftImages);
 
 
+    Image* BackWindow = new Image(); //backwindow 뒷그림
+    if (FAILED(BackWindow->Init(L"Image/ImageUI/BackWindow.bmp",61 , 42*1.6, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"BackWindow 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::BackWindow].push_back(BackWindow);
+
+
     Image* rightImages = new Image(); //테스트 오른쪽hp캐릭터 ui
     if (FAILED(rightImages->Init(L"Image/ImageUI/RightUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"RightUi 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::RightUi].push_back(rightImages);
 
+
     Image* infinityUI = new Image(); //테스트 센터 시간무한 ui
     if (FAILED(infinityUI->Init(L"Image/ImageUI/infinityUI.bmp", 268*0.3, 256*0.3, 1, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"infinityUI 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::infinityUi].push_back(infinityUI);
-
+    
+    
 
 
 }
@@ -92,7 +101,10 @@ void UIManager::Render(HDC hdc)
     UIManager::SteminaRender(hdc);
 
     //left, right Character UI
+    vUiImages[Ui::BackWindow][0]-> Render(hdc, 10, 0, -1, -1, 0 , 1);
     vUiImages[Ui::LeftUi][0]-> Render(hdc, 20, 5, -1, -1, frameIdx, 0);
+
+    vUiImages[Ui::BackWindow][0]->Render(hdc, WINSIZE_X - 80, 0, -1, -1, frameIdx, 1);
     vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
 
 

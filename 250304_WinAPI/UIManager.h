@@ -9,10 +9,10 @@ enum Ui {
     Advanced,
     StartUi,
     StartUiFront,
-
     HpUi,
     LeftUi,
     RightUi,
+    BackWindow,
     infinityUi,
     Uilength,
 };
