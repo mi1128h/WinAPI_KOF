@@ -10,12 +10,15 @@ void AnimCharacter::Init()
 {
 	position = { SetStartPos() };
 	speed = 10;
-	hp = 100;
 
 	dx = 0.0f;
 	dy = 0.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
+
+	hurtBox = { 0,0,0,0 };
+	hitBox = { 10,10,0,0 };
+	isSuccessHit = false;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -52,6 +55,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
+	Action();
 	Move(elapsedTime);
 
 	Animate(elapsedTime);

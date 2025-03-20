@@ -32,6 +32,9 @@ protected:
 
 	bool playerClassification; // 플레이어 구분
 
+	RECT hurtBox;
+	RECT hitBox;
+	bool isSuccessHit;
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
@@ -47,8 +50,12 @@ public:
 	void Animate(float elpasedTime);
 	void Render(HDC hdc);
 
+	virtual void Action() = 0;
+
 	void Move(float elapsedTime);
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
+	
+
 
 	int GetFrameIdx() { return frameIdx; }
 	FPOINT GetPos() { return position; }
@@ -64,9 +71,18 @@ public:
 
 	FPOINT SetStartPos();
 
+
 	inline bool getPlayer_Classification() { return playerClassification; }
 	inline void setPlayer_Classification(bool player_classification) 
 	{this->playerClassification = player_classification;}
 	bool SetStartFilp();
+
+	RECT GetHurtBox() { return hurtBox; };
+	RECT GetHitBox() { return hitBox; };
+	bool GetIsSuccessHit() { return isSuccessHit; };
+
+	void SetHurtBox(RECT hurtBox) { this->hurtBox = hurtBox; }
+	void SetHitBox(RECT hitBox) { this->hitBox = hitBox; }
+	void SetIsSuccessHit(bool isSuccessHit) { this->isSuccessHit = isSuccessHit; }
 };
 

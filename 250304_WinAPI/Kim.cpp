@@ -72,110 +72,6 @@ void Kim::Init()
 	flip = true;
 }
 
-void Kim::Update()
-{
-	Action();
-	Move();
-	
-
-	Animate(3);
-
-	ProcessInput();
-}
-
-void Kim::ProcessInput()
-{
-	// 플레이어 판단?
-	KeyManager* km = KeyManager::GetInstance();
-	int deltaX{}, deltaY{};
-
-	bool P1_WeakHand = (km->IsOnceKeyDown('u') or km->IsOnceKeyDown('U'));
-	bool P1_StrongHand = (km->IsOnceKeyDown('i') or km->IsOnceKeyDown('I'));
-	bool P1_WeakFoot = (km->IsOnceKeyDown('j') or km->IsOnceKeyDown('J'));
-	bool P1_StrongFoot = (km->IsOnceKeyDown('k') or km->IsOnceKeyDown('K'));
-
-	bool P2_WeakHand = (km->IsOnceKeyDown(VK_NUMPAD4));
-	bool P2_StrongHand = (km->IsOnceKeyDown(VK_NUMPAD5));
-	bool P2_WeakFoot = (km->IsOnceKeyDown(VK_NUMPAD1));
-	bool P2_StrongFoot = (km->IsOnceKeyDown(VK_NUMPAD2));
-
-	if (this->getPlayer_Classification()) {
-		switch (curState) {
-		case State::Idle:
-			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
-				deltaX += 1;
-			}
-			if (deltaX != 0) SetState(State::Walk);
-
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-			break;
-
-		case State::Walk:
-			if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
-		}
-
-		SetDelta(deltaX, deltaY);
-	}
-
-	else {
-		switch (curState) {
-		case State::Idle:
-			if (km->IsStayKeyDown(VK_LEFT)) {
-				deltaX -= 1;
-			}
-			if (km->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			if (deltaX != 0) SetState(State::Walk);
-
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-			break;
-
-		case State::Walk:
-			if (km->IsStayKeyDown(VK_LEFT)) {
-				deltaX -= 1;
-			}
-			if (km->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
-		}
-
-		SetDelta(deltaX, deltaY);
-	}
-}
-
 void Kim::Render(HDC hdc)
 {
 	if (frameIdx == -1) return;
@@ -190,10 +86,10 @@ void Kim::Render(HDC hdc)
 	//RenderRect(hdc, hitBox.left, hitBox.top, hitBox.right - hitBox.left, hitBox.bottom - hitBox.top);
 }
 
-void Kim::Move()
+void Kim::Move(float elapsedTime)
 {
-	position.x += dx * speed;
-	position.y += dy * speed;
+	position.x += dx * speed * elapsedTime;
+	position.y += dy * speed * elapsedTime;
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 	if (dx > 0) flip = true;
 	if (dx < 0) flip = false;

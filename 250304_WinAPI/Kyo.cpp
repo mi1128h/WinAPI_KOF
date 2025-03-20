@@ -5,7 +5,7 @@
 
 void Kyo::Init()
 {
-    position = { 0,100 };
+    position = { 600,200 };
     speed = 100;
     dx = 0.0f;
     dy = 0.0f;
@@ -60,3 +60,59 @@ void Kyo::Init()
     offset = 10;
 }
 
+void Kyo::Action()
+{
+	hurtBox = GetRect(position.x + 70, position.y + 52, 112, 208);
+
+	switch (curState)
+	{
+	case WeakHand:
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 62, 100, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
+		break;
+	case StrongHand:
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 104, 105, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
+		break;
+	case WeakFoot:
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 104, 110, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
+		break;
+	case StrongFoot:
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 10, 100, 100);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
+		break;
+	case WeakDamaged:
+		break;
+	case StrongDamaged:
+		break;
+	default:
+		hitBox = GetRect(0, 0, 0, 0);
+		isSuccessHit = false;
+		break;
+	}
+}
