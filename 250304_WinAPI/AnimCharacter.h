@@ -32,8 +32,8 @@ protected:
 
 	bool isPlayer1; // 플레이어 구분
 
-	RECT hurtBox;
-	RECT hitBox;
+	RECT hurtBox = { 0,0,0,0 };
+	RECT hitBox = { 1,1,1,1 };
 	bool isSuccessHit;
 
 	vector<Image*> vImages[State::Statelength];
