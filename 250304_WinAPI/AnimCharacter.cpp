@@ -2,6 +2,7 @@
 #include "AnimCharacter.h"
 #include "Image.h"
 #include "CommonFunction.h"
+#include <string.h>
 
 using namespace std::chrono;
 
@@ -55,6 +56,7 @@ void AnimCharacter::ProcessInput()
 {
 	// 플레이어 판단?
 	KeyManager* km = KeyManager::GetInstance();
+	KeyManager* km2 = KeyManager::GetInstance();
 	int deltaX{}, deltaY{};
 
 	// 더블탭 감지용 변수
@@ -64,20 +66,20 @@ void AnimCharacter::ProcessInput()
 	// 현재 시간 가져오기
 	auto now = steady_clock::now();
 
-	bool P1_WeakHand = (km->IsOnceKeyDown('u') or km->IsOnceKeyDown('U'));
-	bool P1_StrongHand = (km->IsOnceKeyDown('i') or km->IsOnceKeyDown('I'));
-	bool P1_WeakFoot = (km->IsOnceKeyDown('j') or km->IsOnceKeyDown('J'));
-	bool P1_StrongFoot = (km->IsOnceKeyDown('k') or km->IsOnceKeyDown('K'));
+	bool P1_WeakHand = (km->IsOnceKeyDown('U'));
+	bool P1_StrongHand = (km->IsOnceKeyDown('I'));
+	bool P1_WeakFoot = (km->IsOnceKeyDown('J'));
+	bool P1_StrongFoot = (km->IsOnceKeyDown('K'));
 
-	bool P2_WeakHand = (km->IsOnceKeyDown(VK_NUMPAD4));
-	bool P2_StrongHand = (km->IsOnceKeyDown(VK_NUMPAD5));
-	bool P2_WeakFoot = (km->IsOnceKeyDown(VK_NUMPAD1));
-	bool P2_StrongFoot = (km->IsOnceKeyDown(VK_NUMPAD2));
+	bool P2_WeakHand = (km2->IsOnceKeyDown(VK_NUMPAD4));
+	bool P2_StrongHand = (km2->IsOnceKeyDown(VK_NUMPAD5));
+	bool P2_WeakFoot = (km2->IsOnceKeyDown(VK_NUMPAD1));
+	bool P2_StrongFoot = (km2->IsOnceKeyDown(VK_NUMPAD2));
 
 	if (this->getPlayer_Classification()) {
 		switch (curState) {
 		case State::Idle:
-            #ifdef 기존 움직임
+           
 			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
 				deltaX -= 1;
 			}
@@ -85,34 +87,17 @@ void AnimCharacter::ProcessInput()
 				deltaX += 1;
 			}
 			if (deltaX != 0) SetState(State::Walk);
-            #endif
-			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
-				// 첫 번째 입력이라면 시간 기록
-				if (duration_cast<milliseconds>(now - lastPressTime_A).count() < 300) {
-					isRunning = true;  // 300ms 이내에 두 번째 입력 → 달리기
-				}
-				lastPressTime_A = now;
-				deltaX -= (isRunning ? 5 : 1);  // 달리면 더 빠르게 이동
-			}
-			if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
-				if (duration_cast<milliseconds>(now - lastPressTime_D).count() < 300) {
-					isRunning = true;
-				}
-				lastPressTime_D = now;
-				deltaX += (isRunning ? 5 : 1);
-			}
-
-			if (deltaX != 0) SetState(isRunning ? State::Run : State::Walk);
+           
 
 			if (P1_WeakHand) SetState(State::WeakHand);
 			if (P1_StrongHand) SetState(State::StrongHand);
 			if (P1_WeakFoot) SetState(State::WeakFoot);
 			if (P1_StrongFoot) SetState(State::StrongFoot);
+
 			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // 커맨드
 			break;
 
 		case State::Walk:
-            #ifdef 기존코드
 
 			if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
 				deltaX -= 1;
@@ -121,22 +106,12 @@ void AnimCharacter::ProcessInput()
 				deltaX += 1;
 			}
 			if (deltaX == 0) SetState(State::Idle);
-            #endif
-			if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
-				deltaX -= (isRunning ? 5 : 1);
-			}
-			if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
-				deltaX += (isRunning ? 5 : 1);
-			}
-			if (deltaX == 0) {
-				isRunning = false;
-				SetState(State::Idle);
-			}
-
+            
 			if (P1_WeakHand) SetState(State::WeakHand);
 			if (P1_StrongHand) SetState(State::StrongHand);
 			if (P1_WeakFoot) SetState(State::WeakFoot);
 			if (P1_StrongFoot) SetState(State::StrongFoot);
+
 			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand);
 			break;
 		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
@@ -149,10 +124,10 @@ void AnimCharacter::ProcessInput()
 	else {
 		switch (curState) {
 		case State::Idle:
-			if (km->IsStayKeyDown(VK_LEFT)) {
+			if (km2->IsStayKeyDown(VK_LEFT)) {
 				deltaX -= 1;
 			}
-			if (km->IsStayKeyDown(VK_RIGHT)) {
+			if (km2->IsStayKeyDown(VK_RIGHT)) {
 				deltaX += 1;
 			}
 			if (deltaX != 0) SetState(State::Walk);
@@ -161,14 +136,15 @@ void AnimCharacter::ProcessInput()
 			if (P2_StrongHand) SetState(State::StrongHand);
 			if (P2_WeakFoot) SetState(State::WeakFoot);
 			if (P2_StrongFoot) SetState(State::StrongFoot);
+
 			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
 			break;
 
 		case State::Walk:
-			if (km->IsStayKeyDown(VK_LEFT) ) {
+			if (km2->IsStayKeyDown(VK_LEFT) ) {
 				deltaX -= 1;
 			}
-			if (km->IsStayKeyDown(VK_RIGHT)) {
+			if (km2->IsStayKeyDown(VK_RIGHT)) {
 				deltaX += 1;
 			}
 			if (deltaX == 0) SetState(State::Idle);
@@ -177,6 +153,7 @@ void AnimCharacter::ProcessInput()
 			if (P2_StrongHand) SetState(State::StrongHand);
 			if (P2_WeakFoot) SetState(State::WeakFoot);
 			if (P2_StrongFoot) SetState(State::StrongFoot);
+
 			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
 			break;
 		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:

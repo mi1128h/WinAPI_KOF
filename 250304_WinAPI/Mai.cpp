@@ -26,7 +26,7 @@ void Mai::Init()
 
 
     Image* strongPunchImages = new Image();
-    if (FAILED(strongPunchImages->Init(L"Image/mai/Mai_Spunch_ver2.bmp", 820, 186, 5, 1, true, RGB(255, 0, 255)))) {
+    if (FAILED(strongPunchImages->Init(L"Image/mai/Mai_Spunch_ver2.bmp", 551, 125, 5, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Mai_Spunch_ver2 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongHand].push_back(strongPunchImages);
@@ -40,13 +40,13 @@ void Mai::Init()
 
 
     Image* strongKickImages = new Image();
-    if (FAILED(strongKickImages->Init(L"Image/mai/Mai_Highkick_ver2.bmp", 1197, 228, 6, 1, true, RGB(255, 0, 255)))) {
+    if (FAILED(strongKickImages->Init(L"Image/mai/Mai_Highkick_ver2.bmp", 655, 125, 6, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Mai_Highkick_ver2 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongFoot].push_back(strongKickImages);
 
     Image* weakKickImages = new Image();
-    if (FAILED(weakKickImages->Init(L"Image/mai/Mai_Middlekick_ver2.bmp", 1136, 188, 6, 1, true, RGB(255, 0, 255)))) {
+    if (FAILED(weakKickImages->Init(L"Image/mai/Mai_Middlekick_ver2.bmp", 755, 125, 6, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Mai_Middlekick_ver2 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
