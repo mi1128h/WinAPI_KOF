@@ -19,12 +19,20 @@ void Kyo::Init()
     }
     vImages[State::Idle].push_back(idleImages);
     animTime[State::Idle] = 1.0f;
+
     Image* walkImages = new Image();
     if (FAILED(walkImages->Init(L"Image/ImageKyo/Kyo_Walk.bmp", 200*5, 200, 5, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"kyo_walk 파일 로드에 실패", L"경고", MB_OK);
     }   
     vImages[State::Walk].push_back(walkImages);
     animTime[State::Walk] = 1.0f;
+
+    Image* backWalkImages = new Image();
+    if (FAILED(backWalkImages->Init(L"Image/ImageKyo/Kyo_BackWalk.bmp", 200*6, 200, 6, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"kyo_backwalk 파일 로드에 실패", L"경고", MB_OK);
+    }   
+    vImages[State::BackWalk].push_back(backWalkImages);
+    animTime[State::BackWalk] = 1.0f;
 
     Image* strongPunchImages = new Image();
     if (FAILED(strongPunchImages->Init(L"Image/ImageKyo/Kyo_strongPunch.bmp", 200*8, 200, 8, 1, true, RGB(255, 0, 255)))) {
@@ -46,6 +54,7 @@ void Kyo::Init()
     }
     vImages[State::StrongFoot].push_back(strongKickImages);
     animTime[State::StrongFoot] = 1.5f;
+
     Image* weakKickImages = new Image();
     if (FAILED(weakKickImages->Init(L"Image/ImageKyo/Kyo_weakKick.bmp", 200*9, 200, 9, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Kyo_weakKick 파일 로드에 실패", L"경고", MB_OK);

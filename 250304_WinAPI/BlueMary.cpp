@@ -27,6 +27,13 @@ void BlueMary::Init()
 	vImages[State::Walk].push_back(walkImages);
 	animTime[State::Walk] = 1.0f;
 
+	Image* backWalkImages = new Image();
+	if (FAILED(backWalkImages->Init(L"Image/BlueMary/bluemary_backwalk.bmp", 200 * 6, 200, 6, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_backwalk 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::BackWalk].push_back(backWalkImages);
+	animTime[State::BackWalk] = 1.0f;
+
 	Image* weakHandImages = new Image();
 	if (FAILED(weakHandImages->Init(L"Image/BlueMary/bluemary_weakhand.bmp", 200 * 4, 200, 4, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_weakhand 파일 로드에 실패", L"경고", MB_OK);
