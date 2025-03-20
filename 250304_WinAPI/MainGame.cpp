@@ -5,19 +5,21 @@
 #include "AnimBackground.h"
 #include "BlueMary.h"
 #include "SherCharacter.h"
-#include "Kyo.h"
 #include "Mai.h"
+#include "Kyo.h"
+#include "Timer.h"
+
 
 /*
-	½Ç½À1. ÀÌ¿À¸® Áý¿¡ º¸³»±â
-	½Ç½À2. ¹è°æ ¹Ù²Ù±â (Å·¿ÀÆÄ ¾Ö´Ï¸ÞÀÌ¼Ç ¹è°æ)
+	ï¿½Ç½ï¿½1. ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½Ç½ï¿½2. ï¿½ï¿½ï¿½ ï¿½Ù²Ù±ï¿½ (Å·ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½)
 */
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer »ý¼º ½ÇÆÐ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", L"ï¿½ï¿½ï¿½", MB_OK);
 	}
 
 	Player1 = new SherCharacter();
@@ -28,13 +30,15 @@ void MainGame::Init()
 	Player2->setPlayer_Classification(true);
 	Player2->Init();
 
+
 	background = new AnimBackground();
 	background->Init();
 
 	KeyManager* km = KeyManager::GetInstance();
 	km->Init();
 
-
+	gameTimer = new Timer();
+	gameTimer->Init();
 }
 
 void MainGame::Release()
@@ -65,10 +69,19 @@ void MainGame::Release()
 
 	KeyManager* km = KeyManager::GetInstance();
 	if (km) km->Release();
+
+	if (gameTimer) delete gameTimer;
 }
 
 void MainGame::Update()
 {
+	float elapsedTime{};
+	if (gameTimer) {
+		gameTimer->Tick();
+		elapsedTime = gameTimer->GetElapsedTime();
+	}
+
+	if (iori) iori->Update(elapsedTime);
 	if (Player1) Player1->Update();
 	if (Player2) Player2->Update();
 	if (background) background->Update();
@@ -77,7 +90,7 @@ void MainGame::Update()
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ¹é¹öÆÛ¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
@@ -93,7 +106,7 @@ void MainGame::Render(HDC hdc)
 		Player2->Render(hBackBufferDC);
 	}
 
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hdcï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	backBuffer->Render(hdc);
 }
 
@@ -104,7 +117,7 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 {
 	switch (iMessage) {
 	case WM_CREATE:
-		hTimer = (HANDLE)SetTimer(hWnd, 0, 100, NULL);
+		hTimer = (HANDLE)SetTimer(hWnd, 0, 10, NULL);
 		break;
 	case WM_TIMER:
 		switch (wParam) {
@@ -218,6 +231,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		hdc = BeginPaint(g_hWnd, &ps);
 
 		Render(hdc);
+
+		// test
+		wsprintf(szText, L"mouse: %d, %d", mousePosX, mousePosY);
+		TextOut(hdc, 0, 0, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;

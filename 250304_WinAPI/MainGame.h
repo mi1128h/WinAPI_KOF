@@ -7,6 +7,7 @@ class RoundManager;
 class Image;
 class AnimCharacter;
 class AnimBackground;
+class Timer;
 class MainGame : public GameObject
 {
 private:
@@ -27,6 +28,8 @@ private:
 	AnimCharacter* Player2;
     AnimBackground* background; // 애니메이션 배경 객체
 
+
+	Timer* gameTimer;
 
 public:
 	void Init();

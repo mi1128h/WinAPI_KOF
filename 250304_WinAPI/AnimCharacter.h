@@ -29,22 +29,31 @@ protected:
 	float hp;
 	bool playerClassification; // 플레이어 구분
 
+	float accumTime;
+	float animTime[State::Statelength];
+
 
 	vector<Image*> vImages[State::Statelength];
 	State curState;
 	int frameIdx;
 	bool flip;
+	int offset;
 
 public:
 	virtual void Init();
 	void Release();
-	void Update();
+	void Update(float elapsedTime);
 	void ProcessInput();
-	void Animate();
+	void Animate(float elpasedTime);
 	void Render(HDC hdc);
 
-	void Move();
+	void Move(float elapsedTime);
 	void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
+
+
+
+	int GetFrameIdx() { return frameIdx; }
+
 
 	FPOINT GetPos() { return position; }
 	void SetPos(FPOINT Pos) { this->position = Pos; }  //
@@ -54,7 +63,7 @@ public:
 	float GetHp() { return hp; }
 
 	State GetState() { return curState; }
-	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
+	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ChangeStateToIdle();
 
 	FPOINT SetStartPos();

@@ -12,6 +12,8 @@ void AnimCharacter::Init()
 	speed = 10;
 	dx = 0.0f;
 	dy = 0.0f;
+	hp = 10.0f;
+	accumTime = 0.0f;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -30,6 +32,8 @@ void AnimCharacter::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = SetStartFilp();
+	offset = 0;
+
 }
 
 void AnimCharacter::Release()
@@ -43,11 +47,11 @@ void AnimCharacter::Release()
 	}
 }
 
-void AnimCharacter::Update()
+void AnimCharacter::Update(float elapsedTime)
 {
-	Move();
+	Move(elapsedTime);
 
-	Animate();
+	Animate(elapsedTime);
 
 	ProcessInput();
 }
@@ -164,11 +168,12 @@ void AnimCharacter::ProcessInput()
 	}
 }
 
-void AnimCharacter::Animate()
+void AnimCharacter::Animate(float elapsedTime)
 {
-	frameIdx++;
+	accumTime += elapsedTime;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum > 0) {
+		// get total frameNum
 		int framesNum{ 1 };
 		if (imagesNum != 1) {
 			framesNum = imagesNum;
@@ -177,8 +182,11 @@ void AnimCharacter::Animate()
 			int sn = vImages[curState][0]->GetSpritesNumX() * vImages[curState][0]->GetSpritesNumY();
 			framesNum = sn;
 		}
-		if (frameIdx == framesNum) ChangeStateToIdle();
-		frameIdx %= framesNum;
+		// calculate frameIdx
+		int temp = frameIdx;
+		int frame = accumTime * framesNum / animTime[curState];
+		frameIdx = frame % framesNum;
+		if (temp == framesNum - 1 and frameIdx == 0) ChangeStateToIdle();
 	}
 	else frameIdx = -1;
 }
@@ -188,17 +196,19 @@ void AnimCharacter::Render(HDC hdc)
 	if (frameIdx == -1) return;
 	int imagesNum = vImages[curState].size();
 	if (imagesNum == 1) {
-		vImages[curState][0]->Render(hdc, position.x, position.y, -1, -1, frameIdx, flip);
+		vImages[curState][0]->RenderCenter(hdc, position.x, position.y, -1, -1, frameIdx, flip, offset);
 	}
 	else {
-		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
+		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, -1, -1, 0, flip, offset);
 	}
+	// test Ellipse for position
+	RenderEllipseAtCenter(hdc, position.x, position.y, 10, 10);
 }
 
-void AnimCharacter::Move()
+void AnimCharacter::Move(float elapsedTime)
 {
-	position.x += dx * speed;
-	position.y += dy * speed;
+	position.x += dx * speed * elapsedTime;
+	position.y += dy * speed * elapsedTime;
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 	if (dx > 0) flip = false;
 	if (dx < 0) flip = true;
