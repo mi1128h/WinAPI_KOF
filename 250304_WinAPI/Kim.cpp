@@ -10,6 +10,7 @@ void Kim::Init()
 	dy = 0.0f;
 	hurtBox = { 0,0,0,0 };
 	hitBox = { 0,0,0,0 };
+	isSuccessHit = false;
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
 	Image* idleImages = new Image();
@@ -49,10 +50,16 @@ void Kim::Init()
 	vImages[State::StrongFoot].push_back(strongFootImages);
 
 	Image* weakDamageImages = new Image();
-	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::WeakDamaged].push_back(weakDamageImages);
+
+	Image* StrongDamageImages = new Image();
+	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 
 	/*Image* deadImages = new Image();
 	if (FAILED(deadImages->Init(L"Image/bluemary_fall.bmp", 256, 256, 12, 1, true, RGB(255, 0, 255)))) {
@@ -179,8 +186,8 @@ void Kim::Render(HDC hdc)
 	else {
 		vImages[curState][frameIdx]->Render(hdc, position.x, position.y, -1, -1, 0, flip);
 	}
-	RenderRect(hdc, hurtBox.left, hurtBox.top, 112, 208);
-	RenderRect(hdc, hitBox.left, hitBox.top, hitBox.right - hitBox.left, hitBox.bottom - hitBox.top);
+	//RenderRect(hdc, hurtBox.left, hurtBox.top, 112, 208);
+	//RenderRect(hdc, hitBox.left, hitBox.top, hitBox.right - hitBox.left, hitBox.bottom - hitBox.top);
 }
 
 void Kim::Move()
@@ -199,17 +206,44 @@ void Kim::Action()
 	switch (curState)
 	{
 	case WeakHand:
-		hitBox = GetRect(position.x + 140, position.y + 62, 100, 50);
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 62, 100, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
 		break;
 	case StrongHand:
-		hitBox = GetRect(position.x + 140, position.y + 104, 105, 50);
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 104, 105, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
 		break;
-	
 	case WeakFoot:
-		hitBox = GetRect(position.x + 140, position.y + 104, 110, 50);
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 104, 110, 50);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
 		break;
 	case StrongFoot:
-		hitBox = GetRect(position.x + 140, position.y + 10, 100, 100);
+		if (isSuccessHit == false)
+		{
+			hitBox = GetRect(position.x + 140, position.y + 10, 100, 100);
+		}
+		else
+		{
+			hitBox = GetRect(0, 0, 0, 0);
+		}
 		break;
 	case WeakDamaged:
 		break;
@@ -217,6 +251,7 @@ void Kim::Action()
 		break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
+		isSuccessHit = false;
 		break;
 	}
 }
