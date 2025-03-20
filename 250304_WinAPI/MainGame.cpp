@@ -3,7 +3,7 @@
 #include "Image.h"
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
-#include "BlueMary.h"
+#include "Kyo.h"
 #include "Timer.h"
 
 /*
@@ -17,7 +17,7 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
 		MessageBox(g_hWnd, L"backBuffer 생성 실패", L"경고", MB_OK);
 	}
-	iori = new BlueMary();
+	iori = new Kyo();
 	iori->Init();
 
 	background = new AnimBackground();
@@ -131,6 +131,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		hdc = BeginPaint(g_hWnd, &ps);
 
 		Render(hdc);
+
+		// test
+		wsprintf(szText, L"mouse: %d, %d", mousePosX, mousePosY);
+		TextOut(hdc, 0, 0, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;
