@@ -83,8 +83,8 @@ void UIManager::Render(HDC hdc)
 
     
     //---------- 캐릭터 선택 ----------------------
-    vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
-    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 0);
+  /*  vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
+    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 0);*/
 }
 
 

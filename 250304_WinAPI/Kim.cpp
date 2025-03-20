@@ -62,7 +62,7 @@ void Kim::Update()
 {
 	Move();
 
-	Animate();
+	Animate(3);
 
 	ProcessInput();
 }
