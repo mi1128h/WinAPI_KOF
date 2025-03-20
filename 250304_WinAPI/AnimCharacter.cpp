@@ -21,13 +21,13 @@ void AnimCharacter::Init()
 
 	Image* idleImages = new Image();
 	if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_idle ���� �ε忡 ����", L"���", MB_OK);
+		MessageBox(g_hWnd, L"iori_idle 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Idle].push_back(idleImages);
 
 	Image* walkImages = new Image();
 	if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_walk ���� �ε忡 ����", L"���", MB_OK);
+		MessageBox(g_hWnd, L"iori_walk 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
 
@@ -61,115 +61,44 @@ void AnimCharacter::Update(float elapsedTime)
 
 void AnimCharacter::ProcessInput()
 {
-	// �÷��̾� �Ǵ�?
 	KeyManager* km = KeyManager::GetInstance();
-	KeyManager* km2 = KeyManager::GetInstance();
-	int deltaX{}, deltaY{};
 
-	// ������ ������ ����
-	steady_clock::time_point lastPressTime_A, lastPressTime_D;
-	bool isRunning = false;  // ���� �޸��� ������ Ȯ��
+	// 현재 플레이어의 키 입력을 감지하여 상태 값 반환
+	State keyCommand = km->GetCommand(isPlayer1);
+	int deltaX = 0, deltaY = 0;
 
-	// ���� �ð� ��������
-	auto now = steady_clock::now();
+	// 입력된 상태(keyCommand)에 따라 캐릭터 행동 결정
+    switch (keyCommand)
+    {
+    case State::Walk:
+        deltaX += 1;
+        SetState(State::Walk);
+        break;
+    
+    case State::BackWalk:
+        deltaX -= 1;
+        SetState(State::Walk);
+        break;
 
-	bool P1_WeakHand = (km->IsOnceKeyDown('U'));
-	bool P1_StrongHand = (km->IsOnceKeyDown('I'));
-	bool P1_WeakFoot = (km->IsOnceKeyDown('J'));
-	bool P1_StrongFoot = (km->IsOnceKeyDown('K'));
+	// 공격 키 눌린경우 공격 상태로 변환
+    case State::WeakHand:
+    case State::StrongHand:
+    case State::WeakFoot:
+    case State::StrongFoot:
+        SetState(keyCommand);
+        break;
 
-	bool P2_WeakHand = (km2->IsOnceKeyDown(VK_NUMPAD4));
-	bool P2_StrongHand = (km2->IsOnceKeyDown(VK_NUMPAD5));
-	bool P2_WeakFoot = (km2->IsOnceKeyDown(VK_NUMPAD1));
-	bool P2_StrongFoot = (km2->IsOnceKeyDown(VK_NUMPAD2));
+	// 걷기 상태였다가 이동 입력이 없으면 Idle(대기) 상태로 전환
+    default:
+        if (curState == State::Walk) {
+            SetState(State::Idle);
+        }
+        break;
+    }
 
-	if (this->GetIsPlayer1()) {
-		switch (curState) {
-		case State::Idle:
-           
-			if (km->IsOnceKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsOnceKeyDown('D')) {
-				deltaX += 1;
-			}
-			if (deltaX != 0) SetState(State::Walk);
-           
-
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-
-			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // Ŀ�ǵ�
-			break;
-
-		case State::Walk:
-
-			if (km->IsStayKeyDown('A')) {
-				deltaX -= 1;
-			}
-			if (km->IsStayKeyDown('D')) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-            
-			if (P1_WeakHand) SetState(State::WeakHand);
-			if (P1_StrongHand) SetState(State::StrongHand);
-			if (P1_WeakFoot) SetState(State::WeakFoot);
-			if (P1_StrongFoot) SetState(State::StrongFoot);
-
-			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand);
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
-		}
-
-		SetDelta(deltaX, deltaY);
-	}
-
-	else {
-		switch (curState) {
-		case State::Idle:
-			if (km2->IsStayKeyDown(VK_LEFT)) {
-				deltaX -= 1;
-			}
-			if (km2->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			if (deltaX != 0) SetState(State::Walk);
-
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-
-			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
-			break;
-
-		case State::Walk:
-			if (km2->IsStayKeyDown(VK_LEFT) ) {
-				deltaX -= 1;
-			}
-			if (km2->IsStayKeyDown(VK_RIGHT)) {
-				deltaX += 1;
-			}
-			if (deltaX == 0) SetState(State::Idle);
-
-			if (P2_WeakHand) SetState(State::WeakHand);
-			if (P2_StrongHand) SetState(State::StrongHand);
-			if (P2_WeakFoot) SetState(State::WeakFoot);
-			if (P2_StrongFoot) SetState(State::StrongFoot);
-
-			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
-			break;
-		case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-			break;
-		}
-
-		SetDelta(deltaX, deltaY);
-	}
+    SetDelta(deltaX, deltaY);
 }
+
 
 void AnimCharacter::Animate(float elapsedTime)
 {

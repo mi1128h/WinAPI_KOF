@@ -31,8 +31,7 @@ protected:
 	float accumTime;
 	float animTime[State::Statelength];
 
-	bool isPlayer1; // �÷��̾� ����
-
+	bool isPlayer1; 
 
 
 	vector<Image*> vImages[State::Statelength];
