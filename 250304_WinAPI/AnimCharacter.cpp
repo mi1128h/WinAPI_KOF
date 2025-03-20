@@ -8,8 +8,10 @@ using namespace std::chrono;
 
 void AnimCharacter::Init()
 {
-	position = { SetStartPos() };
+	position = { 0,0 };
 	speed = 10;
+	hp = 100;
+
 	dx = 0.0f;
 	dy = 0.0f;
 	hp = 10.0f;
@@ -19,20 +21,21 @@ void AnimCharacter::Init()
 
 	Image* idleImages = new Image();
 	if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_idle ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"iori_idle ï¿½ï¿½ï¿½ï¿½ ï¿½Îµå¿¡ ï¿½ï¿½ï¿½ï¿½", L"ï¿½ï¿½ï¿½", MB_OK);
 	}
 	vImages[State::Idle].push_back(idleImages);
 
 	Image* walkImages = new Image();
 	if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_walk ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
+		MessageBox(g_hWnd, L"iori_walk ï¿½ï¿½ï¿½ï¿½ ï¿½Îµå¿¡ ï¿½ï¿½ï¿½ï¿½", L"ï¿½ï¿½ï¿½", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
 
 	curState = State::Idle;
 	frameIdx = 0;
-	flip = SetStartFilp();
+	
 	offset = 0;
+	flip = SetStartFilp();
 
 }
 
@@ -58,16 +61,16 @@ void AnimCharacter::Update(float elapsedTime)
 
 void AnimCharacter::ProcessInput()
 {
-	// ÇÃ·¹ÀÌ¾î ÆÇ´Ü?
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ç´ï¿½?
 	KeyManager* km = KeyManager::GetInstance();
 	KeyManager* km2 = KeyManager::GetInstance();
 	int deltaX{}, deltaY{};
 
-	// ´õºíÅÇ °¨Áö¿ë º¯¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	steady_clock::time_point lastPressTime_A, lastPressTime_D;
-	bool isRunning = false;  // ÇöÀç ´Ş¸®´Â ÁßÀÎÁö È®ÀÎ
+	bool isRunning = false;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 
-	// ÇöÀç ½Ã°£ °¡Á®¿À±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	auto now = steady_clock::now();
 
 	bool P1_WeakHand = (km->IsOnceKeyDown('U'));
@@ -80,14 +83,14 @@ void AnimCharacter::ProcessInput()
 	bool P2_WeakFoot = (km2->IsOnceKeyDown(VK_NUMPAD1));
 	bool P2_StrongFoot = (km2->IsOnceKeyDown(VK_NUMPAD2));
 
-	if (this->getPlayer_Classification()) {
+	if (this->GetIsPlayer1()) {
 		switch (curState) {
 		case State::Idle:
            
-			if (km->IsOnceKeyDown('a') or km->IsOnceKeyDown('A')) {
+			if (km->IsOnceKeyDown('A')) {
 				deltaX -= 1;
 			}
-			if (km->IsOnceKeyDown('d') or km->IsOnceKeyDown('D')) {
+			if (km->IsOnceKeyDown('D')) {
 				deltaX += 1;
 			}
 			if (deltaX != 0) SetState(State::Walk);
@@ -98,15 +101,15 @@ void AnimCharacter::ProcessInput()
 			if (P1_WeakFoot) SetState(State::WeakFoot);
 			if (P1_StrongFoot) SetState(State::StrongFoot);
 
-			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // Ä¿¸Çµå
+			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // Ä¿ï¿½Çµï¿½
 			break;
 
 		case State::Walk:
 
-			if (km->IsStayKeyDown('a') or km->IsStayKeyDown('A')) {
+			if (km->IsStayKeyDown('A')) {
 				deltaX -= 1;
 			}
-			if (km->IsStayKeyDown('d') or km->IsStayKeyDown('D')) {
+			if (km->IsStayKeyDown('D')) {
 				deltaX += 1;
 			}
 			if (deltaX == 0) SetState(State::Idle);
@@ -221,22 +224,19 @@ void AnimCharacter::ChangeStateToIdle()
 	}
 }
 
-FPOINT AnimCharacter::SetStartPos()
+void AnimCharacter::SetStartPos()
 {
-	FPOINT respawnpos;
-	if (this->getPlayer_Classification()) {
-		respawnpos = { PLAYER1_POSX, PLAYER_POSY };
+	if (this->GetIsPlayer1()) {
+		position = { PLAYER1_POSX, PLAYER_POSY };
 	}
 	else {
-		respawnpos = { PLAYER2_POSX, PLAYER_POSY };
+		position = { PLAYER2_POSX, PLAYER_POSY };
 	}
-
-	return respawnpos;
 }
 
 bool AnimCharacter::SetStartFilp()
 {
-	if (this->getPlayer_Classification()) return false;
+	if (this->GetIsPlayer1()) return false;
 	
 	return true;
 }

@@ -4,31 +4,31 @@
 #include "AnimCharacter.h"
 #include "AnimBackground.h"
 #include "BlueMary.h"
+#include "Kim.h"
 #include "SherCharacter.h"
 #include "Mai.h"
+
 #include "Kyo.h"
 #include "Timer.h"
 
-
-/*
-	�ǽ�1. �̿��� ���� ������
-	�ǽ�2. ��� �ٲٱ� (ŷ���� �ִϸ��̼� ���)
-*/
 
 void MainGame::Init()
 {
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y))) {
-		MessageBox(g_hWnd, L"backBuffer ���� ����", L"���", MB_OK);
+		MessageBox(g_hWnd, L"backBuffer ?�성 ?�패", L"경고", MB_OK);
+
 	}
 
-	Player1 = new SherCharacter();
-	Player1->setPlayer_Classification(false);
+	Player1 = new Kyo();
+	Player1->SetPlayerClassification(true);
 	Player1->Init();
+	Player1->SetStartPos();
 
-	Player2 = new Mai();
-	Player2->setPlayer_Classification(true);
+	Player2 = new BlueMary();
+	Player2->SetPlayerClassification(false);
 	Player2->Init();
+	Player2->SetStartPos();
 
 
 	background = new AnimBackground();
@@ -37,8 +37,16 @@ void MainGame::Init()
 	KeyManager* km = KeyManager::GetInstance();
 	km->Init();
 
+
 	gameTimer = new Timer();
 	gameTimer->Init();
+
+	UIManager* ui = UIManager::GetInstance();
+	ui->Init();
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->Init();
+
+
 }
 
 void MainGame::Release()
@@ -71,6 +79,11 @@ void MainGame::Release()
 	if (km) km->Release();
 
 	if (gameTimer) delete gameTimer;
+	UIManager* ui = UIManager::GetInstance();
+	if (ui) ui->Release();
+
+	CollisionManager* cm = CollisionManager::GetInstance();
+	if (cm) cm->Release();
 }
 
 void MainGame::Update()
@@ -81,16 +94,23 @@ void MainGame::Update()
 		elapsedTime = gameTimer->GetElapsedTime();
 	}
 
-	if (iori) iori->Update(elapsedTime);
-	if (Player1) Player1->Update();
-	if (Player2) Player2->Update();
-	if (background) background->Update();
+	UIManager* ui = UIManager::GetInstance();
+	if (ui) ui->Update(Player1, Player2);
+
+	CollisionManager* cm = CollisionManager::GetInstance();
+	cm->CheckHit(Player1, Player2);
+	cm->CheckHit(Player2, Player1);
+
+	if (Player1) Player1->Update(elapsedTime);
+	if (Player2) Player2->Update(elapsedTime);
+	if (background) background->Update(elapsedTime);
+
 }
 
 void MainGame::Render(HDC hdc)
 {
 	if (!backBuffer) return;
-	// ����ۿ� ����
+
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	BitBlt(hBackBufferDC, 0, 0, WINSIZE_X, WINSIZE_Y, hdc, 0, 0, WHITENESS);
 
@@ -101,12 +121,14 @@ void MainGame::Render(HDC hdc)
 	if (Player1) {
 		Player1->Render(hBackBufferDC);
 	}
-
 	if (Player2) {
 		Player2->Render(hBackBufferDC);
 	}
 
-	// ����ۿ� �ִ� ������ ���� hdc�� ����
+	UIManager* ui = UIManager::GetInstance();
+	if(ui) ui->Render(hBackBufferDC);
+
+
 	backBuffer->Render(hdc);
 }
 
@@ -129,87 +151,21 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
-#ifdef KEYDOWN
-
-	case WM_KEYDOWN:
-		switch (wParam) {
-		//case 'a': case 'A':
-		//	iori->SetDelta(-10, 0);
-		//	break;
-		//case 'd': case 'D':
-		//	iori->SetDelta(10, 0);
-		//	break;
-		//case 'w': case 'W':
-		//	iori->SetDelta(0, -10);
-		//	break;
-		//case 's': case 'S':
-		//	iori->SetDelta(0, 10);
-		//	break;
-		}
-#endif // KEYDOWN
-
-#ifdef TANKGAME
-		switch (wParam) {
-		case VK_ESCAPE:
-			if (roundManager->IsGameOver() or roundManager->IsGameClear())
-			{
-				KillTimer(hWnd, 0);
-				KillTimer(hWnd, 1);
-				Release();
-				PostQuitMessage(0);
-			}
-			break;
-		case 'a': case 'A':
-			tank->RotateBarrel(5);
-			break;
-		case 'd': case 'D':
-			tank->RotateBarrel(-5);
-			break;
-		case VK_SPACE:
-			tank->Skill(SkillType::Basic);
-			break;
-		case 'r': case 'R':
-			tank->Skill(SkillType::Bomb);
-			break;
-		case 'e': case 'E':
-			tank->Skill(SkillType::Bounce);
-			break;
-		case VK_LEFT:
-		case VK_RIGHT:
-		case VK_UP:
-		case VK_DOWN:
-			tank->ProccessMoveInput(wParam);
-			break;
-		case VK_RETURN:
-			if (roundManager->IsGameOver() or roundManager->IsGameClear())
-			{
-				RestartGame();
-			}
-			break;
-		}
-#endif
-
-		InvalidateRect(g_hWnd, NULL, FALSE);
-		break;
 
 	case WM_KEYUP:
 
 		switch (wParam) {
 		case 'a': case 'A':
-			Player1->SetDelta(0, 0);
-			Player2->SetDelta(0, 0);
+
 			break;
 		case 'd': case 'D':
-			Player1->SetDelta(0, 0);
-			Player2->SetDelta(0, 0);
+
 			break;
 		case 'w': case 'W':
-			Player1->SetDelta(0, 0);
-			Player2->SetDelta(0, 0);
+
 			break;
 		case 's': case 'S':
-			Player1->SetDelta(0, 0);
-			Player2->SetDelta(0, 0);
+
 			break;
 		}
 		InvalidateRect(g_hWnd, NULL, FALSE);
