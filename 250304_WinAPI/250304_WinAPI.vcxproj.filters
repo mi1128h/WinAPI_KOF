@@ -59,6 +59,8 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일</Filter>
+    <ClCompile Include="Mai.cpp">
+      <Filter>MainGame\KOF_Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,14 +100,16 @@
     <ClInclude Include="SherCharacter.h">
       <Filter>MainGame\KOF_Character</Filter>
     </ClInclude>
+
     <ClInclude Include="Kim.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClInclude Include="Mai.h">
+      <Filter>MainGame\KOF_Character</Filter>
+    </ClInclude>
+
   </ItemGroup>
 </Project>

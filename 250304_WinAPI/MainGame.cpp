@@ -7,6 +7,7 @@
 #include "Kim.h"
 #include "SherCharacter.h"
 #include "Kyo.h"
+#include "Mai.h"
 
 
 void MainGame::Init()
@@ -17,13 +18,13 @@ void MainGame::Init()
 	}
 
 
-
 	Player1 = new Kim();
 	Player1->setPlayer_Classification(true);
 	Player1->Init();
 
 	Player2 = new Kim();
 	Player2->setPlayer_Classification(false);
+
 	Player2->Init();
 
 	background = new AnimBackground();

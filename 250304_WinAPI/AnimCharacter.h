@@ -27,7 +27,7 @@ protected:
 	float dx, dy;
 	float speed;
 	float hp;
-	bool player_classification; // 플레이어 구분
+	bool playerClassification; // 플레이어 구분
 
 
 	vector<Image*> vImages[State::Statelength];
@@ -57,11 +57,11 @@ public:
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; }
 	void ChangeStateToIdle();
 
-	FPOINT respawnPlayer();
+	FPOINT SetStartPos();
 
-	inline bool getPlayer_Classification() { return player_classification; }
+	inline bool getPlayer_Classification() { return playerClassification; }
 	inline void setPlayer_Classification(bool player_classification) 
-	{this->player_classification = player_classification;}
-
+	{this->playerClassification = player_classification;}
+	bool SetStartFilp();
 };
 
