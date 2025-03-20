@@ -9,6 +9,8 @@ enum Ui {
     Advanced,
     StartUi,
     StartUiFront,
+
+    HpUi,
     LeftUi,
     RightUi,
     infinityUi,
@@ -27,6 +29,7 @@ public:
 
     void advRender(HDC hdc);
     void HpRender(HDC hdc);
+    void StartRender(HDC hdc);
 
     void SteminaRender(HDC hdc);
 
@@ -36,6 +39,8 @@ public:
     void SetPlayerScore(int score) { playerScore = score; }
     void SetEnemyScore(int score) { enemyScore = score; }
 
+    void SetDrawFirstScreen(bool draw) { drawFirstScreen = draw; };
+        
 private:
     AnimCharacter* player = nullptr;
     AnimCharacter* enemy = nullptr;
@@ -56,12 +61,13 @@ private:
     int playerScore = 0;
     int enemyScore = 0;
 
+    int StartUiFrontY = 116;
 
     float accumTime;
     float animTime = 0.7f;
 
 
     //--character selection ui--
-
+    bool drawFirstScreen = true;
 
 };

@@ -165,8 +165,9 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		case 'w': case 'W':
 
 			break;
-		case 's': case 'S':
-
+		case VK_SPACE:
+			UIManager * ui = UIManager::GetInstance();
+			ui->SetDrawFirstScreen(false);
 			break;
 		}
 		InvalidateRect(g_hWnd, NULL, FALSE);

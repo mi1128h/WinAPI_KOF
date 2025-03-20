@@ -27,11 +27,18 @@ void UIManager::Init()
     }
     vUiImages[Ui::StartUiFront].push_back(CharacterSelectFrontUi);
 
-        Image* CharacterSelectUi = new Image();  //테스트 characterSelectionUi
+    Image* CharacterSelectUi = new Image();  //테스트 characterSelectionUi
     if (FAILED(CharacterSelectUi->Init(L"Image/ImageUI/CharacterSelectUi.bmp", 302* 3.7 , 227*3.7 , 1, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"CharacterSelectUi 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::StartUi].push_back(CharacterSelectUi);
+
+   
+     Image* HpUi = new Image(); //hp바
+    if (FAILED(HpUi->Init(L"Image/ImageUI/HPbar.bmp", 264, 41, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"HPbar 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::HpUi].push_back(HpUi);
 
     float LeftRightImageSz = 1.2;
     Image* leftImages = new Image(); //테스트 왼쪽hp캐릭터 ui
@@ -40,6 +47,7 @@ void UIManager::Init()
     }
     vUiImages[Ui::LeftUi].push_back(leftImages);
 
+
     Image* rightImages = new Image(); //테스트 오른쪽hp캐릭터 ui
     if (FAILED(rightImages->Init(L"Image/ImageUI/RightUi.bmp", 264* LeftRightImageSz, 41* LeftRightImageSz, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"RightUi 파일 로드에 실패", L"경고", MB_OK);
@@ -47,10 +55,13 @@ void UIManager::Init()
     vUiImages[Ui::RightUi].push_back(rightImages);
 
     Image* infinityUI = new Image(); //테스트 센터 시간무한 ui
-    if (FAILED(infinityUI->Init(L"Image/ImageUI/infinityUI.bmp", 268*0.5, 256*0.5, 1, 1, true, RGB(255, 0, 255)))) {
+    if (FAILED(infinityUI->Init(L"Image/ImageUI/infinityUI.bmp", 268*0.3, 256*0.3, 1, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"infinityUI 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::infinityUi].push_back(infinityUI);
+
+
+
 }
 
 void UIManager::Release()
@@ -60,8 +71,15 @@ void UIManager::Release()
 
 void UIManager::Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer, float elapsedTime)
 {
-    if (leftPlayer) playerHP = leftPlayer->GetHp();
-    if (rightPlayer) enemyHP = rightPlayer->GetHp();
+    if (leftPlayer){
+        playerHP = leftPlayer->GetHp();
+    
+    }
+    if (rightPlayer) {
+
+        enemyHP = rightPlayer->GetHp();
+    }
+    
     Animate(elapsedTime);
 
 }
@@ -78,32 +96,19 @@ void UIManager::Render(HDC hdc)
     vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
 
 
-    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 - 60, -30, -1, -1, frameIdx, 1);
-
+    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 -30 , -10, -1, -1, frameIdx, 1);
+   
 
     
-    //---------- 캐릭터 선택 ----------------------
-  /*  vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
-    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 0);*/
+    //---------- 스타트 스크린 ----------------------
+    if (drawFirstScreen) UIManager::StartRender(hdc);
+
+    
 }
 
 
 void UIManager::Animate(float elapsedTime)
 {
-    //frameIdx++;
-    //int imagesNum = vUiImages[curUi].size();
-    //if (imagesNum > 0) {
-    //    int framesNum{ 1 };
-    //    if (imagesNum != 1) {
-    //        framesNum = imagesNum;
-    //    }
-    //    else if (imagesNum == 1) {
-    //        int sn = vUiImages[curUi][0]->GetSpritesNumX() * vUiImages[curUi][0]->GetSpritesNumY();
-    //        framesNum = sn;
-    //    }
-    //    frameIdx %= framesNum;
-    //}
-    //else frameIdx = -1;
 
 
     accumTime += elapsedTime;
@@ -144,34 +149,57 @@ void UIManager::advRender(HDC hdc)
 void UIManager::HpRender(HDC hdc)
 {
     int barWidth = 400;
-    int barHeight = 30;
+    int barHeight = 15;
     int paddingX = 50;
     int paddingY = 20;
+    int borderThickness = 3; // 테두리 두께
 
-    // 플레이어 HP 바 (왼쪽)
-    Rectangle(hdc, paddingX, paddingY, paddingX + barWidth, paddingY + barHeight);
-    HBRUSH hBrush = CreateSolidBrush(RGB(0, 255, 0)); // 초록색 (플레이어)
-    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
-    Rectangle(hdc, paddingX, paddingY, paddingX + (int)(barWidth * (playerHP / 10.0f)), paddingY + barHeight);
-    SelectObject(hdc, oldBrush);
-    DeleteObject(hBrush);
-
-
-    // 플레이어 HP바(오른쪽)
+    int playerHpWidth = (int)(barWidth * (playerHP / 10.0f));
     int enemyBarX = WINSIZE_X - barWidth - paddingX;
-    Rectangle(hdc, enemyBarX, paddingY, enemyBarX + barWidth, paddingY + barHeight);
-    hBrush = CreateSolidBrush(RGB(50, 50, 200));
-    oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+    int enemyHpWidth = (int)(barWidth * (enemyHP / 10.0f));
 
-    //반대로 차게
-    Rectangle(hdc, enemyBarX + (barWidth - (int)(barWidth * (enemyHP / 10.0f))),
-        paddingY,
-        enemyBarX + barWidth,
-        paddingY + barHeight);
+    HPEN borderPen = CreatePen(PS_SOLID, borderThickness, RGB(255, 255, 255)); // 흰색 테두리 펜
+    HPEN oldPen = (HPEN)SelectObject(hdc, borderPen);
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));  // 내부 투명 처리
 
+    Rectangle(hdc, paddingX - borderThickness, paddingY - borderThickness,
+        paddingX + barWidth + borderThickness, paddingY + barHeight + borderThickness);
+    
+    Rectangle(hdc, enemyBarX - borderThickness, paddingY - borderThickness,
+        enemyBarX + barWidth + borderThickness, paddingY + barHeight + borderThickness);
+
+    // 원래 펜과 브러시로 복구
+    SelectObject(hdc, oldPen);
     SelectObject(hdc, oldBrush);
-    DeleteObject(hBrush);
+    DeleteObject(borderPen);
 
+    if (playerHpWidth > 0)
+    {
+        TRIVERTEX vertex[2] = {
+            { paddingX, paddingY, 0x0000, 0xC000, 0x0000, 0x0000 }, // 연한 초록색
+            { paddingX + playerHpWidth, paddingY + barHeight, 0x0000, 0x4000, 0x0000, 0x0000 } // 진한 초록색
+        };
+        GRADIENT_RECT pGradientRect = { 0, 1 };
+        GradientFill(hdc, vertex, 2, &pGradientRect, 1, GRADIENT_FILL_RECT_H);
+    }
+
+    if (enemyHpWidth > 0)
+    {
+        TRIVERTEX enemyVertex[2] = {
+            { enemyBarX + (barWidth - enemyHpWidth), paddingY, 0x0000, 0x0000, 0xC000, 0x0000 }, // 연한 파란색
+            { enemyBarX + barWidth, paddingY + barHeight, 0x0000, 0x0000, 0x4000, 0x0000 } // 진한 파란색
+        };
+        GRADIENT_RECT eGradientRect = { 0, 1 };
+        GradientFill(hdc, enemyVertex, 2, &eGradientRect, 1, GRADIENT_FILL_RECT_H);
+    }
+}
+
+void UIManager::StartRender(HDC hdc)
+{
+    vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
+    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, StartUiFrontY, -1, -1, frameIdx, 0);
+    --StartUiFrontY;
+    if (StartUiFrontY < -500) StartUiFrontY = 500;
 }
 
 void UIManager::SteminaRender(HDC hdc)
@@ -179,30 +207,46 @@ void UIManager::SteminaRender(HDC hdc)
     int barWidth = 300;
     int barHeight = 20;
     int paddingX = 50;
-    int paddingY = WINSIZE_Y-50;
+    int paddingY = WINSIZE_Y - 50;
+    int borderThickness = 2; // 테두리 두께
 
-    // 플레이어 스테미나 바 (왼쪽)
-    Rectangle(hdc, paddingX, paddingY, paddingX + barWidth, paddingY + barHeight);
-    HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 0)); // 초록색 (플레이어)
-    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
-    Rectangle(hdc, paddingX, paddingY, paddingX + (int)(barWidth * (playerStamina / 10.0f)), paddingY + barHeight);
-    SelectObject(hdc, oldBrush);
-    DeleteObject(hBrush);
-
-
-    // 플레이어 스테미나바(오른쪽)
+    int playerStaminaWidth = (int)(barWidth * (playerStamina / 10.0f));
     int enemyBarX = WINSIZE_X - barWidth - paddingX;
-    Rectangle(hdc, enemyBarX, paddingY, enemyBarX + barWidth, paddingY + barHeight);
-    hBrush = CreateSolidBrush(RGB(255, 255, 0));
-    oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+    int enemyStaminaWidth = (int)(barWidth * (enemyStamina / 10.0f));
 
-    //반대로 차게
-    Rectangle(hdc, enemyBarX + (barWidth - (int)(barWidth * (enemyStamina / 10.0f))),
-        paddingY,
-        enemyBarX + barWidth,
-        paddingY + barHeight);
+    HPEN borderPen = CreatePen(PS_SOLID, borderThickness, RGB(255, 255, 255));
+    HPEN oldPen = (HPEN)SelectObject(hdc, borderPen);
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH)); // 내부 투명
 
+    Rectangle(hdc, paddingX - borderThickness, paddingY - borderThickness,
+        paddingX + barWidth + borderThickness, paddingY + barHeight + borderThickness);
+
+    Rectangle(hdc, enemyBarX - borderThickness, paddingY - borderThickness,
+        enemyBarX + barWidth + borderThickness, paddingY + barHeight + borderThickness);
+
+    // 원래 펜과 브러시로 복구
+    SelectObject(hdc, oldPen);
     SelectObject(hdc, oldBrush);
-    DeleteObject(hBrush);
+    DeleteObject(borderPen);
 
+    if (playerStaminaWidth > 0)
+    {
+        TRIVERTEX vertex[2] = {
+            { paddingX, paddingY, 0xC000, 0xC000, 0x0000, 0x0000 }, // 연한 노란색
+            { paddingX + playerStaminaWidth, paddingY + barHeight, 0x8000, 0x8000, 0x0000, 0x0000 } // 진한 노란색
+        };
+        GRADIENT_RECT pGradientRect = { 0, 1 };
+        GradientFill(hdc, vertex, 2, &pGradientRect, 1, GRADIENT_FILL_RECT_H);
+    }
+
+    if (enemyStaminaWidth > 0)
+    {
+        TRIVERTEX enemyVertex[2] = {
+            { enemyBarX + (barWidth - enemyStaminaWidth), paddingY, 0xC000, 0xC000, 0x0000, 0x0000 }, // 연한 노란색
+            { enemyBarX + barWidth, paddingY + barHeight, 0x8000, 0x8000, 0x0000, 0x0000 } // 진한 노란색
+        };
+        GRADIENT_RECT eGradientRect = { 0, 1 };
+        GradientFill(hdc, enemyVertex, 2, &eGradientRect, 1, GRADIENT_FILL_RECT_H);
+    }
 }
+

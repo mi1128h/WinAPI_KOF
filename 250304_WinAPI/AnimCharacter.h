@@ -27,6 +27,7 @@ protected:
 	float dx, dy;
 	float speed;
 	float hp;
+	float stamina; 
 	float accumTime;
 	float animTime[State::Statelength];
 
@@ -57,7 +58,8 @@ public:
 
 	void SetHp(float hp) { this->hp = hp; }
 	float GetHp() { return hp; }
-
+	float GetStamina() { return stamina; }
+	
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ChangeStateToIdle();
