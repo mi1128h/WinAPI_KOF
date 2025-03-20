@@ -24,5 +24,6 @@ public:
 	void SetKeyUp(int key, bool state) { this->keyUp.set(key, state); }
 
 	State GetCommand(bool playerClassification);
+	bool IsLeftKeyDown(bool playerClassificateion);
+	bool IsRightKeyDown(bool playerClassificateion);
 };
-

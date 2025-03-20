@@ -65,18 +65,23 @@ State KeyManager::GetCommand(bool playerClassification)
 	bool WeakFootKey = (playerClassification) ? IsOnceKeyDown('J') : IsOnceKeyDown(VK_NUMPAD1);
 	bool StrongFootKey = (playerClassification) ? IsOnceKeyDown('K') : IsOnceKeyDown(VK_NUMPAD2);
 
-	bool LeftKey = (playerClassification) ? IsOnceKeyDown('A') : IsOnceKeyDown(VK_LEFT);
-	bool RightKey = (playerClassification) ? IsOnceKeyDown('D') : IsOnceKeyDown(VK_RIGHT);
-
-	// 방향키 입력 시 이동 상태 달라짐
-	if (LeftKey) return State::BackWalk;
-	if (RightKey) return State::Walk;
-
 	// 공격키 입력 시 공격 변환
 	if (WeakHandKey) return State::WeakHand;
 	if (StrongHandKey) return State::StrongHand;
 	if (WeakFootKey) return State::WeakFoot;
 	if (StrongFootKey) return State::StrongFoot;
 
-	return State::Idle; // 아무키 안눌렀을 때, 스탠딩 상태
+	return (State) -1; // 아무키 안눌렀을 때, 스탠딩 상태
+}
+
+bool KeyManager::IsLeftKeyDown(bool playerClassification)
+{
+    bool LeftKey = (playerClassification) ? IsOnceKeyDown('A') : IsOnceKeyDown(VK_LEFT);
+    return LeftKey;
+}
+
+bool KeyManager::IsRightKeyDown(bool playerClassification)
+{
+    bool RightKey = (playerClassification) ? IsOnceKeyDown('D') : IsOnceKeyDown(VK_RIGHT);
+    return RightKey;
 }

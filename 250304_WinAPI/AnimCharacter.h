@@ -54,7 +54,7 @@ public:
 	int GetFrameIdx() { return frameIdx; }
 
 	FPOINT GetPos() { return position; }
-	void SetPos(FPOINT Pos) { this->position = Pos; }  //
+	void SetPos(FPOINT Pos) { this->position = Pos; }  
 
 
 	void SetHp(float hp) { this->hp = hp; }

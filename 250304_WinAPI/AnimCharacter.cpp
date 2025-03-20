@@ -2,7 +2,6 @@
 #include "AnimCharacter.h"
 #include "Image.h"
 #include "CommonFunction.h"
-#include <string.h>
 
 using namespace std::chrono;
 
@@ -67,37 +66,47 @@ void AnimCharacter::ProcessInput()
 	State keyCommand = km->GetCommand(isPlayer1);
 	int deltaX = 0, deltaY = 0;
 
-	// 입력된 상태(keyCommand)에 따라 캐릭터 행동 결정
-    switch (keyCommand)
-    {
-    case State::Walk:
-        deltaX += 1;
-        SetState(State::Walk);
-        break;
-    
-    case State::BackWalk:
-        deltaX -= 1;
-        SetState(State::Walk);
-        break;
+	switch (curState) {
+	case State::Idle:
 
-	// 공격 키 눌린경우 공격 상태로 변환
-    case State::WeakHand:
-    case State::StrongHand:
-    case State::WeakFoot:
-    case State::StrongFoot:
-        SetState(keyCommand);
-        break;
+		if (km->IsLeftKeyDown(isPlayer1)) {
+			deltaX -= 1;
+		}
+		if (km->IsRightKeyDown(isPlayer1)) {
+			deltaX += 1;
+		}
 
-	// 걷기 상태였다가 이동 입력이 없으면 Idle(대기) 상태로 전환
-    default:
-        if (curState == State::Walk) {
-            SetState(State::Idle);
-        }
-        break;
-    }
+		if (deltaX != 0) {
 
-    SetDelta(deltaX, deltaY);
+			SetState(State::Walk);
+		}
+
+		if (keyCommand != -1)
+			SetState(keyCommand);
+
+		break;
+
+	case State::Walk: case State::BackWalk:
+
+		if (km->IsLeftKeyDown(isPlayer1)) {
+			deltaX -= 1;
+		}
+		if (km->IsRightKeyDown(isPlayer1)) {
+			deltaX += 1;
+		}
+		if (deltaX == 0) SetState(State::Idle);
+
+		if (keyCommand != -1)
+			SetState(keyCommand);
+		break;
+
+	case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
+		break;
+	}
+
+	SetDelta(deltaX, deltaY);
 }
+
 
 
 void AnimCharacter::Animate(float elapsedTime)
