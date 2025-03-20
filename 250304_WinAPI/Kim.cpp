@@ -48,6 +48,12 @@ void Kim::Init()
 	}
 	vImages[State::StrongFoot].push_back(strongFootImages);
 
+	Image* weakDamageImages = new Image();
+	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::WeakDamaged].push_back(weakDamageImages);
+
 	/*Image* deadImages = new Image();
 	if (FAILED(deadImages->Init(L"Image/bluemary_fall.bmp", 256, 256, 12, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
