@@ -2,7 +2,9 @@
 
 inline void RenderRect(HDC hdc, int ltX, int ltY, int width, int height)
 {
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(HOLLOW_BRUSH));  // 브러시 제거
 	Rectangle(hdc, ltX, ltY, ltX + width, ltY + height);
+	SelectObject(hdc, hOldBrush);  // 원래 브러시 복원
 }
 
 inline void RenderRectAtCenter(HDC hdc, int centerX, int centerY, int width, int height)

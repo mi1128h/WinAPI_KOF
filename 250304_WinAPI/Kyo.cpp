@@ -72,35 +72,33 @@ void Kyo::Init()
     curState = State::Idle;
     frameIdx = 0;
     flip = false;
-    offset = 10;
+    offset = 20;
 }
 
 void Kyo::Action()
 {
-	hurtBox = GetRect(position.x + 50, position.y - 200, 100, 200);
+	hurtBox = GetRect(position.x - 70, position.y - 230, 140, 230);
 
 	switch (curState)
 	{
 	case WeakHand:
 		
-			hitBox = GetRect(position.x + 50, position.y - 100, 300, 30);
-		
-			hitBox = GetRect(0, 0, 0, 0);
+			hitBox = GetRect(position.x , position.y - 190, 130, 30);
 
 		break;
 	case StrongHand:
 		
-			hitBox = GetRect(position.x + 50, position.y - 100, 300, 30);
+			hitBox = GetRect(position.x, position.y - 180, 150, 35);
 		
 		break;
 	case WeakFoot:
 		
-			hitBox = GetRect(position.x + 50, position.y - 100, 300, 30);
+			hitBox = GetRect(position.x, position.y - 170, 220, 45);
 		
 		break;
 	case StrongFoot:
 		
-			hitBox = GetRect(position.x + 50, position.y - 100, 300, 30);
+			hitBox = GetRect(position.x, position.y - 150, 180, 40);
 		
 		break;
 	case WeakDamaged:

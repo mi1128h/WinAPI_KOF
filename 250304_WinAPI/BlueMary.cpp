@@ -79,33 +79,32 @@ void BlueMary::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	flip = false;
-	offset = 15;
+	offset = 30;
 }
 void BlueMary::Action()
 {
-	hurtBox = GetRect(position.x + 50, position.y - 200, 100, 200);
+	hurtBox = GetRect(position.x - 64, position.y - 216, 128, 216);
 
 	switch (curState)
 	{
 	case WeakHand:
-		if (isSuccessHit == false)
 
-			hitBox = GetRect(position.x + 140, position.y + 62, 300, 50);
+			hitBox = GetRect(position.x, position.y - 176, 100, 60);
 
 		break;
 	case StrongHand:
 
-			hitBox = GetRect(position.x + 140, position.y + 104, 105, 50);
+			hitBox = GetRect(position.x, position.y - 176 , 210, 100);
 
 		break;
 	case WeakFoot:
 
-			hitBox = GetRect(position.x + 140, position.y + 104, 110, 50);
+			hitBox = GetRect(position.x, position.y - 156, 120, 60);
 
 		break;
 	case StrongFoot:
 
-			hitBox = GetRect(position.x + 140, position.y + 10, 100, 100);
+			hitBox = GetRect(position.x, position.y - 156, 180, 60);
 
 		break;
 	case WeakDamaged:
