@@ -1,115 +1,135 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="MainGame">
-      <UniqueIdentifier>{30a4acda-a37b-4e89-9be8-1d9ebd90b05c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D Framework">
-      <UniqueIdentifier>{c340a777-a67c-4ce7-8c9f-6765f2c97d59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\KOF_Character">
-      <UniqueIdentifier>{f94a7019-7865-4ac8-99a9-2fe506e425cf}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>2D Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="MainGame.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>2D Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimBackground.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimCharacter.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SherCharacter.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
+    <ClCompile Include="Kim.cpp">
+      <Filter>KOF_Character\소스</Filter>
     </ClCompile>
     <ClCompile Include="Kyo.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
+      <Filter>KOF_Character\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="Mai.cpp">
+      <Filter>KOF_Character\소스</Filter>
     </ClCompile>
     <ClCompile Include="BlueMary.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
+      <Filter>KOF_Character\소스</Filter>
     </ClCompile>
-    <ClCompile Include="Kim.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SherCharacter.cpp">
+      <Filter>KOF_Character\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimCharacter.cpp">
+      <Filter>KOF_Character\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>2DFramework\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>2DFramework\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>2DFramework\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>2DFramework\소스</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>소스 파일</Filter>
-    <ClCompile Include="Mai.cpp">
-      <Filter>MainGame\KOF_Character</Filter>
+      <Filter>2DFramework\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimBackground.cpp">
+      <Filter>소스</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>소스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameObject.h">
-      <Filter>2D Framework</Filter>
+    <ClInclude Include="Mai.h">
+      <Filter>KOF_Character\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="MainGame.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>2D Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimBackground.h">
-      <Filter>MainGame\KOF_Character</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimCharacter.h">
-      <Filter>MainGame\KOF_Character</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>2D Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueMary.h">
-      <Filter>MainGame\KOF_Character</Filter>
+    <ClInclude Include="Kim.h">
+      <Filter>KOF_Character\헤더</Filter>
     </ClInclude>
     <ClInclude Include="Kyo.h">
-      <Filter>MainGame\KOF_Character</Filter>
+      <Filter>KOF_Character\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueMary.h">
+      <Filter>KOF_Character\헤더</Filter>
     </ClInclude>
     <ClInclude Include="SherCharacter.h">
-      <Filter>MainGame\KOF_Character</Filter>
+      <Filter>KOF_Character\헤더</Filter>
     </ClInclude>
-
-    <ClInclude Include="Kim.h">
-      <Filter>소스 파일</Filter>
+    <ClInclude Include="AnimCharacter.h">
+      <Filter>KOF_Character\헤더</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>2DFramework\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="Mai.h">
-      <Filter>MainGame\KOF_Character</Filter>
+    <ClInclude Include="CommonFunction.h">
+      <Filter>2DFramework\헤더</Filter>
     </ClInclude>
-
+    <ClInclude Include="GameObject.h">
+      <Filter>2DFramework\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>2DFramework\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>2DFramework\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>2DFramework\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>2DFramework\소스</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimBackground.h">
+      <Filter>헤더</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="KOF_Character">
+      <UniqueIdentifier>{53018b9a-38c1-4f87-b8fc-69b4f9d43d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KOF_Character\소스">
+      <UniqueIdentifier>{e3a0b5e1-5a8c-49de-8d54-69055fbdee8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KOF_Character\헤더">
+      <UniqueIdentifier>{fd6fa9ac-89ce-4bfe-915a-2502d64c8cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework">
+      <UniqueIdentifier>{e8f97999-3d8f-431d-acba-4656d31522ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\소스">
+      <UniqueIdentifier>{db3ea330-c8d6-44b4-81f2-a0146f45f0f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DFramework\헤더">
+      <UniqueIdentifier>{4a4eb016-6bcf-4451-be8a-773d1c6c325c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{1bcf75f8-6592-4aad-9b96-4b060b06754d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스">
+      <UniqueIdentifier>{c5231564-0457-453f-a0f1-7ba1e3eec97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더">
+      <UniqueIdentifier>{123b5409-5509-45e4-b5af-ee03f60e987a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -72,6 +72,7 @@ void Kim::Init()
 	flip = true;
 }
 
+
 void Kim::Render(HDC hdc)
 {
 	if (frameIdx == -1) return;

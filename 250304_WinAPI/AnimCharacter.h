@@ -30,7 +30,7 @@ protected:
 	float accumTime;
 	float animTime[State::Statelength];
 
-	bool playerClassification; // 플레이어 구분
+	bool isPlayer1; // 플레이어 구분
 
 	RECT hurtBox;
 	RECT hitBox;
@@ -69,12 +69,13 @@ public:
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ChangeStateToIdle();
 
-	FPOINT SetStartPos();
+	void SetStartPos();
 
 
-	inline bool getPlayer_Classification() { return playerClassification; }
-	inline void setPlayer_Classification(bool player_classification) 
-	{this->playerClassification = player_classification;}
+	inline bool GetIsPlayer1() { return isPlayer1; }
+	inline void SetPlayerClassification(bool playerClassification) 
+	{this->isPlayer1 = playerClassification;}
+
 	bool SetStartFilp();
 
 	RECT GetHurtBox() { return hurtBox; };

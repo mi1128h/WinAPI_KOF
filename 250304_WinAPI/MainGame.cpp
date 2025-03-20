@@ -20,12 +20,14 @@ void MainGame::Init()
 	}
 
 	Player1 = new Kyo();
-	Player1->setPlayer_Classification(true);
+	Player1->SetPlayerClassification(true);
 	Player1->Init();
+	Player1->SetStartPos();
 
 	Player2 = new BlueMary();
-	Player2->setPlayer_Classification(false);
+	Player2->SetPlayerClassification(false);
 	Player2->Init();
+	Player2->SetStartPos();
 
 	background = new AnimBackground();
 	background->Init();

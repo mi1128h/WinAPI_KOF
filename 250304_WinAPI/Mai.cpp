@@ -5,7 +5,7 @@
 
 void Mai::Init()
 {
-    position = { SetStartPos() };
+    position = { 0,0 };
     speed = 10;
     dx = 0.0f;
     dy = 0.0f;
