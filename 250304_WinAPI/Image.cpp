@@ -138,12 +138,12 @@ void Image::RenderCenter(HDC hdc, int destX, int destY, int destWidth, int destH
 	int srcWidth{}, srcHeight{};
 	srcX = imageInfo->width / imageInfo->spritesNum[0] * x;
 	srcY = imageInfo->height / imageInfo->spritesNum[1] * y;
-	srcWidth = imageInfo->width / imageInfo->spritesNum[0];
-	srcHeight = imageInfo->height / imageInfo->spritesNum[1];
+	srcWidth = imageInfo->width / imageInfo->spritesNum[0] ;
+	srcHeight = imageInfo->height / imageInfo->spritesNum[1] ;
 
-	if (destWidth == -1) destWidth = srcWidth;
-	if (destHeight == -1) destHeight = srcHeight;
-
+	if (destWidth == -1) destWidth = srcWidth * 2.f;
+	if (destHeight == -1) destHeight = srcHeight * 2.f;
+	
 	if (flip) {
 		srcX += srcWidth - 1;
 		srcWidth *= -1;
@@ -164,7 +164,7 @@ void Image::RenderCenter(HDC hdc, int destX, int destY, int destWidth, int destH
 
 		TransparentBlt(
 			hdc,
-			destX - abs(srcWidth) / 2 + offset, destY - abs(srcHeight),
+			destX - abs(destWidth) / 2 + offset, destY - abs(destHeight),
 			destWidth, destHeight,
 			imageInfo->hTempDC,
 			0, 0,
@@ -174,7 +174,7 @@ void Image::RenderCenter(HDC hdc, int destX, int destY, int destWidth, int destH
 	else {
 		StretchBlt(
 			hdc,
-			destX - abs(srcWidth) / 2 + offset, destY - abs(srcHeight),
+			destX - abs(destWidth) / 2 + offset, destY - abs(destHeight),
 			destWidth, destHeight,
 			imageInfo->hMemDC,
 			srcX, srcY,

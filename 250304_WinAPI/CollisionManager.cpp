@@ -1,7 +1,6 @@
 #include "CollisionManager.h"
 #include "CommonFunction.h"
 #include "AnimCharacter.h"
-#include "Kim.h"
 
 HRESULT CollisionManager::Init()
 {
@@ -16,21 +15,20 @@ void CollisionManager::Release()
 
 void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender)
 {
-	
-}
-
-void CollisionManager::CheckHit(Kim* attacker, Kim* defender)
-{
-	if (RectInRect(attacker->GetHitBox(), defender->GetHurtBox()))
+	if (!attacker->GetIsSuccessHit())
 	{
-		if (defender->GetState() == State::Dead)
+		if (RectInRect(attacker->GetHitBox(), defender->GetHurtBox()))
 		{
-			// TODO : Change to State Guard
-			defender->SetHp(defender->GetHp() - 10 / 10);
+			if (defender->GetState() == State::Dead)
+			{
+				// TODO : Change to State Guard
+				defender->SetHp(defender->GetHp() - 1);
+			}
+			// Properties to clear HitBox when successful exploitation
+			attacker->SetIsSuccessHit(true);
+			defender->SetHp(defender->GetHp() - 2);
+			//defender->SetState(State::WeakDamaged);
 		}
-		// Properties to clear HitBox when successful exploitation
-		attacker->SetIsSuccessHit(true);
-		defender->SetHp(defender->GetHp() - 10);
-		defender->SetState(State::WeakDamaged);
 	}
+	
 }

@@ -5,11 +5,11 @@
 
 void Kyo::Init()
 {
-    position = { 0,100 };
+    position = { 600,200 };
     speed = 100;
     dx = 0.0f;
     dy = 0.0f;
-    hp = 7.f; //추가됨
+    hp = 10.f; //추가됨
 
     for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -60,12 +60,63 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"Kyo_weakKick 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
-    animTime[State::WeakFoot] = 1.5f;
+	animTime[State::WeakFoot] = 1.5f;
+
+	Image* weakDamageImages = new Image();
+	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::WeakDamaged].push_back(weakDamageImages);
+	animTime[State::WeakDamaged] = 1.f;
+
+	Image* StrongDamageImages = new Image();
+	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::StrongDamaged].push_back(StrongDamageImages);
+	animTime[State::StrongDamaged] = 1.f;
+
 
 
     curState = State::Idle;
     frameIdx = 0;
     defaultFlip = flip = false;
-    offset = 10;
+    offset = 20;
 }
 
+void Kyo::Action()
+{
+	hurtBox = GetRect(position.x - 70, position.y - 230, 140, 230);
+
+	switch (curState)
+	{
+	case WeakHand:
+		
+			hitBox = GetRect(position.x , position.y - 190, 130, 30);
+
+		break;
+	case StrongHand:
+		
+			hitBox = GetRect(position.x, position.y - 180, 150, 35);
+		
+		break;
+	case WeakFoot:
+		
+			hitBox = GetRect(position.x, position.y - 170, 220, 45);
+		
+		break;
+	case StrongFoot:
+		
+			hitBox = GetRect(position.x, position.y - 150, 180, 40);
+		
+		break;
+	case WeakDamaged:
+		break;
+	case StrongDamaged:
+		break;
+	default:
+		hitBox = GetRect(0, 0, 0, 0);
+		isSuccessHit = false;
+		break;
+	}
+}

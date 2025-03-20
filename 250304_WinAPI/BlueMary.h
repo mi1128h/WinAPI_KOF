@@ -4,5 +4,6 @@ class BlueMary : public AnimCharacter
 {
 public:
 	void Init() override;
+	void Action() override;
 };
 

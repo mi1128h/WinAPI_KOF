@@ -13,12 +13,8 @@ public:
 	void Init();
 
 	//void Release();
-	void Update();
-	void ProcessInput();
-	//void Animate();
-	void Render(HDC hdc);
 	
-	void Move();
+	void Move(float elapsedTime);
 	void Action();
 	// void SetDelta(int dx, int dy) { this->dx = dx; this->dy = dy; }
 

@@ -4,7 +4,7 @@
 
 void BlueMary::Init()
 {
-	position = { 100,300 };
+	position = { 100,200 };
 	speed = 100;
 	dx = 0.0f;
 	dy = 0.0f;
@@ -62,15 +62,65 @@ void BlueMary::Init()
 	vImages[State::StrongFoot].push_back(strongFootImages);
 	animTime[State::StrongFoot] = 1.0f;
 
-	Image* deadImages = new Image();
-	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
+	Image* weakDamageImages = new Image();
+	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
-	vImages[State::Dead].push_back(deadImages);
+	vImages[State::WeakDamaged].push_back(weakDamageImages);
+	animTime[State::WeakDamaged] = 1.0f;
+
+	Image* StrongDamageImages = new Image();
+	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::StrongDamaged].push_back(StrongDamageImages);
+	animTime[State::StrongDamaged] = 1.0f;
+
+	//Image* deadImages = new Image();
+	//if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
+	//	MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
+	//}
+	//vImages[State::Dead].push_back(deadImages);
 	animTime[State::Dead] = 1.0f;
 
 	curState = State::Idle;
 	frameIdx = 0;
 	defaultFlip = flip = false;
-	offset = 15;
+	offset = 30;
+}
+void BlueMary::Action()
+{
+	hurtBox = GetRect(position.x - 64, position.y - 216, 128, 216);
+
+	switch (curState)
+	{
+	case WeakHand:
+
+			hitBox = GetRect(position.x, position.y - 176, 100, 60);
+
+		break;
+	case StrongHand:
+
+			hitBox = GetRect(position.x, position.y - 176 , 210, 100);
+
+		break;
+	case WeakFoot:
+
+			hitBox = GetRect(position.x, position.y - 156, 120, 60);
+
+		break;
+	case StrongFoot:
+
+			hitBox = GetRect(position.x, position.y - 156, 180, 60);
+
+		break;
+	case WeakDamaged:
+		break;
+	case StrongDamaged:
+		break;
+	default:
+		hitBox = GetRect(0, 0, 0, 0);
+		isSuccessHit = false;
+		break;
+	}
 }
