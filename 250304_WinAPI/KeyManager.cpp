@@ -24,27 +24,27 @@ bool KeyManager::IsOnceKeyDown(int key)
         4. 0x8001: 이전 프레임에 누른 적이 있고 호출 시점에도 눌려있음
     */
 
-    //if (GetAsyncKeyState(key) & 0x8000) {
-    //    if (keyDown[key] == false) keyDown[key] = true;
-    //    return true;
-    //}
-    //else {
-    //    keyDown[key] = false;
-    //}
-
-    //return false;
-
-    // GetAsyncKeyState 호출 시 상태 확인
-    if ((GetAsyncKeyState(key) & 0x8000) != 0) { // 키가 눌렸는지 확인
-        if (!keyDown[key]) {
-            keyDown[key] = true; // 상태 갱신
-            return true;         // 처음 눌린 경우 true 반환
-        }
+    if (GetAsyncKeyState(key) & 0x8000) {
+        if (keyDown[key] == false) keyDown[key] = true;
+        return true;
     }
     else {
-        keyDown[key] = false;     // 키가 눌리지 않았을 때 상태 초기화
+        keyDown[key] = false;
     }
+
     return false;
+
+    // GetAsyncKeyState 호출 시 상태 확인
+    //if ((GetAsyncKeyState(key) & 0x8000) != 0) { // 키가 눌렸는지 확인
+    //    if (!keyDown[key]) {
+    //        keyDown[key] = true; // 상태 갱신
+    //        return true;         // 처음 눌린 경우 true 반환
+    //    }
+    //}
+    //else {
+    //    keyDown[key] = false;     // 키가 눌리지 않았을 때 상태 초기화
+    //}
+    //return false;
 
 }
 

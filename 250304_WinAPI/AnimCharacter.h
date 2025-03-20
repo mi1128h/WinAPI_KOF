@@ -85,8 +85,8 @@ public:
 	RECT GetHitBox() { return hitBox; };
 	bool GetIsSuccessHit() { return isSuccessHit; };
 
-	void SetHurtBox(RECT hurtBox) { this->
-	void LookRight(bool Isright);hurtBox = hurtBox; }
+	void SetHurtBox(RECT hurtBox) { this->hurtBox = hurtBox; }
+	void LookRight(bool Isright);
 	void SetHitBox(RECT hitBox) { this->hitBox = hitBox; }
 	void SetIsSuccessHit(bool isSuccessHit) { this->isSuccessHit = isSuccessHit; }
 };
