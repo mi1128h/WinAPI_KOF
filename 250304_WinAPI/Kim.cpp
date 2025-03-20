@@ -69,7 +69,7 @@ void Kim::Init()
 
 	curState = State::Idle;
 	frameIdx = 0;
-	flip = true;
+	defaultFlip = flip = true;
 }
 
 void Kim::Update()

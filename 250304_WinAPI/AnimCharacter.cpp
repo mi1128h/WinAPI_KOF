@@ -36,7 +36,7 @@ void AnimCharacter::Init()
 
 	offset = 0;
 
-	flip = SetStartFilp();
+	defaultFlip = flip = false;
 }
 
 void AnimCharacter::Release()
@@ -93,7 +93,18 @@ void AnimCharacter::ProcessInput()
 			if (km->IsOnceKeyDown('D')) {
 				deltaX += 1;
 			}
-			if (deltaX != 0) SetState(State::Walk);
+
+			if (deltaX != 0) {
+				State moveState = State::Walk;
+				if (deltaX > 0) {
+					moveState = (defaultFlip == flip) ? State::Walk : State::BackWalk;
+				}
+				else {
+					moveState = (defaultFlip == flip) ? State::BackWalk : State::Walk;
+				}
+
+				SetState(moveState);
+			}
            
 
 			if (P1_WeakHand) SetState(State::WeakHand);
@@ -104,7 +115,7 @@ void AnimCharacter::ProcessInput()
 			if (P1_StrongFoot and P1_WeakFoot) SetState(State::StrongHand); // Ä¿¸Çµå
 			break;
 
-		case State::Walk:
+		case State::Walk: case State::BackWalk:
 
 			if (km->IsStayKeyDown('A')) {
 				deltaX -= 1;
@@ -137,7 +148,18 @@ void AnimCharacter::ProcessInput()
 			if (km2->IsStayKeyDown(VK_RIGHT)) {
 				deltaX += 1;
 			}
-			if (deltaX != 0) SetState(State::Walk);
+			
+			if (deltaX != 0) {
+				State moveState = State::Walk;
+				if (deltaX > 0) {
+					moveState = (defaultFlip == flip) ? State::Walk : State::BackWalk;
+				}
+				else {
+					moveState = (defaultFlip == flip) ? State::BackWalk : State::Walk;
+				}
+
+				SetState(moveState);
+			}
 
 			if (P2_WeakHand) SetState(State::WeakHand);
 			if (P2_StrongHand) SetState(State::StrongHand);
@@ -147,7 +169,7 @@ void AnimCharacter::ProcessInput()
 			if (P2_StrongFoot and P2_WeakFoot) SetState(State::StrongHand); 
 			break;
 
-		case State::Walk:
+		case State::Walk: case State::BackWalk:
 			if (km2->IsStayKeyDown(VK_LEFT) ) {
 				deltaX -= 1;
 			}
@@ -201,7 +223,7 @@ void AnimCharacter::Render(HDC hdc)
 	if (imagesNum == 1) {
 		vImages[curState][0]->RenderCenter(hdc, position.x, position.y, -1, -1, frameIdx, flip, offset);
 	}
-	else {
+	else if (imagesNum > 1) {
 		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, -1, -1, 0, flip, offset);
 	}
 	// test Ellipse for position
@@ -213,13 +235,13 @@ void AnimCharacter::Move(float elapsedTime)
 	position.x += dx * speed * elapsedTime;
 	position.y += dy * speed * elapsedTime;
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
-	if (dx > 0) flip = false;
-	if (dx < 0) flip = true;
 }
 
 void AnimCharacter::ChangeStateToIdle()
 {
-	if (curState != State::Idle and curState != State::Walk and curState != State::Dead) {
+	if (curState != State::Idle and
+		curState != State::Walk and curState != State::BackWalk and
+		curState != State::Dead) {
 		SetState(State::Idle);
 	}
 }
@@ -239,6 +261,18 @@ bool AnimCharacter::SetStartFilp()
 	if (this->GetIsPlayer1()) return false;
 	
 	return true;
+}
+
+void AnimCharacter::LookRight(bool Isright)
+{
+	bool temp = flip;
+	if (Isright) flip = defaultFlip;
+	else flip = !defaultFlip;
+
+	if (temp != flip) {
+		if (curState == State::Walk) curState = State::BackWalk;
+		else if (curState == State::BackWalk) curState = State::Walk;
+	}
 }
 
 

@@ -65,7 +65,7 @@ void SherCharacter::Init()
     // 캐릭터 크기 계산 (첫 번째 Idle 이미지 기준)
     curState = State::Idle;
     frameIdx = 0;
-    flip = SetStartFilp();
+    defaultFlip = flip = false;
 }
 
 

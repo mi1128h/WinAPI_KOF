@@ -31,6 +31,7 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+	void SetPlayerFlip();
 
 	LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 

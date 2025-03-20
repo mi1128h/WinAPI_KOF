@@ -105,6 +105,8 @@ void MainGame::Update()
 	cm->CheckHit(Player1, Player2);
 	cm->CheckHit(Player2, Player1);
 
+	if (Player1 and Player2) SetPlayerFlip();
+
 	if (Player1) Player1->Update(elapsedTime);
 	if (Player2) Player2->Update(elapsedTime);
 	if (background) background->Update(elapsedTime);
@@ -132,6 +134,24 @@ void MainGame::Render(HDC hdc)
 	if(ui) ui->Render(hBackBufferDC);
 
 	backBuffer->Render(hdc);
+}
+
+void MainGame::SetPlayerFlip()
+{
+	if (!Player1 or !Player2) return;
+
+	FPOINT pos1 = Player1->GetPos();
+	FPOINT pos2 = Player2->GetPos();
+
+	if (pos1.x < pos2.x) {
+		Player1->LookRight(true);
+		Player2->LookRight(false);
+	}
+	else if (pos1.x > pos2.x) {
+		Player1->LookRight(false);
+		Player2->LookRight(true);
+	}
+	// if(pos1.x == pos2.x) keep flip val
 }
 
 

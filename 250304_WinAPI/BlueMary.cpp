@@ -64,6 +64,6 @@ void BlueMary::Init()
 
 	curState = State::Idle;
 	frameIdx = 0;
-	flip = false;
+	defaultFlip = flip = false;
 	offset = 15;
 }

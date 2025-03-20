@@ -36,6 +36,7 @@ protected:
 	vector<Image*> vImages[State::Statelength];
 	State curState;
 	int frameIdx;
+	bool defaultFlip;
 	bool flip;
 	int offset;
 
@@ -68,5 +69,7 @@ public:
 	inline void SetPlayerClassification(bool playerClassification) 
 	{this->isPlayer1 = playerClassification;}
 	bool SetStartFilp();
+
+	void LookRight(bool Isright);
 };
 

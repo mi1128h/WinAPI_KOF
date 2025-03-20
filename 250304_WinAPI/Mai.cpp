@@ -55,5 +55,5 @@ void Mai::Init()
 
     curState = State::Idle;
     frameIdx = 0;
-    flip = SetStartFilp();
+    defaultFlip = flip = false;
 }
