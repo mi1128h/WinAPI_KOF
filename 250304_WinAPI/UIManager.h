@@ -7,7 +7,8 @@ class Image;
 
 enum Ui {
     Advanced,
-    KyoUi,
+    StartUi,
+    StartUiFront,
     LeftUi,
     RightUi,
     infinityUi,

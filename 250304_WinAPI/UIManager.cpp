@@ -21,13 +21,17 @@ void UIManager::Init()
     }
     vUiImages[Ui::Advanced].push_back(advImages); 
     
-   
-    Image* kyoImages = new Image();  //테스트 쿄
-    if (FAILED(kyoImages->Init(L"Image/ImageUI/Kyo_HpUI.bmp", 202*0.5, 190*0.5, 1, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_HpUI 파일 로드에 실패", L"경고", MB_OK);
+    Image* CharacterSelectFrontUi = new Image();  //테스트 characterSelectionUi front
+    if (FAILED(CharacterSelectFrontUi->Init(L"Image/ImageUI/CharacterSelectFrontUi.bmp", 302* 3.7 , 104*3.7 , 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"CharacterSelectFrontUi 파일 로드에 실패", L"경고", MB_OK);
     }
-    vUiImages[Ui::KyoUi].push_back(kyoImages);  
-    
+    vUiImages[Ui::StartUiFront].push_back(CharacterSelectFrontUi);
+
+        Image* CharacterSelectUi = new Image();  //테스트 characterSelectionUi
+    if (FAILED(CharacterSelectUi->Init(L"Image/ImageUI/CharacterSelectUi.bmp", 302* 3.7 , 227*3.7 , 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"CharacterSelectUi 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vUiImages[Ui::StartUi].push_back(CharacterSelectUi);
 
     float LeftRightImageSz = 1.2;
     Image* leftImages = new Image(); //테스트 왼쪽hp캐릭터 ui
@@ -75,7 +79,12 @@ void UIManager::Render(HDC hdc)
 
 
     vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 - 60, -30, -1, -1, frameIdx, 1);
-//    vUiImages[KyoUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
+
+
+    
+    //---------- 캐릭터 선택 ----------------------
+    vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
+    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 0);
 }
 
 
