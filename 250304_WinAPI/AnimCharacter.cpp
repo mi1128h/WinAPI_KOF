@@ -82,6 +82,11 @@ void AnimCharacter::ProcessInput()
 			deltaX += 1;
 		}
 
+		if (keyCommand == State::Defend) {
+			deltaX = 0;
+			SetState(keyCommand);
+		}
+
 		if (deltaX != 0) {
 			State moveState = State::Walk;
 			if (deltaX > 0) {
@@ -107,13 +112,20 @@ void AnimCharacter::ProcessInput()
 		if (km->IsRightKeyDown(isPlayer1)) {
 			deltaX += 1;
 		}
+
+		if (keyCommand == State::Defend) {
+			deltaX = 0;
+			SetState(keyCommand);
+		}
+
 		if (deltaX == 0) SetState(State::Idle);
 
 		if (keyCommand != -1)
 			SetState(keyCommand);
 		break;
 
-	case State::Dead: case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
+	case State::Dead: case State::WeakHand: case State::StrongHand: 
+	case State::WeakFoot: case State::StrongFoot: case State::Skill:
 		break;
 	}
 
