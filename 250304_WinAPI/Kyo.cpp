@@ -30,21 +30,21 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"kyo_walk 파일 로드에 실패", L"경고", MB_OK);
     }   
     vImages[State::Walk].push_back(walkImages);
-    animTime[State::Walk] = 1.0f;
+    animTime[State::Walk] = 0.3f;
 
     Image* backWalkImages = new Image();
     if (FAILED(backWalkImages->Init(L"Image/ImageKyo/Kyo_BackWalk.bmp", 200*6, 200, 6, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"kyo_backwalk 파일 로드에 실패", L"경고", MB_OK);
     }   
     vImages[State::BackWalk].push_back(backWalkImages);
-    animTime[State::BackWalk] = 1.0f;
+    animTime[State::BackWalk] = 0.3f;
 
     Image* strongPunchImages = new Image();
     if (FAILED(strongPunchImages->Init(L"Image/ImageKyo/Kyo_strongPunch.bmp", 200*8, 200, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Kyo_strongPunch 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongHand].push_back(strongPunchImages); 
-    animTime[State::StrongHand] = 1.0f;
+    animTime[State::StrongHand] = 0.7f;
     
     Image* weakPunchImages = new Image();
 
@@ -60,7 +60,7 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"Kyo_strongKick파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::StrongFoot].push_back(strongKickImages);
-    animTime[State::StrongFoot] = 1.5f;
+    animTime[State::StrongFoot] = 1.f;
 
     Image* weakKickImages = new Image();
 
@@ -68,21 +68,21 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"Kyo_weakKick 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
-	animTime[State::WeakFoot] = 1.5f;
+	animTime[State::WeakFoot] = 1.f;
 
 	Image* weakDamageImages = new Image();
 	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::WeakDamaged].push_back(weakDamageImages);
-	animTime[State::WeakDamaged] = 1.f;
+	animTime[State::WeakDamaged] = 0.3f;
 
 	Image* StrongDamageImages = new Image();
 	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
-	animTime[State::StrongDamaged] = 1.f;
+	animTime[State::StrongDamaged] = 0.3f;
 
 
 

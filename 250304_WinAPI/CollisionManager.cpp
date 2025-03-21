@@ -39,5 +39,4 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 			attacker->SetIsSuccessHit(true);
 		}
 	}
-	
 }
