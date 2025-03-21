@@ -14,6 +14,7 @@ enum Ui {
     RightUi,
     BackWindow,
     infinityUi,
+    EndingUi,
     Uilength,
 };
 

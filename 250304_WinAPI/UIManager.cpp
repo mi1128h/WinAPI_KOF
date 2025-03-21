@@ -27,9 +27,15 @@ void UIManager::Init()
     }
     vUiImages[Ui::StartUiFront].push_back(CharacterSelectFrontUi);
 
-    Image* CharacterSelectUi = new Image();  //테스트 characterSelectionUi
-    if (FAILED(CharacterSelectUi->Init(L"Image/ImageUI/CharacterSelectUi.bmp", 302* 3.7 , 227*3.7 , 1, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"CharacterSelectUi 파일 로드에 실패", L"경고", MB_OK);
+    //Image* CharacterSelectUi = new Image();  //테스트 characterSelectionUi
+    //if (FAILED(CharacterSelectUi->Init(L"Image/ImageUI/CharacterSelectUi.bmp", 302* 3.7 , 227*3.7 , 1, 1, true, RGB(255, 0, 255)))) {
+    //    MessageBox(g_hWnd, L"CharacterSelectUi 파일 로드에 실패", L"경고", MB_OK);
+    //}
+    //vUiImages[Ui::StartUi].push_back(CharacterSelectUi); 
+    
+    Image* CharacterSelectUi = new Image();  //개쩌는 마지막 ui
+    if (FAILED(CharacterSelectUi->Init(L"Image/ImageUI/EndingCredit.bmp", 433* 238 , 316 , 238, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"EndingCredit 파일 로드에 실패", L"경고", MB_OK);
     }
     vUiImages[Ui::StartUi].push_back(CharacterSelectUi);
 
