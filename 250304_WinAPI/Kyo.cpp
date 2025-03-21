@@ -203,6 +203,22 @@ void Kyo::Action()
         }
 		
 		break;
+    case Skill:
+        hitBox = GetRect(0, 0, 0, 0);
+        if (frameIdx >= 33 && frameIdx <= 45)
+        {
+            if (flip == defaultFlip)
+            {
+                hitBox = GetRect(position.x, position.y - 100 * size, 160 * size, 60 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 90 * size, position.y - 75 * size, 90 * size, 20 * size);
+
+            }
+        }
+        break;
 	case WeakDamaged:
 		break;
 	case StrongDamaged:

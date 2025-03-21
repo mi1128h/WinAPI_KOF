@@ -86,6 +86,14 @@ void Kim::Init()
 	vImages[State::Defend].push_back(DefendImages);
 	animTime[State::Defend] = 0.3f;
 
+	//----------스킬-----------
+	Image* SkillImages = new Image();
+	if (FAILED(SkillImages->Init(L"Image/Kim/kim_skill.bmp", 256 * 6, 256, 6, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_skill 파일 로드 실패", L"경고", MB_OK);
+	}
+	vImages[State::Skill].push_back(SkillImages);
+	animTime[State::Skill] = 0.7f;
+
 	Image* DeadImages = new Image();
 	if (FAILED(DeadImages->Init(L"Image/Kim/kim_Dead.bmp", 256 * 4, 256, 4, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"kim_Dead 파일 로드에 실패", L"경고", MB_OK);
@@ -169,12 +177,27 @@ void Kim::Action()
 			}
 		}
 		break;
+	case Skill:
+		hitBox = GetRect(0, 0, 0, 0);
+		if (frameIdx == 3 || frameIdx == 4)
+		{
+			if (flip == defaultFlip)
+			{
+				hitBox = GetRect(position.x, position.y - 250 * size, 100 * size, 150 * size);
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 100 * size, position.y - 250 * size, 100 * size, 150 * size);
+			}
+		}
+		break;
 	case WeakDamaged:
 		break;
 	case StrongDamaged:
 		break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
+
 		isSuccessHit = false;
 		break;
 	}
