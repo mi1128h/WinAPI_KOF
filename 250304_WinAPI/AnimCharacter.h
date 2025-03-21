@@ -14,7 +14,7 @@ enum State {
 
 	WeakDamaged,
 	StrongDamaged,
-	
+
 	Defend,
 
 	Skill,
@@ -36,6 +36,7 @@ protected:
 
 	float accumTime;
 	float animTime[State::Statelength];
+	bool isDeadDone{ false };
 
 	bool isPlayer1; 
 
@@ -77,7 +78,7 @@ public:
 	
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
-	void ChangeStateToIdle();
+	void ProcessAnimEnd(int framesNum);
 
 	void SetStartPos();
 

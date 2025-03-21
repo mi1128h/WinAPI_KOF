@@ -77,12 +77,16 @@ State KeyManager::GetCommand(bool playerClassification)
 	bool StrongHandKey = (playerClassification) ? IsOnceKeyDown('I') : IsOnceKeyDown(VK_NUMPAD5);
 	bool WeakFootKey = (playerClassification) ? IsOnceKeyDown('J') : IsOnceKeyDown(VK_NUMPAD1);
 	bool StrongFootKey = (playerClassification) ? IsOnceKeyDown('K') : IsOnceKeyDown(VK_NUMPAD2);
+    bool DefendKey = (playerClassification) ? IsOnceKeyDown('L') : IsOnceKeyDown(VK_NUMPAD3);
+    bool SkillKey = (playerClassification) ? IsOnceKeyDown('O') : IsOnceKeyDown(VK_NUMPAD6);
 
 	// 공격키 입력 시 공격 변환
+    if (DefendKey) return State::Defend;
 	if (WeakHandKey) return State::WeakHand;
 	if (StrongHandKey) return State::StrongHand;
 	if (WeakFootKey) return State::WeakFoot;
 	if (StrongFootKey) return State::StrongFoot;
+    if (SkillKey) return State::Skill;
 
 	return (State) -1; // 아무키 안눌렀을 때, 스탠딩 상태
 }

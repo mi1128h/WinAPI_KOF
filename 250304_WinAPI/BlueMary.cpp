@@ -64,11 +64,11 @@ void BlueMary::Init()
 	animTime[State::StrongFoot] = 1.0f;
 
 	Image* weakDamageImages = new Image();
-	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	if (FAILED(weakDamageImages->Init(L"Image/BlueMary/bluemary_attacked.bmp", 200 * 2, 200, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_attacked 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::WeakDamaged].push_back(weakDamageImages);
-	animTime[State::WeakDamaged] = 1.0f;
+	animTime[State::WeakDamaged] = 0.3f;
 
 	Image* StrongDamageImages = new Image();
 	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
@@ -77,17 +77,17 @@ void BlueMary::Init()
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 1.0f;
 
-	//Image* deadImages = new Image();
-	//if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall.bmp", 200 * 20, 200, 20, 1, true, RGB(255, 0, 255)))) {
-	//	MessageBox(g_hWnd, L"bluemary_fall 파일 로드에 실패", L"경고", MB_OK);
-	//}
-	//vImages[State::Dead].push_back(deadImages);
+	Image* deadImages = new Image();
+	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall2.bmp", 200 * 12, 200, 12, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_fall2 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Dead].push_back(deadImages);
 	animTime[State::Dead] = 1.0f;
 
 	curState = State::Idle;
 	frameIdx = 0;
 	defaultFlip = flip = false;
-	offset = 15;
+	offset = 0;
 }
 void BlueMary::Action()
 {
