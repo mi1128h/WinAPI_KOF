@@ -45,13 +45,13 @@ void Kyo::Init()
     vImages[State::StrongHand].push_back(strongPunchImages); 
     animTime[State::StrongHand] = 1.0f;
     
-    Image* weakPunchImages = new Image();
+    //Image* weakPunchImages = new Image();
 
-    if (FAILED(weakPunchImages->Init(L"Image/ImageKyo/Kyo_weakPunch.bmp", 200*5, 200, 5, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_weakPunch ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
-    }
-    vImages[State::WeakHand].push_back(weakPunchImages);
-    animTime[State::WeakHand] = 0.3f;
+    //if (FAILED(weakPunchImages->Init(L"Image/ImageKyo/Kyo_weakPunch.bmp", 200*5, 200, 5, 1, true, RGB(255, 0, 255)))) {
+    //    MessageBox(g_hWnd, L"Kyo_weakPunch ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
+    //}
+    //vImages[State::WeakHand].push_back(weakPunchImages);
+    //animTime[State::WeakHand] = 0.3f;
 
     Image* strongKickImages = new Image();
 
@@ -82,6 +82,15 @@ void Kyo::Init()
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 1.f;
+
+
+
+    Image* weakPunchImages = new Image();
+    if (FAILED(weakPunchImages->Init(L"Image/ImageKyo/Kyo_skill500.bmp", 16000, 157, 50, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_skill50 ÆÄÀÏ ·Îµå ½ÇÆÐ", L"°æ°í", MB_OK);
+    }
+    vImages[State::WeakHand].push_back(weakPunchImages);
+    animTime[State::WeakHand] = 3.3f;
 
 
 
