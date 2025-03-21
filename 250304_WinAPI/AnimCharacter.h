@@ -15,6 +15,10 @@ enum State {
 	WeakDamaged,
 	StrongDamaged,
 	
+	Defend,
+
+	Skill,
+
 	Dead,
 	Statelength,
 };
