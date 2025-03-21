@@ -86,11 +86,11 @@ void BlueMary::Init()
 	
 	
 	Image* SkillImages = new Image();
-	if (FAILED(SkillImages->Init(L"Image/BlueMary/bluemary_super3_m.bmp", 390*33, 390, 33, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_super3_m 파일 로드에 실패", L"경고", MB_OK);
+	if (FAILED(SkillImages->Init(L"Image/BlueMary/bluemary_skill.bmp", 390*53, 200, 53, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_skill 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Skill].push_back(SkillImages);
-	animTime[State::Skill] = 1.2f;
+	animTime[State::Skill] = 2.0f;
 
 	Image* deadImages = new Image();
 	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall2.bmp", 200 * 12, 200, 12, 1, true, RGB(255, 0, 255)))) {
