@@ -25,7 +25,7 @@ void MainGame::Init()
 	Player1->Init();
 	Player1->SetStartPos();
 
-	Player2 = new Kim();
+	Player2 = new BlueMary();
 	Player2->SetPlayerClassification(false);
 	Player2->Init();
 	Player2->SetStartPos();
