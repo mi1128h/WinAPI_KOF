@@ -175,6 +175,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_KEYUP:
 
 		switch (wParam) {
+		case 'v': case 'V':
+			// test DeadAnim
+			Player2->SetState(State::Dead);
+			break;
 		case 'a': case 'A':
 
 			break;
