@@ -61,7 +61,7 @@ void BlueMary::Init()
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongFoot].push_back(strongFootImages);
-	animTime[State::StrongFoot] = 1.0f;
+	animTime[State::StrongFoot] = 0.8;
 
 	Image* weakDamageImages = new Image();
 	if (FAILED(weakDamageImages->Init(L"Image/BlueMary/bluemary_attacked.bmp", 200 * 2, 200, 2, 1, true, RGB(255, 0, 255)))) {
@@ -71,11 +71,26 @@ void BlueMary::Init()
 	animTime[State::WeakDamaged] = 0.3f;
 
 	Image* StrongDamageImages = new Image();
-	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	if (FAILED(StrongDamageImages->Init(L"Image/BlueMary/bluemary_attacked.bmp", 200 * 2, 200, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_attacked 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
-	animTime[State::StrongDamaged] = 1.0f;
+	animTime[State::StrongDamaged] = 0.5f;
+	
+	Image* DefendImages = new Image();
+	if (FAILED(DefendImages->Init(L"Image/BlueMary/blumary_block.bmp", 200 * 1, 200, 1, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"blumary_block 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Defend].push_back(DefendImages);
+	animTime[State::Defend] = 0.5f;
+	
+	
+	Image* SkillImages = new Image();
+	if (FAILED(SkillImages->Init(L"Image/BlueMary/bluemary_super3_m.bmp", 390*33, 390, 33, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"bluemary_super3_m 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Skill].push_back(SkillImages);
+	animTime[State::Skill] = 1.2f;
 
 	Image* deadImages = new Image();
 	if (FAILED(deadImages->Init(L"Image/BlueMary/bluemary_fall2.bmp", 200 * 12, 200, 12, 1, true, RGB(255, 0, 255)))) {
@@ -100,7 +115,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 88 * size, 50 * size, 30 * size);
 			}
@@ -116,7 +131,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 9 || frameIdx == 10 || frameIdx == 11 || frameIdx == 12 || frameIdx == 13)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 88 * size, 105 * size, 50 * size);
 			}
@@ -132,7 +147,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 4 || frameIdx == 5)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 78 * size, 60 * size, 30 * size);
 
@@ -150,7 +165,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 3 || frameIdx == 4 || frameIdx == 5)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 78 * size, 90 * size, 30 * size);
 
@@ -163,9 +178,8 @@ void BlueMary::Action()
 		}
 
 		break;
-	case WeakDamaged:
-		break;
-	case StrongDamaged:
+	case Dead:
+		hurtBox = GetRect(1, 1, 1, 1);
 		break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);

@@ -49,8 +49,8 @@ private:
     float maxHP = 10;
     float playerHP = 10;
     float enemyHP = 10;
-    float playerStamina = 3.f;
-    float enemyStamina = 3.f;
+    float playerStamina;
+    float enemyStamina;
 
     int frameIdx;
     Ui curUi;

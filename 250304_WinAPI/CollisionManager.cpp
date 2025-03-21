@@ -13,31 +13,61 @@ void CollisionManager::Release()
 	ReleaseInstance();
 }
 
+// 고칠만한거 : 결과를 반환하고 그 결과를 MainGame에서 활용하여 판별하게
 void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender)
 {
 	if (!attacker->GetIsSuccessHit())
 	{
 		if (RectInRect(attacker->GetHitBox(), defender->GetHurtBox()))
 		{
-			if (attacker->GetState() == State::WeakFoot || attacker->GetState() == State::WeakHand)
+			if (attacker->GetState() == State::WeakFoot ||  attacker->GetState() == State::WeakHand)
 			{
 				// 약한 공격이면 attakcer->GetAttackValue()
-				defender->SetHp(defender->GetHp() - 1);
-				defender->SetState(State::WeakDamaged);
+
+				if (defender->GetState() == State::Defend)
+				{
+					defender->SetHp(defender->GetHp() - 0.5f);
+				}
+				else
+				{
+					defender->SetHp(defender->GetHp() - 1.f);
+					defender->SetState(State::WeakDamaged);
+					// 약공격에 때린넘 스태미나 +2 , 맞은넘 +1  
+					attacker->SetStamina(attacker->GetStamina() + 2);
+					defender->SetStamina(defender->GetStamina() + 1);
+				}
 			}
-			else if (attacker->GetState() == State::StrongFoot || attacker->GetState() == State::StrongHand)
+			else if (attacker->GetState() == State::StrongFoot ||  attacker->GetState() == State::StrongHand)
 			{
 				// 강한 공격이면 attakcer->GetAttackValue() * 2
-				defender->SetHp(defender->GetHp() - 2);
-				defender->SetState(State::StrongDamaged);
+				if (defender->GetState() == State::Defend)
+				{
+					defender->SetHp(defender->GetHp() - 1.f);
+				}
+				else
+				{
+					defender->SetHp(defender->GetHp() - 2.f);
+					defender->SetState(State::StrongDamaged);
+					// 강공격에 때린넘 스태미나 + 3, 맞은넘 +2
+					attacker->SetStamina(attacker->GetStamina() + 3);
+					defender->SetStamina(defender->GetStamina() + 2);
+				}
 			}
-			else if (defender->GetState() == State::Dead)
+			else if (attacker->GetState() == State::Skill)
 			{
-				// TODO : Change to State Guard
-				defender->SetHp(defender->GetHp() - 0.5);
+				// 스킬 공격이면 attakcer->GetAttackValue() * 4
+				if (defender->GetState() == State::Defend)
+				{
+					defender->SetHp(defender->GetHp() - 2.f);
+				}
+				else
+				{
+					defender->SetHp(defender->GetHp() - 4.f);
+					defender->SetState(State::StrongDamaged);
+				}
 			}
+
 			attacker->SetIsSuccessHit(true);
 		}
 	}
-	
 }

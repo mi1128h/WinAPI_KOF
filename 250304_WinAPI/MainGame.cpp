@@ -20,10 +20,11 @@ void MainGame::Init()
 
 	}
 
-	Player1 = new Kyo();
+	Player1 = new Kim();
 	Player1->SetPlayerClassification(true);
 	Player1->Init();
 	Player1->SetStartPos();
+
 
 	Player2 = new Mai();
 	Player2->SetPlayerClassification(false);
