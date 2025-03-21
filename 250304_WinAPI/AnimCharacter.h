@@ -73,7 +73,7 @@ public:
 	
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
-	void ChangeStateToIdle();
+	void ProcessAnimEnd(int framesNum);
 
 	void SetStartPos();
 

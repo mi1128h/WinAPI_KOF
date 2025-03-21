@@ -139,7 +139,7 @@ void AnimCharacter::Animate(float elapsedTime)
 		int temp = frameIdx;
 		int frame = accumTime * framesNum / animTime[curState];
 		frameIdx = frame % framesNum;
-		if (temp == framesNum - 1 and frameIdx == 0) ChangeStateToIdle();
+		if (temp == framesNum - 1 and frameIdx == 0) ProcessAnimEnd(framesNum);
 
 		if (curState == State::Dead and temp == framesNum - 1) {
 			frameIdx = temp;
@@ -172,12 +172,20 @@ void AnimCharacter::Move(float elapsedTime)
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 }
 
-void AnimCharacter::ChangeStateToIdle()
+void AnimCharacter::ProcessAnimEnd(int framesNum)
 {
-	if (curState != State::Idle and
-		curState != State::Walk and curState != State::BackWalk and
-		curState != State::Dead) {
+	switch (curState) {
+	case State::Idle: case State::Run: case State::BackWalk: case State::Walk:
+		break;
+
+	case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
+	case State::WeakDamaged: case State::StrongDamaged:
 		SetState(State::Idle);
+		break;
+
+	case State::Dead:
+		frameIdx = framesNum - 1;
+		break;
 	}
 }
 
