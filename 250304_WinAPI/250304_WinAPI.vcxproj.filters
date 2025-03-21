@@ -84,9 +84,6 @@
     <ClInclude Include="Image.h">
       <Filter>2DFramework\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>2DFramework\소스</Filter>
-    </ClInclude>
     <ClInclude Include="MainGame.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -98,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="AnimBackground.h">
       <Filter>헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>2DFramework\헤더</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

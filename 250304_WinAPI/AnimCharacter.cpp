@@ -54,6 +54,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
+	if (stamina > 10) stamina = 10; //stamina Max: 10;
 	if (isDeadDone) return;
 	Action();
 	Move(elapsedTime);
@@ -63,7 +64,6 @@ void AnimCharacter::Update(float elapsedTime)
 	ProcessInput();
 
 	if (hp <= 0) curState= Dead; //dead 상태 체크
-	if (stamina > 10) stamina = 10; //stamina Max: 10;
 }
 
 void AnimCharacter::ProcessInput()
