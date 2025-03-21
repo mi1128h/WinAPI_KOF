@@ -6,10 +6,11 @@
 void Kyo::Init()
 {
     position = { 600,200 };
-    speed = 100;
+    speed = 300;
 
     dx = 0.0f;
     dy = 0.0f;
+    size = 2.0f;
     hp = 10.f; //Ãß°¡µÊ
 
     for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
@@ -97,34 +98,86 @@ void Kyo::Init()
     curState = State::Idle;
     frameIdx = 0;
     defaultFlip = flip = false;
-    offset = 20;
+    offset = 10;
 
 }
 
 void Kyo::Action()
 {
-	hurtBox = GetRect(position.x - 70, position.y - 230, 140, 230);
+	hurtBox = GetRect(position.x - 35*size, position.y - 115*size, 70*size, 115*size);
 
-	switch (curState)
-	{
-	case WeakHand:
-		
-			hitBox = GetRect(position.x , position.y - 190, 130, 30);
+    switch (curState)
+    {
+    case WeakHand:
+        hitBox = GetRect(0, 0, 0, 0);
 
-		break;
-	case StrongHand:
-		
-			hitBox = GetRect(position.x, position.y - 180, 150, 35);
-		
-		break;
-	case WeakFoot:
-		
-			hitBox = GetRect(position.x, position.y - 170, 220, 45);
+        if (frameIdx == 1)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 95 * size, 65 * size, 15 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 65 * size, position.y - 95 * size, 65 * size, 15 * size);
+
+            }
+        }
+
+        break;
+    case StrongHand:
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 3 || frameIdx == 4)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 90 * size, 75 * size, 17 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 75 * size, position.y - 90 * size, 75 * size, 17 * size);
+
+            }
+        }
+
+        break;
+    case WeakFoot:
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 2 || frameIdx == 3 || frameIdx == 4)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 85 * size, 110 * size, 22 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 110 * size, position.y - 85 * size, 110 * size, 22 * size);
+
+            }
+        }
 		
 		break;
 	case StrongFoot:
-		
-			hitBox = GetRect(position.x, position.y - 150, 180, 40);
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 5)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 75 * size, 90 * size, 20 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 90 * size, position.y - 75 * size, 90 * size, 20 * size);
+
+            }
+        }
 		
 		break;
 	case WeakDamaged:

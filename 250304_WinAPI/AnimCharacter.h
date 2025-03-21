@@ -25,6 +25,7 @@ class AnimCharacter : public GameObject
 protected:
 	FPOINT position;
 	float dx, dy;
+	float size;
 	float speed;
 	float hp;
 	float stamina; 
@@ -91,5 +92,8 @@ public:
 	void LookRight(bool Isright);
 	void SetHitBox(RECT hitBox) { this->hitBox = hitBox; }
 	void SetIsSuccessHit(bool isSuccessHit) { this->isSuccessHit = isSuccessHit; }
+
+	// 메모리 누수 방지
+	virtual ~AnimCharacter(){};
 };
 

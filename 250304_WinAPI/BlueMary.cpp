@@ -5,9 +5,10 @@
 void BlueMary::Init()
 {
 	position = { 100,200 };
-	speed = 100;
+	speed = 300;
 	dx = 0.0f;
 	dy = 0.0f;
+	size = 2.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
 
@@ -86,32 +87,80 @@ void BlueMary::Init()
 	curState = State::Idle;
 	frameIdx = 0;
 	defaultFlip = flip = false;
-	offset = 30;
+	offset = 15;
 }
 void BlueMary::Action()
 {
-	hurtBox = GetRect(position.x - 64, position.y - 216, 128, 216);
+	hurtBox = GetRect(position.x - 32*size, position.y - 108*size, 64*size, 108*size);
 
 	switch (curState)
 	{
 	case WeakHand:
+		hitBox = GetRect(0, 0, 0, 0);
 
-			hitBox = GetRect(position.x, position.y - 176, 100, 60);
+		if (frameIdx == 2)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 88 * size, 50 * size, 30 * size);
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 50 * size, position.y - 88 * size, 50 * size, 30 * size);
+			}
+		}
 
 		break;
 	case StrongHand:
+		hitBox = GetRect(0, 0, 0, 0);
 
-			hitBox = GetRect(position.x, position.y - 176 , 210, 100);
+		if (frameIdx == 9 || frameIdx == 10 || frameIdx == 11 || frameIdx == 12 || frameIdx == 13)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 88 * size, 105 * size, 50 * size);
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 105 * size, position.y - 88 * size, 105 * size, 50 * size);
+			}
+		}
 
 		break;
 	case WeakFoot:
+		hitBox = GetRect(0, 0, 0, 0);
 
-			hitBox = GetRect(position.x, position.y - 156, 120, 60);
+		if (frameIdx == 4 || frameIdx == 5)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 78 * size, 60 * size, 30 * size);
+
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 60 * size, position.y - 78 * size, 60 * size, 30 * size);
+
+			}
+		}
 
 		break;
 	case StrongFoot:
+		hitBox = GetRect(0, 0, 0, 0);
 
-			hitBox = GetRect(position.x, position.y - 156, 180, 60);
+		if (frameIdx == 3 || frameIdx == 4 || frameIdx == 5)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 78 * size, 90 * size, 30 * size);
+
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 90 * size, position.y - 78 * size, 90 * size, 30 * size);
+
+			}
+		}
 
 		break;
 	case WeakDamaged:
