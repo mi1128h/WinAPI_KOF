@@ -55,6 +55,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
+	if (isDeadDone) return;
 	Action();
 	Move(elapsedTime);
 
@@ -140,10 +141,6 @@ void AnimCharacter::Animate(float elapsedTime)
 		int frame = accumTime * framesNum / animTime[curState];
 		frameIdx = frame % framesNum;
 		if (temp == framesNum - 1 and frameIdx == 0) ProcessAnimEnd(framesNum);
-
-		if (curState == State::Dead and temp == framesNum - 1) {
-			frameIdx = temp;
-		}
 	}
 	else frameIdx = -1;
 }
@@ -185,6 +182,7 @@ void AnimCharacter::ProcessAnimEnd(int framesNum)
 
 	case State::Dead:
 		frameIdx = framesNum - 1;
+		isDeadDone = true;
 		break;
 	}
 }

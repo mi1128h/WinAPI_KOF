@@ -32,6 +32,7 @@ protected:
 
 	float accumTime;
 	float animTime[State::Statelength];
+	bool isDeadDone{ false };
 
 	bool isPlayer1; 
 
