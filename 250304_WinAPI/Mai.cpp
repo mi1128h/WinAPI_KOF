@@ -11,7 +11,6 @@ void Mai::Init()
 	size = 2.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
-	stamina = 10.f;
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
 	//---------°È±â, ¸·±â---------

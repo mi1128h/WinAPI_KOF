@@ -12,7 +12,6 @@ void Kyo::Init()
     dy = 0.0f;
     size = 2.0f;
     hp = 10.f; //Ãß°¡µÊ
-    stamina = 5.f;
 
     for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
