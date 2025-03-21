@@ -16,7 +16,6 @@ void AnimCharacter::Init()
 	hp = 10.0f;
 	accumTime = 0.0f;
 
-
 	isSuccessHit = false;
 
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
@@ -55,6 +54,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
+	if (stamina > 10) stamina = 10; //stamina Max: 10;
 	if (isDeadDone) return;
 	Action();
 	Move(elapsedTime);
@@ -62,6 +62,8 @@ void AnimCharacter::Update(float elapsedTime)
 	Animate(elapsedTime);
 
 	ProcessInput();
+
+	if (hp <= 0) curState= Dead; //dead »óÅÂ Ã¼Å©
 }
 
 void AnimCharacter::ProcessInput()
@@ -71,6 +73,8 @@ void AnimCharacter::ProcessInput()
 	// ?„ìž¬ ?Œë ˆ?´ì–´?????…ë ¥??ê°ì??˜ì—¬ ?íƒœ ê°?ë°˜í™˜
 	State keyCommand = km->GetCommand(isPlayer1);
 	int deltaX = 0, deltaY = 0;
+	
+	const int skillMana = 8;
 
 	switch (curState) {
 	case State::Idle:
@@ -87,6 +91,7 @@ void AnimCharacter::ProcessInput()
 			SetState(keyCommand);
 		}
 
+
 		if (deltaX != 0) {
 			State moveState = State::Walk;
 			if (deltaX > 0) {
@@ -99,9 +104,13 @@ void AnimCharacter::ProcessInput()
 			SetState(moveState);
 		}
 
-		if (keyCommand != -1)
+		if (keyCommand != -1 && keyCommand != Skill) {
 			SetState(keyCommand);
-
+		}
+		if (keyCommand == State::Skill && stamina > skillMana) {
+			stamina -= skillMana;
+			SetState(keyCommand);
+		}
 		break;
 
 	case State::Walk: case State::BackWalk:
@@ -120,8 +129,13 @@ void AnimCharacter::ProcessInput()
 
 		if (deltaX == 0) SetState(State::Idle);
 
-		if (keyCommand != -1)
+		if (keyCommand != -1 && keyCommand != Skill) {
 			SetState(keyCommand);
+		}
+		if (keyCommand == State::Skill && stamina > skillMana) {
+			stamina -= skillMana;
+			SetState(keyCommand);
+		}
 		break;
 
 	case State::Dead: case State::WeakHand: case State::StrongHand: 

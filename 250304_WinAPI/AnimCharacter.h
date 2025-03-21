@@ -75,7 +75,8 @@ public:
 	void SetHp(float hp) { this->hp = hp; }
 	float GetHp() { return hp; }
 	float GetStamina() { return stamina; }
-	
+	void SetStamina(float stamina) { this->stamina = stamina; }
+
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
 	void ProcessAnimEnd(int framesNum);

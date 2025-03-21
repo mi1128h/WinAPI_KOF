@@ -20,7 +20,7 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 	{
 		if (RectInRect(attacker->GetHitBox(), defender->GetHurtBox()))
 		{
-			if (attacker->GetState() == State::WeakFoot || attacker->GetState() == State::WeakHand)
+			if (attacker->GetState() == State::WeakFoot ||  attacker->GetState() == State::WeakHand)
 			{
 				// 약한 공격이면 attakcer->GetAttackValue()
 
@@ -32,9 +32,12 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 				{
 					defender->SetHp(defender->GetHp() - 1.f);
 					defender->SetState(State::WeakDamaged);
+					// 약공격에 때린넘 스태미나 +2 , 맞은넘 +1  
+					attacker->SetStamina(attacker->GetStamina() + 2);
+					defender->SetStamina(defender->GetStamina() + 1);
 				}
 			}
-			else if (attacker->GetState() == State::StrongFoot || attacker->GetState() == State::StrongHand)
+			else if (attacker->GetState() == State::StrongFoot ||  attacker->GetState() == State::StrongHand)
 			{
 				// 강한 공격이면 attakcer->GetAttackValue() * 2
 				if (defender->GetState() == State::Defend)
@@ -45,9 +48,12 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 				{
 					defender->SetHp(defender->GetHp() - 2.f);
 					defender->SetState(State::StrongDamaged);
+					// 강공격에 때린넘 스태미나 + 3, 맞은넘 +2
+					attacker->SetStamina(attacker->GetStamina() + 3);
+					defender->SetStamina(defender->GetStamina() + 2);
 				}
 			}
-			
+
 			attacker->SetIsSuccessHit(true);
 		}
 	}

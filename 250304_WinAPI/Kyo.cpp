@@ -12,6 +12,7 @@ void Kyo::Init()
     dy = 0.0f;
     size = 2.0f;
     hp = 10.f; //추가됨
+    stamina = 5.f;
 
     for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
@@ -115,7 +116,7 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"Kyo_Dead 파일 로드 실패", L"경고", MB_OK);
     }
     vImages[State::Dead].push_back(KyoDead);
-    animTime[State::Dead] = 3.3f;
+    animTime[State::Dead] = 1.0f;
 
 
     curState = State::Idle;
