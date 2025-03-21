@@ -24,12 +24,21 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 				// 약한 공격이면 attakcer->GetAttackValue()
 				defender->SetHp(defender->GetHp() - 1);
 				defender->SetState(State::WeakDamaged);
+
+				// 약공격에 때린넘 스태미나 +2 , 맞은넘 +1  
+				attacker->SetStamina(attacker->GetStamina() + 2);
+				defender->SetStamina(defender->GetStamina() + 1);
+
 			}
 			else if (attacker->GetState() == State::StrongFoot || attacker->GetState() == State::StrongHand)
 			{
 				// 강한 공격이면 attakcer->GetAttackValue() * 2
 				defender->SetHp(defender->GetHp() - 2);
 				defender->SetState(State::StrongDamaged);
+
+				// 강공격에 때린넘 스태미나 + 3, 맞은넘 +2
+				attacker->SetStamina(attacker->GetStamina() + 3);
+				defender->SetStamina(defender->GetStamina() + 2);
 			}
 			else if (defender->GetState() == State::Dead)
 			{
