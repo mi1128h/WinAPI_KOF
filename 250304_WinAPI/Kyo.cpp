@@ -220,10 +220,9 @@ void Kyo::Action()
             }
         }
         break;
-	case WeakDamaged:
-		break;
-	case StrongDamaged:
-		break;
+    case Dead:
+        hurtBox = GetRect(1, 1, 1, 1);
+        break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
 		isSuccessHit = false;

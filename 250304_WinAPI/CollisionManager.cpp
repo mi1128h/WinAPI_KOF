@@ -53,6 +53,19 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 					defender->SetStamina(defender->GetStamina() + 2);
 				}
 			}
+			else if (attacker->GetState() == State::Skill)
+			{
+				// 스킬 공격이면 attakcer->GetAttackValue() * 4
+				if (defender->GetState() == State::Defend)
+				{
+					defender->SetHp(defender->GetHp() - 2.f);
+				}
+				else
+				{
+					defender->SetHp(defender->GetHp() - 4.f);
+					defender->SetState(State::StrongDamaged);
+				}
+			}
 
 			attacker->SetIsSuccessHit(true);
 		}
