@@ -13,6 +13,7 @@ void CollisionManager::Release()
 	ReleaseInstance();
 }
 
+// 다음에 만들 때는 결과를 반환하고 그 결과를 MainGame에서 활용하여 판별하게
 void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender)
 {
 	if (!attacker->GetIsSuccessHit())
