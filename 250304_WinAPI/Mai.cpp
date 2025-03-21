@@ -5,7 +5,7 @@
 void Mai::Init()
 {
 	position = { 100,200 };
-	speed = 100;
+	speed = 300;
 	dx = 0.0f;
 	dy = 0.0f;
 	size = 2.0f;
@@ -27,14 +27,14 @@ void Mai::Init()
 		MessageBox(g_hWnd, L"mai_walk_ver2 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
-	animTime[State::Walk] = 1.0f;
+	animTime[State::Walk] = 0.5f;
 
 	Image* backWalkImages = new Image();
 	if (FAILED(backWalkImages->Init(L"Image/mai/mai_backwalk_ver2.bmp", 200 * 6, 164, 6, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"mai_backwalk_ver2", L"경고", MB_OK);
 	}
 	vImages[State::BackWalk].push_back(backWalkImages);
-	animTime[State::BackWalk] = 1.0f;
+	animTime[State::BackWalk] = 0.5f;
 
 
 	//---------공격--------------
@@ -64,7 +64,7 @@ void Mai::Init()
 		MessageBox(g_hWnd, L"mai_strongkick_ver2 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongFoot].push_back(strongKickImages);
-	animTime[State::StrongFoot] = 0.9f;
+	animTime[State::StrongFoot] = 0.8f;
 
 
 	//------------맞기-----------
@@ -117,7 +117,7 @@ void Mai::Init()
 
 void Mai::Action()
 {
-	hurtBox = GetRect(position.x - 35 * size, position.y - 115 * size, 70 * size, 115 * size);
+	hurtBox = GetRect(position.x - 35 * size, position.y - 105 * size, 70 * size, 105 * size);
 
 	switch (curState)
 	{
@@ -128,12 +128,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 55 * size, 65 * size, 15 * size);
+				hitBox = GetRect(position.x, position.y - 65 * size, 65 * size, 15 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 65 * size, position.y - 95 * size, 65 * size, 15 * size);
+				hitBox = GetRect(position.x - 65 * size, position.y - 65 * size, 65 * size, 15 * size);
 
 			}
 		}
@@ -146,12 +146,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 90 * size, 75 * size, 17 * size);
+				hitBox = GetRect(position.x, position.y - 70 * size, 75 * size, 17 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 75 * size, position.y - 90 * size, 75 * size, 17 * size);
+				hitBox = GetRect(position.x - 75 * size, position.y - 70 * size, 75 * size, 17 * size);
 
 			}
 		}
@@ -178,16 +178,35 @@ void Mai::Action()
 	case StrongFoot:
 		hitBox = GetRect(0, 0, 0, 0);
 
-		if (frameIdx == 5)
+		if (frameIdx == 2)
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 75 * size, 90 * size, 20 * size);
+				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 22 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 90 * size, position.y - 75 * size, 90 * size, 20 * size);
+				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
+
+			}
+		}
+
+		break;
+
+	case Skill:
+		hitBox = GetRect(0, 0, 0, 0);
+
+		if (frameIdx == 2)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 22 * size);
+
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
 
 			}
 		}
@@ -197,6 +216,7 @@ void Mai::Action()
 		break;
 	case StrongDamaged:
 		break;
+
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
 		isSuccessHit = false;
