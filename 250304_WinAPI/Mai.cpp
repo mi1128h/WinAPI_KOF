@@ -96,16 +96,16 @@ void Mai::Init()
 		MessageBox(g_hWnd, L"mai_skill 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::Skill].push_back(skillImages);
-	animTime[State::Skill] = 2.0f;
+	animTime[State::Skill] = 5.0f;
 
 
 	//----------die-----------
 	Image* DeadImage = new Image();
-	if (FAILED(DeadImage->Init(L"Image/mai/mai_dead_ver2.bmp", 200 * 4, 200, 4, 1, true, RGB(255, 0, 255)))) {
+	if (FAILED(DeadImage->Init(L"Image/mai/mai_dead_ver2.bmp", 200 * 4, 160, 4, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"Kyo_Dead 파일 로드 실패", L"경고", MB_OK);
 	}
 	vImages[State::Dead].push_back(DeadImage);
-	animTime[State::Dead] = 3.3f;
+	animTime[State::Dead] = 1.0f;
 
 
 	curState = State::Idle;
@@ -164,12 +164,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 85 * size, 110 * size, 22 * size);
+				hitBox = GetRect(position.x, position.y - 85 * size, 50 * size, 22 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 110 * size, position.y - 85 * size, 110 * size, 22 * size);
+				hitBox = GetRect(position.x - 50 * size, position.y - 85 * size, 90 * size, 22 * size);
 
 			}
 		}
@@ -182,12 +182,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 22 * size);
+				hitBox = GetRect(position.x, position.y - 105 * size, 50 * size, 22 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
+				hitBox = GetRect(position.x - 50 * size, position.y - 105 * size, 50 * size, 20 * size);
 
 			}
 		}
@@ -197,7 +197,21 @@ void Mai::Action()
 	case Skill:
 		hitBox = GetRect(0, 0, 0, 0);
 
-		if (frameIdx == 2)
+		if (frameIdx >= 31 && frameIdx <= 41)
+		{
+			if (flip == false)
+			{
+				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 20 * size);
+
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
+
+			}
+		}
+
+		if (frameIdx >= 54 && frameIdx <= 60)
 		{
 			if (flip == false)
 			{
@@ -210,11 +224,9 @@ void Mai::Action()
 
 			}
 		}
-
 		break;
-	case WeakDamaged:
-		break;
-	case StrongDamaged:
+	case Dead:
+		hurtBox = GetRect(1, 1, 1, 1);
 		break;
 
 	default:
