@@ -20,7 +20,7 @@ void MainGame::Init()
 
 	}
 
-	Player1 = new BlueMary();
+	Player1 = new Kim();
 	Player1->SetPlayerClassification(true);
 	Player1->Init();
 	Player1->SetStartPos();

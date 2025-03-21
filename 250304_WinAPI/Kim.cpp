@@ -79,6 +79,19 @@ void Kim::Init()
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 0.4f;
 
+	Image* DefendImages = new Image();
+	if (FAILED(DefendImages->Init(L"Image/Kim/kim_guard_1frame.bmp", 256 * 1, 256, 1, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_Dead 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Defend].push_back(DefendImages);
+	animTime[State::Defend] = 0.3f;
+
+	Image* DeadImages = new Image();
+	if (FAILED(DeadImages->Init(L"Image/Kim/kim_Dead.bmp", 256 * 4, 256, 4, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_Dead 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Dead].push_back(DeadImages);
+	animTime[State::Dead] = 0.3f;
 	
 	curState = State::Idle;
 	frameIdx = 0;
