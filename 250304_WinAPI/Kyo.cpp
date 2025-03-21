@@ -30,14 +30,14 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"kyo_walk ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
     }   
     vImages[State::Walk].push_back(walkImages);
-    animTime[State::Walk] = 1.0f;
+    animTime[State::Walk] = 0.5f;
 
     Image* backWalkImages = new Image();
     if (FAILED(backWalkImages->Init(L"Image/ImageKyo/Kyo_BackWalk.bmp", 200*6, 200, 6, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"kyo_backwalk ÆÄÀÏ ·Îµå¿¡ ½ÇÆÐ", L"°æ°í", MB_OK);
     }   
     vImages[State::BackWalk].push_back(backWalkImages);
-    animTime[State::BackWalk] = 1.0f;
+    animTime[State::BackWalk] = 0.5f;
 
 
     //---------°ø°Ý--------------
