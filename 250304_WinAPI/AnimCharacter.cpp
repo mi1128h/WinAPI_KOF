@@ -62,6 +62,8 @@ void AnimCharacter::Update(float elapsedTime)
 	Animate(elapsedTime);
 
 	ProcessInput();
+
+	if (hp <= 0) curState= Dead; //dead 상태 체크
 }
 
 void AnimCharacter::ProcessInput()

@@ -82,11 +82,13 @@ void UIManager::Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer, fl
 {
     if (leftPlayer){
         playerHP = leftPlayer->GetHp();
-    
+        playerStamina = leftPlayer->GetStamina();
+
     }
     if (rightPlayer) {
 
         enemyHP = rightPlayer->GetHp();
+        enemyStamina = rightPlayer->GetHp();
     }
     
     Animate(elapsedTime);
