@@ -83,6 +83,7 @@ public:
 
 	void SetStartPos();
 
+	bool IsDeadDone() { return isDeadDone; }
 
 	inline bool GetIsPlayer1() { return isPlayer1; }
 	inline void SetPlayerClassification(bool playerClassification) 

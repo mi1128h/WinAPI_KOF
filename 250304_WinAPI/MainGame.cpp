@@ -20,7 +20,7 @@ void MainGame::Init()
 
 	}
 
-	Player1 = new BlueMary();
+	Player1 = new Kyo();
 	Player1->SetPlayerClassification(true);
 	Player1->Init();
 	Player1->SetStartPos();
@@ -30,6 +30,17 @@ void MainGame::Init()
 	Player2->SetPlayerClassification(false);
 	Player2->Init();
 	Player2->SetStartPos();
+
+	Player3 = new Kim();
+	Player3->SetPlayerClassification(true);
+	Player3->Init();
+	Player3->SetStartPos();
+
+
+	Player4 = new BlueMary();
+	Player4->SetPlayerClassification(false);
+	Player4->Init();
+	Player4->SetStartPos();
 
 
 	background = new AnimBackground();
@@ -107,6 +118,13 @@ void MainGame::Update()
 	if (Player1) Player1->Update(elapsedTime);
 	if (Player2) Player2->Update(elapsedTime);
 	if (background) background->Update(elapsedTime);
+
+	if (Player1->IsDeadDone()) {
+		Player1 = Player3;
+	}
+	if (Player2->IsDeadDone()) {
+		Player2 = Player4;
+	}
 
 }
 
@@ -213,8 +231,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		Render(hdc);
 
 		// test
-		wsprintf(szText, L"mouse: %d, %d", mousePosX, mousePosY);
-		TextOut(hdc, 0, 0, szText, wcslen(szText));
 
 		EndPaint(g_hWnd, &ps);
 		break;

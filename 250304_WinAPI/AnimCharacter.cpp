@@ -181,11 +181,6 @@ void AnimCharacter::Render(HDC hdc)
 	else if (imagesNum > 1) {
 		vImages[curState][frameIdx]->RenderCenter(hdc, position.x, position.y, size, size, 0, flip, offset);
 	}
-	// test Ellipse for position
-	RenderEllipseAtCenter(hdc, position.x, position.y, 10, 10);
-
-	RenderRect(hdc, hurtBox.left, hurtBox.top, hurtBox.right - hurtBox.left, hurtBox.bottom - hurtBox.top);
-	RenderRect(hdc, hitBox.left, hitBox.top, hitBox.right - hitBox.left, hitBox.bottom - hitBox.top);
 }
 
 void AnimCharacter::Move(float elapsedTime)
