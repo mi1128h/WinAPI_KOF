@@ -6,7 +6,7 @@
 void Kyo::Init()
 {
     position = { 600,200 };
-    speed = 100;
+    speed = 300;
 
     dx = 0.0f;
     dy = 0.0f;
@@ -30,15 +30,17 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"kyo_walk ?뚯씪 濡쒕뱶???ㅽ뙣", L"寃쎄퀬", MB_OK);
     }   
     vImages[State::Walk].push_back(walkImages);
-    animTime[State::Walk] = 1.0f;
+    animTime[State::Walk] = 0.5f;
 
     Image* backWalkImages = new Image();
     if (FAILED(backWalkImages->Init(L"Image/ImageKyo/Kyo_BackWalk.bmp", 200*6, 200, 6, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"kyo_backwalk 파일 로드에 실패", L"경고", MB_OK);
     }   
     vImages[State::BackWalk].push_back(backWalkImages);
-    animTime[State::BackWalk] = 1.0f;
+    animTime[State::BackWalk] = 0.5f;
 
+
+    //---------공격--------------
     Image* strongPunchImages = new Image();
     if (FAILED(strongPunchImages->Init(L"Image/ImageKyo/Kyo_strongPunch.bmp", 200*8, 200, 8, 1, true, RGB(255, 0, 255)))) {
         MessageBox(g_hWnd, L"Kyo_strongPunch ?뚯씪 濡쒕뱶???ㅽ뙣", L"寃쎄퀬", MB_OK);
@@ -68,22 +70,49 @@ void Kyo::Init()
         MessageBox(g_hWnd, L"Kyo_weakKick ?뚯씪 濡쒕뱶???ㅽ뙣", L"寃쎄퀬", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
-	animTime[State::WeakFoot] = 1.5f;
+	animTime[State::WeakFoot] = 1.f;
 
+
+
+    //------------맞기-----------
 	Image* weakDamageImages = new Image();
-	if (FAILED(weakDamageImages->Init(L"Image/Kim/kim_weakdamage.bmp", 256 * 2, 256, 2, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	if (FAILED(weakDamageImages->Init(L"Image/ImageKyo/Kyo_WeakHurt.bmp", 136, 116, 2, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"Kyo_Hurt 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::WeakDamaged].push_back(weakDamageImages);
-	animTime[State::WeakDamaged] = 1.f;
+	animTime[State::WeakDamaged] = 0.5f;
 
 	Image* StrongDamageImages = new Image();
-	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
+	if (FAILED(StrongDamageImages->Init(L"Image/ImageKyo/Kyo_Hurt.bmp", 272, 116, 4, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"Kyo_Hurt 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 1.f;
 
+    Image* defendImages = new Image();
+    if (FAILED(defendImages->Init(L"Image/ImageKyo/Kyo_defendOneFrame.bmp", 111, 116, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_defendOneFrame 파일 로드에 실패", L"경고", MB_OK);
+    }
+    vImages[State::Defend].push_back(defendImages);
+    animTime[State::Defend] = 1.f;
+
+
+    //----------스킬-----------
+    Image* Kyo_skill500 = new Image();
+    if (FAILED(Kyo_skill500->Init(L"Image/ImageKyo/Kyo_skill500.bmp", 16000, 157, 50, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_skill50 파일 로드 실패", L"경고", MB_OK);
+    }
+    vImages[State::Skill].push_back(Kyo_skill500);
+    animTime[State::Skill] = 3.3f;
+
+
+    //----------die-----------
+    Image* KyoDead = new Image();
+    if (FAILED(KyoDead->Init(L"Image/ImageKyo/Kyo_Dead.bmp", 1305, 170, 8, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_Dead 파일 로드 실패", L"경고", MB_OK);
+    }
+    vImages[State::Dead].push_back(KyoDead);
+    animTime[State::Dead] = 3.3f;
 
 
     curState = State::Idle;
@@ -97,26 +126,78 @@ void Kyo::Action()
 {
 	hurtBox = GetRect(position.x - 35*size, position.y - 115*size, 70*size, 115*size);
 
-	switch (curState)
-	{
-	case WeakHand:
-		
-			hitBox = GetRect(position.x , position.y - 95*size, 65*size, 15*size);
+    switch (curState)
+    {
+    case WeakHand:
+        hitBox = GetRect(0, 0, 0, 0);
 
-		break;
-	case StrongHand:
-		
-			hitBox = GetRect(position.x, position.y - 90*size, 75*size, 17*size);
-		
-		break;
-	case WeakFoot:
-		
-			hitBox = GetRect(position.x, position.y - 85*size, 110*size, 22*size);
+        if (frameIdx == 1)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 95 * size, 65 * size, 15 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 65 * size, position.y - 95 * size, 65 * size, 15 * size);
+
+            }
+        }
+
+        break;
+    case StrongHand:
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 3 || frameIdx == 4)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 90 * size, 75 * size, 17 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 75 * size, position.y - 90 * size, 75 * size, 17 * size);
+
+            }
+        }
+
+        break;
+    case WeakFoot:
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 2 || frameIdx == 3 || frameIdx == 4)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 85 * size, 110 * size, 22 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 110 * size, position.y - 85 * size, 110 * size, 22 * size);
+
+            }
+        }
 		
 		break;
 	case StrongFoot:
-		
-			hitBox = GetRect(position.x, position.y - 75*size, 90*size, 20*size);
+        hitBox = GetRect(0, 0, 0, 0);
+
+        if (frameIdx == 5)
+        {
+            if (flip == false)
+            {
+                hitBox = GetRect(position.x, position.y - 75 * size, 90 * size, 20 * size);
+
+            }
+            else
+            {
+                hitBox = GetRect(position.x - 90 * size, position.y - 75 * size, 90 * size, 20 * size);
+
+            }
+        }
 		
 		break;
 	case WeakDamaged:

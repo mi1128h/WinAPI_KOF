@@ -55,6 +55,7 @@ void AnimCharacter::Release()
 
 void AnimCharacter::Update(float elapsedTime)
 {
+	if (isDeadDone) return;
 	Action();
 	Move(elapsedTime);
 
@@ -151,7 +152,7 @@ void AnimCharacter::Animate(float elapsedTime)
 		int temp = frameIdx;
 		int frame = accumTime * framesNum / animTime[curState];
 		frameIdx = frame % framesNum;
-		if (temp == framesNum - 1 and frameIdx == 0) ChangeStateToIdle();
+		if (temp == framesNum - 1 and frameIdx == 0) ProcessAnimEnd(framesNum);
 	}
 	else frameIdx = -1;
 }
@@ -180,12 +181,21 @@ void AnimCharacter::Move(float elapsedTime)
 	position.y = ClampVal(position.y, 0.0f, (float)WINSIZE_Y);
 }
 
-void AnimCharacter::ChangeStateToIdle()
+void AnimCharacter::ProcessAnimEnd(int framesNum)
 {
-	if (curState != State::Idle and
-		curState != State::Walk and curState != State::BackWalk and
-		curState != State::Dead) {
+	switch (curState) {
+	case State::Idle: case State::Run: case State::BackWalk: case State::Walk:
+		break;
+
+	case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
+	case State::WeakDamaged: case State::StrongDamaged: case State:: Defend: case State::Skill:
 		SetState(State::Idle);
+		break;
+
+	case State::Dead:
+		frameIdx = framesNum - 1;
+		isDeadDone = true;
+		break;
 	}
 }
 

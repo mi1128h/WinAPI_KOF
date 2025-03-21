@@ -19,15 +19,24 @@ void CollisionManager::CheckHit(AnimCharacter* attacker, AnimCharacter* defender
 	{
 		if (RectInRect(attacker->GetHitBox(), defender->GetHurtBox()))
 		{
-			if (defender->GetState() == State::Dead)
+			if (attacker->GetState() == State::WeakFoot || attacker->GetState() == State::WeakHand)
+			{
+				// 약한 공격이면 attakcer->GetAttackValue()
+				defender->SetHp(defender->GetHp() - 1);
+				defender->SetState(State::WeakDamaged);
+			}
+			else if (attacker->GetState() == State::StrongFoot || attacker->GetState() == State::StrongHand)
+			{
+				// 강한 공격이면 attakcer->GetAttackValue() * 2
+				defender->SetHp(defender->GetHp() - 2);
+				defender->SetState(State::StrongDamaged);
+			}
+			else if (defender->GetState() == State::Dead)
 			{
 				// TODO : Change to State Guard
-				defender->SetHp(defender->GetHp() - 1);
+				defender->SetHp(defender->GetHp() - 0.5);
 			}
-			// Properties to clear HitBox when successful exploitation
 			attacker->SetIsSuccessHit(true);
-			defender->SetHp(defender->GetHp() - 2);
-			//defender->SetState(State::WeakDamaged);
 		}
 	}
 	

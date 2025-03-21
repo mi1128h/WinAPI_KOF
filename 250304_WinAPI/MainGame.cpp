@@ -25,7 +25,7 @@ void MainGame::Init()
 	Player1->Init();
 	Player1->SetStartPos();
 
-	Player2 = new Mai();
+	Player2 = new Kim();
 	Player2->SetPlayerClassification(false);
 	Player2->Init();
 	Player2->SetStartPos();
@@ -175,6 +175,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_KEYUP:
 
 		switch (wParam) {
+		case 'v': case 'V':
+			// test DeadAnim
+			Player2->SetState(State::Dead);
+			break;
 		case 'a': case 'A':
 
 			break;
@@ -196,12 +200,10 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		mousePosX = LOWORD(lParam);
 		mousePosY = HIWORD(lParam);
 
-		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
 	case WM_LBUTTONDOWN:
 
-		InvalidateRect(g_hWnd, NULL, FALSE);
 		break;
 
 	case WM_PAINT:

@@ -36,6 +36,7 @@ protected:
 
 	float accumTime;
 	float animTime[State::Statelength];
+	bool isDeadDone{ false };
 
 	bool isPlayer1; 
 
@@ -77,7 +78,7 @@ public:
 	
 	State GetState() { return curState; }
 	void SetState(State state) { if (state == curState) return; curState = state; frameIdx = 0; accumTime = 0.0f; }
-	void ChangeStateToIdle();
+	void ProcessAnimEnd(int framesNum);
 
 	void SetStartPos();
 
@@ -96,5 +97,8 @@ public:
 	void LookRight(bool Isright);
 	void SetHitBox(RECT hitBox) { this->hitBox = hitBox; }
 	void SetIsSuccessHit(bool isSuccessHit) { this->isSuccessHit = isSuccessHit; }
+
+	// 메모리 누수 방지
+	virtual ~AnimCharacter(){};
 };
 
