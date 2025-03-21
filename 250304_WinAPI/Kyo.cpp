@@ -215,7 +215,7 @@ void Kyo::Action()
             }
             else
             {
-                hitBox = GetRect(position.x - 90 * size, position.y - 75 * size, 90 * size, 20 * size);
+                hitBox = GetRect(position.x - 160 * size, position.y - 100 * size, 160 * size, 60 * size);
 
             }
         }

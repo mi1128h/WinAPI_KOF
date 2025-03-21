@@ -11,7 +11,7 @@ void BlueMary::Init()
 	size = 2.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
-
+	stamina = 10;
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
 	Image* idleImages = new Image();
@@ -173,6 +173,25 @@ void BlueMary::Action()
 			else
 			{
 				hitBox = GetRect(position.x - 90 * size, position.y - 78 * size, 90 * size, 30 * size);
+
+			}
+		}
+
+		break;
+
+	case Skill:
+		hitBox = GetRect(0, 0, 0, 0);
+
+		if (frameIdx >= 38 && frameIdx <= 42 )
+		{
+			if (flip == defaultFlip)
+			{
+				hitBox = GetRect(position.x, position.y - 108 * size, 200 * size, 108 * size);
+
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 200 * size, position.y - 108 * size, 200 * size, 108 * size);
 
 			}
 		}

@@ -11,7 +11,7 @@ void Mai::Init()
 	size = 2.0f;
 	hp = 10.0f;
 	accumTime = 0.0f;
-
+	stamina = 10.f;
 	for (int i = 0; i < State::Statelength; ++i) vImages[i] = {};
 
 	//---------°È±â, ¸·±â---------
@@ -201,12 +201,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 20 * size);
+				hitBox = GetRect(position.x, position.y - 105 * size, 200 * size, 105 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
+				hitBox = GetRect(position.x - 100 * size, position.y - 105 * size, 100 * size, 105 * size);
 
 			}
 		}
@@ -215,12 +215,12 @@ void Mai::Action()
 		{
 			if (flip == false)
 			{
-				hitBox = GetRect(position.x, position.y - 105 * size, 110 * size, 22 * size);
+				hitBox = GetRect(position.x, position.y - 105 * size, 200 * size, 105 * size);
 
 			}
 			else
 			{
-				hitBox = GetRect(position.x - 90 * size, position.y - 105 * size, 110 * size, 20 * size);
+				hitBox = GetRect(position.x - 200 * size, position.y - 105 * size, 200 * size, 105 * size);
 
 			}
 		}
