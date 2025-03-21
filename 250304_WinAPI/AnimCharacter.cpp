@@ -23,13 +23,13 @@ void AnimCharacter::Init()
 
 	Image* idleImages = new Image();
 	if (FAILED(idleImages->Init(L"Image/iori_idle.bmp", 684, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_idle ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
+		MessageBox(g_hWnd, L"iori_idle ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
 	}
 	vImages[State::Idle].push_back(idleImages);
 
 	Image* walkImages = new Image();
 	if (FAILED(walkImages->Init(L"Image/iori_walk.bmp", 612, 104, 9, 1, true, RGB(255, 0, 255)))) {
-		MessageBox(g_hWnd, L"iori_walk ?Œì¼ ë¡œë“œ???¤íŒ¨", L"ê²½ê³ ", MB_OK);
+		MessageBox(g_hWnd, L"iori_walk ÆÄÀÏ ·Îµå¿¡ ½ÇÆĞ", L"°æ°í", MB_OK);
 	}
 	vImages[State::Walk].push_back(walkImages);
 

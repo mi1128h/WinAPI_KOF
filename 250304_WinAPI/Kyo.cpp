@@ -18,7 +18,7 @@ void Kyo::Init()
     Image* idleImages = new Image();
 
     if (FAILED(idleImages->Init(L"Image/ImageKyo/Kyo_Idle.bmp", 200*10, 200, 10, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_idle ?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"kyo_idle ∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
 
     }
     vImages[State::Idle].push_back(idleImages);
@@ -27,7 +27,7 @@ void Kyo::Init()
     Image* walkImages = new Image();
 
     if (FAILED(walkImages->Init(L"Image/ImageKyo/Kyo_Walk.bmp", 200*5, 200, 5, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"kyo_walk ?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"kyo_walk ∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
     }   
     vImages[State::Walk].push_back(walkImages);
     animTime[State::Walk] = 1.0f;
@@ -41,7 +41,7 @@ void Kyo::Init()
 
     Image* strongPunchImages = new Image();
     if (FAILED(strongPunchImages->Init(L"Image/ImageKyo/Kyo_strongPunch.bmp", 200*8, 200, 8, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_strongPunch ?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_strongPunch ∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
     }
     vImages[State::StrongHand].push_back(strongPunchImages); 
     animTime[State::StrongHand] = 1.0f;
@@ -49,7 +49,7 @@ void Kyo::Init()
     Image* weakPunchImages = new Image();
 
     if (FAILED(weakPunchImages->Init(L"Image/ImageKyo/Kyo_weakPunch.bmp", 200*5, 200, 5, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_weakPunch ?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_weakPunch ∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
     }
     vImages[State::WeakHand].push_back(weakPunchImages);
     animTime[State::WeakHand] = 0.3f;
@@ -57,7 +57,7 @@ void Kyo::Init()
     Image* strongKickImages = new Image();
 
     if (FAILED(strongKickImages->Init(L"Image/ImageKyo/Kyo_strongKick.bmp", 200*11, 200, 11, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_strongKick?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_strongKick∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
     }
     vImages[State::StrongFoot].push_back(strongKickImages);
     animTime[State::StrongFoot] = 1.5f;
@@ -65,7 +65,7 @@ void Kyo::Init()
     Image* weakKickImages = new Image();
 
     if (FAILED(weakKickImages->Init(L"Image/ImageKyo/Kyo_weakKick.bmp", 200*9, 200, 9, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_weakKick ?åÏùº Î°úÎìú???§Ìå®", L"Í≤ΩÍ≥†", MB_OK);
+        MessageBox(g_hWnd, L"Kyo_weakKick ∆ƒ¿œ ∑ŒµÂø° Ω«∆–", L"∞Ê∞Ì", MB_OK);
     }
     vImages[State::WeakFoot].push_back(weakKickImages);
 	animTime[State::WeakFoot] = 1.5f;
@@ -83,6 +83,7 @@ void Kyo::Init()
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
 	animTime[State::StrongDamaged] = 1.f;
+
 
 
 
@@ -104,7 +105,7 @@ void Kyo::Action()
 
         if (frameIdx == 1)
         {
-            if (flip == false)
+            if (flip == defaultFlip)
             {
                 hitBox = GetRect(position.x, position.y - 95 * size, 65 * size, 15 * size);
 
@@ -122,7 +123,7 @@ void Kyo::Action()
 
         if (frameIdx == 3 || frameIdx == 4)
         {
-            if (flip == false)
+            if (flip == defaultFlip)
             {
                 hitBox = GetRect(position.x, position.y - 90 * size, 75 * size, 17 * size);
 
@@ -140,7 +141,7 @@ void Kyo::Action()
 
         if (frameIdx == 2 || frameIdx == 3 || frameIdx == 4)
         {
-            if (flip == false)
+            if (flip == defaultFlip)
             {
                 hitBox = GetRect(position.x, position.y - 85 * size, 110 * size, 22 * size);
 
@@ -158,7 +159,7 @@ void Kyo::Action()
 
         if (frameIdx == 5)
         {
-            if (flip == false)
+            if (flip == defaultFlip)
             {
                 hitBox = GetRect(position.x, position.y - 75 * size, 90 * size, 20 * size);
 

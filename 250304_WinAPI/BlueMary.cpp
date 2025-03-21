@@ -100,7 +100,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 88 * size, 50 * size, 30 * size);
 			}
@@ -116,7 +116,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 9 || frameIdx == 10 || frameIdx == 11 || frameIdx == 12 || frameIdx == 13)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 88 * size, 105 * size, 50 * size);
 			}
@@ -132,7 +132,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 4 || frameIdx == 5)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 78 * size, 60 * size, 30 * size);
 
@@ -150,7 +150,7 @@ void BlueMary::Action()
 
 		if (frameIdx == 3 || frameIdx == 4 || frameIdx == 5)
 		{
-			if (flip == false)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 78 * size, 90 * size, 30 * size);
 

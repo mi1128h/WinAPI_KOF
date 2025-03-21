@@ -98,7 +98,7 @@ void Kim::Action()
 
 		if (frameIdx == 1)
 		{
-			if (flip == true) // 이 캐릭터는 기본이 뒤집혀 있습니다. This character's defaultFilp is 'true'
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 170 * size, 110 * size, 30 * size);
 			}
@@ -114,7 +114,7 @@ void Kim::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 140 * size, 140 * size, 30 * size);
 			}
@@ -130,7 +130,7 @@ void Kim::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 155 * size, 120 * size, 40 * size);
 			}
@@ -146,7 +146,7 @@ void Kim::Action()
 
 		if (frameIdx == 1)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 250 * size, 100 * size, 150 * size);
 			}
