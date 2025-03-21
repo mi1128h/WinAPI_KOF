@@ -109,22 +109,22 @@ void UIManager::Render(HDC hdc)
     UIManager::SteminaRender(hdc);
 
     //left, right Character UI
-    vUiImages[Ui::BackWindow][0]-> Render(hdc, 10, 0, -1, -1, 0 , 1);
-    vUiImages[Ui::LeftUi][0]-> Render(hdc, 20, 5, -1, -1, frameIdx, 0);
+    vUiImages[Ui::BackWindow][0]-> Render(hdc, 10, 0, -1, -1, frameIdx[BackWindow], 1);
+    vUiImages[Ui::LeftUi][0]-> Render(hdc, 20, 5, -1, -1, frameIdx[LeftUi], 0);
 
-    vUiImages[Ui::BackWindow][0]->Render(hdc, WINSIZE_X - 80, 0, -1, -1, frameIdx, 1);
-    vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx, 1);
+    vUiImages[Ui::BackWindow][0]->Render(hdc, WINSIZE_X - 80, 0, -1, -1, frameIdx[BackWindow], 1);
+    vUiImages[Ui::RightUi][0]->Render(hdc, WINSIZE_X - 70, 5, -1, -1, frameIdx[RightUi], 1);
 
 
-    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 -30 , -10, -1, -1, frameIdx, 1);
+    vUiImages[Ui::infinityUi][0]->Render(hdc, WINSIZE_X / 2 -30 , -10, -1, -1, frameIdx[infinityUi], 1);
    
 
     
-    //---------- 스타트 스크린 ----------------------
-    if (drawFirstScreen) UIManager::StartRender(hdc);
-
-    //----------엔딩 스크린------------------------
-    vUiImages[EndingUi][0]->Render(hdc, 0, 0, WINSIZE_X, WINSIZE_Y, frameIdx, 0);
+    ////---------- 스타트 스크린 ----------------------
+ //   if (drawFirstScreen) UIManager::StartRender(hdc);
+   
+    
+    if (drawFirstScreen) vUiImages[EndingUi][0]->Render(hdc, 0, 0, WINSIZE_X, WINSIZE_Y, frameIdx[EndingUi], 0);
 
 }
 
@@ -134,23 +134,41 @@ void UIManager::Animate(float elapsedTime)
 
 
     accumTime += elapsedTime;
-    int imagesNum = vUiImages[curUi].size();
-    if (imagesNum > 0) {
-        // get total frameNum
-        int framesNum{ 1 };
-        if (imagesNum != 1) {
-            framesNum = imagesNum;
-        }
-        else if (imagesNum == 1) {
-            int sn = vUiImages[curUi][0]->GetSpritesNumX() * vUiImages[curUi][0]->GetSpritesNumY();
-            framesNum = sn;
-        }
-        // calculate frameIdx
-        int temp = frameIdx;
-        int frame = accumTime * framesNum / animTime;
-        frameIdx = frame % framesNum;
+    for (int i = 0; i < Uilength; ++i) {
+
+
+		int imagesNum = vUiImages[i].size();
+		if (imagesNum > 0) {
+			// get total frameNum
+			int framesNum{ 1 };
+			if (imagesNum != 1) {
+				framesNum = imagesNum;
+			}
+			else if (imagesNum == 1) {
+				int sn = vUiImages[i][0]->GetSpritesNumX() * vUiImages[i][0]->GetSpritesNumY();
+				framesNum = sn;
+			}
+			// calculate frameIdx
+
+            int temp = frameIdx[i];
+            int frame = accumTime * framesNum / animTime;
+            frameIdx[i] = frame % framesNum;
+            
+           
+            if (i == Ui::EndingUi) {
+                if (!firstAnimEnd) {
+                    if (temp == framesNum - 1 and frame % framesNum == 0) {
+                        firstAnimEnd = true;
+                        frameIdx[i] = temp;
+                    }
+                }
+                else {
+                    frameIdx[i] = frame % 3 + framesNum - 3;
+               } 
+            }
+		}
+		else frameIdx[i] = -1;
     }
-    else frameIdx = -1;
 
 }
 
@@ -159,11 +177,11 @@ void UIManager::advRender(HDC hdc)
     int leftadvPosX = 50;
     int rightadvPosX = WINSIZE_X - 150;
     int advPosY = WINSIZE_Y - 90;
-
-    if (frameIdx == -1) return;
-    vUiImages[curUi][0]->Render(hdc, leftadvPosX, advPosY, -1, -1, frameIdx, 0);
+    
+    if (frameIdx[Advanced] == -1) return;
+    vUiImages[Advanced][0]->Render(hdc, leftadvPosX, advPosY, -1, -1, frameIdx[Advanced], 0);
    
-    vUiImages[curUi][0]->Render(hdc, rightadvPosX, advPosY, -1, -1, frameIdx, 0);
+    vUiImages[Advanced][0]->Render(hdc, rightadvPosX, advPosY, -1, -1, frameIdx[Advanced], 0);
 
     
 }
@@ -218,8 +236,8 @@ void UIManager::HpRender(HDC hdc)
 
 void UIManager::StartRender(HDC hdc)
 {
-    vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx, 1);
-    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, StartUiFrontY, -1, -1, frameIdx, 0);
+    vUiImages[StartUi][0]->Render(hdc, 0, 0, -1, -1, frameIdx[StartUi], 1);
+    vUiImages[Ui::StartUiFront][0]->Render(hdc, 0, StartUiFrontY, -1, -1, frameIdx[StartUiFront], 0);
     --StartUiFrontY;
     if (StartUiFrontY < -500) StartUiFrontY = 500;
 }

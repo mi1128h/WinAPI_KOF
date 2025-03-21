@@ -53,7 +53,7 @@ private:
     float playerStamina;
     float enemyStamina;
 
-    int frameIdx;
+    int frameIdx[Uilength]{};
     Ui curUi;
 
     POINT PlayerHpbarPos;
@@ -65,8 +65,9 @@ private:
     int StartUiFrontY = 116;
 
     float accumTime;
-    float animTime = 0.7f;
+    float animTime = 5.f;
 
+    bool firstAnimEnd = false;
 
     //--character selection ui--
     bool drawFirstScreen = true;
