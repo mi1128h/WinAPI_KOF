@@ -90,8 +90,8 @@ void Kyo::Init()
 	animTime[State::StrongDamaged] = 1.f;
 
     Image* defendImages = new Image();
-    if (FAILED(defendImages->Init(L"Image/ImageKyo/Kyo_Defend.bmp", 714, 116, 7, 1, true, RGB(255, 0, 255)))) {
-        MessageBox(g_hWnd, L"Kyo_Defend 파일 로드에 실패", L"경고", MB_OK);
+    if (FAILED(defendImages->Init(L"Image/ImageKyo/Kyo_defendOneFrame.bmp", 111, 116, 1, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_defendOneFrame 파일 로드에 실패", L"경고", MB_OK);
     }
     vImages[State::Defend].push_back(defendImages);
     animTime[State::Defend] = 1.f;
@@ -104,6 +104,16 @@ void Kyo::Init()
     }
     vImages[State::Skill].push_back(Kyo_skill500);
     animTime[State::Skill] = 3.3f;
+
+
+    //----------die-----------
+    Image* KyoDead = new Image();
+    if (FAILED(KyoDead->Init(L"Image/ImageKyo/Kyo_Dead.bmp", 1305, 170, 8, 1, true, RGB(255, 0, 255)))) {
+        MessageBox(g_hWnd, L"Kyo_Dead 파일 로드 실패", L"경고", MB_OK);
+    }
+    vImages[State::Dead].push_back(KyoDead);
+    animTime[State::Dead] = 3.3f;
+
 
     curState = State::Idle;
     frameIdx = 0;
