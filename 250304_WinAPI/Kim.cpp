@@ -70,15 +70,36 @@ void Kim::Init()
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::WeakDamaged].push_back(weakDamageImages);
-	animTime[State::WeakDamaged] = 0.5f;
+	animTime[State::WeakDamaged] = 0.3f;
 
 	Image* StrongDamageImages = new Image();
 	if (FAILED(StrongDamageImages->Init(L"Image/Kim/kim_strongdamage.bmp", 256 * 3, 256, 3, 1, true, RGB(255, 0, 255)))) {
 		MessageBox(g_hWnd, L"bluemary_strongfoot 파일 로드에 실패", L"경고", MB_OK);
 	}
 	vImages[State::StrongDamaged].push_back(StrongDamageImages);
-	animTime[State::StrongDamaged] = 0.5f;
+	animTime[State::StrongDamaged] = 0.4f;
 
+	Image* DefendImages = new Image();
+	if (FAILED(DefendImages->Init(L"Image/Kim/kim_guard_1frame.bmp", 256 * 1, 256, 1, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_Dead 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Defend].push_back(DefendImages);
+	animTime[State::Defend] = 0.3f;
+
+	//----------스킬-----------
+	Image* SkillImages = new Image();
+	if (FAILED(SkillImages->Init(L"Image/Kim/kim_skill.bmp", 256 * 6, 256, 6, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_skill 파일 로드 실패", L"경고", MB_OK);
+	}
+	vImages[State::Skill].push_back(SkillImages);
+	animTime[State::Skill] = 0.7f;
+
+	Image* DeadImages = new Image();
+	if (FAILED(DeadImages->Init(L"Image/Kim/kim_Dead.bmp", 256 * 4, 256, 4, 1, true, RGB(255, 0, 255)))) {
+		MessageBox(g_hWnd, L"kim_Dead 파일 로드에 실패", L"경고", MB_OK);
+	}
+	vImages[State::Dead].push_back(DeadImages);
+	animTime[State::Dead] = 0.3f;
 	
 	curState = State::Idle;
 	frameIdx = 0;
@@ -98,7 +119,7 @@ void Kim::Action()
 
 		if (frameIdx == 1)
 		{
-			if (flip == true) // 이 캐릭터는 기본이 뒤집혀 있습니다. This character's defaultFilp is 'true'
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 170 * size, 110 * size, 30 * size);
 			}
@@ -114,7 +135,7 @@ void Kim::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 140 * size, 140 * size, 30 * size);
 			}
@@ -130,7 +151,7 @@ void Kim::Action()
 
 		if (frameIdx == 2)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 155 * size, 120 * size, 40 * size);
 			}
@@ -146,7 +167,21 @@ void Kim::Action()
 
 		if (frameIdx == 1)
 		{
-			if (flip == true)
+			if (flip == defaultFlip)
+			{
+				hitBox = GetRect(position.x, position.y - 250 * size, 100 * size, 150 * size);
+			}
+			else
+			{
+				hitBox = GetRect(position.x - 100 * size, position.y - 250 * size, 100 * size, 150 * size);
+			}
+		}
+		break;
+	case Skill:
+		hitBox = GetRect(0, 0, 0, 0);
+		if (frameIdx == 3 || frameIdx == 4)
+		{
+			if (flip == defaultFlip)
 			{
 				hitBox = GetRect(position.x, position.y - 250 * size, 100 * size, 150 * size);
 			}
@@ -162,6 +197,7 @@ void Kim::Action()
 		break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
+
 		isSuccessHit = false;
 		break;
 	}
