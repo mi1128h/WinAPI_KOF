@@ -188,7 +188,7 @@ void AnimCharacter::ProcessAnimEnd(int framesNum)
 		break;
 
 	case State::WeakHand: case State::StrongHand: case State::WeakFoot: case State::StrongFoot:
-	case State::WeakDamaged: case State::StrongDamaged:
+	case State::WeakDamaged: case State::StrongDamaged: case State:: Defend: case State::Skill:
 		SetState(State::Idle);
 		break;
 
