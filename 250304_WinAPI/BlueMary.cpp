@@ -178,9 +178,8 @@ void BlueMary::Action()
 		}
 
 		break;
-	case WeakDamaged:
-		break;
-	case StrongDamaged:
+	case Dead:
+		hurtBox = GetRect(1, 1, 1, 1);
 		break;
 	default:
 		hitBox = GetRect(0, 0, 0, 0);
