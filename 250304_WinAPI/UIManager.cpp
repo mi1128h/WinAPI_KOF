@@ -81,7 +81,14 @@ void UIManager::Init()
 
 void UIManager::Release()
 {
-    ReleaseInstance();
+    for (auto& images : vUiImages)
+    {
+        for (auto* img : images)
+        {
+            delete img;
+        }
+        images.clear();
+    }
 }
 
 void UIManager::Update(AnimCharacter* leftPlayer, AnimCharacter* rightPlayer, float elapsedTime)
